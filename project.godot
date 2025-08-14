@@ -114,6 +114,14 @@ look-left={
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":2,"axis_value":-1.0,"script":null)
 ]
 }
+zoom-in={
+"deadzone": 0.2,
+"events": [null]
+}
+zoom-out={
+"deadzone": 0.2,
+"events": []
+}
 
 [physics]
 
