@@ -4,6 +4,7 @@
 
 # Ignore assets for space concerns
 assets/
+assets.7z
 
 # Ignore DD3D examples
 examples_dd3d/
