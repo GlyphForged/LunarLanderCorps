@@ -10,23 +10,59 @@ const CAM_STICK_SENS: float = 10.0
 @export var control_thrust_str := 0.5
 @export var control_thrust_offset := 1.5
 
-# === Camera Properties ===
-@export var h_cam_sens = 0.1
-@export var v_cam_sens = 0.1
-
 # === Internal Variables ===
 var is_thrusting := false
 var rotation_input := Vector2.ZERO
 var look_input := Vector2.ZERO
 var roll_input := 0.0
 
+# === Camera Config ===
+# Camera Properties
+@export var camera_path: NodePath
+@export var h_cam_sens = 0.1
+@export var v_cam_sens = 0.1
+@export var cam_fov_min: float = 45.0
+@export var cam_fov_max: float = 115.0
+@export var cam_zoom_step: float = 5.0
+@export var cam_zoom_smooth: float = 10.0
+
+@onready var cam: Camera3D = (
+	get_node_or_null(camera_path) as Camera3D
+	if camera_path != NodePath("")
+	else (v_cam_pivot.get_child(0) as Camera3D if v_cam_pivot.get_child_count() > 0 and v_cam_pivot.get_child(0) is Camera3D else null)
+)
+
+var _target_fov: float = 75.0
+
+func _apply_zoom(delta_sign: float):
+	if cam == null:
+		return
+	_target_fov = clamp(_target_fov - delta_sign * cam_zoom_step, cam_fov_min, cam_fov_max)
+
+func _update_fov(dt: float):
+	if cam == null:
+		return
+	if cam_zoom_smooth <- 0.0:
+		cam.fov = _target_fov
+	else:
+		cam.fov = lerp(cam.fov, _target_fov, clamp(dt * cam_zoom_smooth, 0.0, 1.0))
+
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	if cam:
+		_target_fov = clamp(cam.fov, cam_fov_min, cam_fov_max)
 
 func _input(e):
 	if e is InputEventMouseMotion:
 		h_cam_pivot.rotate_y(deg_to_rad(-e.relative.x) * h_cam_sens)
 		v_cam_pivot.rotate_x(deg_to_rad(-e.relative.y) * v_cam_sens)
+
+	if e is InputEventMouseButton and e.pressed:
+		match e.button_index:
+			MOUSE_BUTTON_WHEEL_UP:
+				_apply_zoom(+1.0)
+			MOUSE_BUTTON_WHEEL_DOWN:
+				_apply_zoom(-1.0)
 
 func _physics_process(_delta: float):
 	handle_input()
@@ -88,6 +124,8 @@ func _physics_process(_delta: float):
 	# Camera follows lander
 	h_cam_pivot.global_position = self.global_position
 
+	_update_fov(_delta)
+
 func handle_input():
 	# Reset every frame
 	is_thrusting = false
@@ -119,6 +157,11 @@ func handle_input():
 			Input.MOUSE_MODE_CAPTURED:
 				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			_: print(Input.mouse_mode)
+
+	if Input.is_action_just_pressed("zoom-in"):
+		_apply_zoom(+1.0)
+	if Input.is_action_just_pressed("zoom-out"):
+		_apply_zoom(-1.0)
 
 	look_input.x = Input.get_action_strength("look-right") * CAM_STICK_SENS - Input.get_action_strength("look-left") * CAM_STICK_SENS
 	look_input.y = Input.get_action_strength("look-up") * CAM_STICK_SENS - Input.get_action_strength("look-down") * CAM_STICK_SENS
