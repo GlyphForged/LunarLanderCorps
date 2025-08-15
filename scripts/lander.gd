@@ -42,7 +42,7 @@ func _apply_zoom(delta_sign: float):
 func _update_fov(dt: float):
 	if cam == null:
 		return
-	if cam_zoom_smooth <- 0.0:
+	if cam_zoom_smooth <= 0.0:
 		cam.fov = _target_fov
 	else:
 		cam.fov = lerp(cam.fov, _target_fov, clamp(dt * cam_zoom_smooth, 0.0, 1.0))
