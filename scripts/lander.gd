@@ -63,6 +63,18 @@ func _input(e):
 				_apply_zoom(+1.0)
 			MOUSE_BUTTON_WHEEL_DOWN:
 				_apply_zoom(-1.0)
+				
+func apply_tilt(input, reference_direction, offset, color):
+	if input != 0:
+		var pitch_force = reference_direction * control_thrust_str * input
+		self.apply_force(pitch_force, offset)
+		if DebugDraw3D:
+			DebugDraw3D.draw_line(\
+				self.global_position + offset,
+				self.global_position + offset - pitch_force * 5,
+				color,
+				0.
+			)
 
 func _physics_process(_delta: float):
 	handle_input()
@@ -83,28 +95,10 @@ func _physics_process(_delta: float):
 	var control_offset = lander_up * control_thrust_offset
 
 	# Pitch up/down (W/S)
-	if rotation_input.y != 0:
-		var pitch_force = lander_forward * control_thrust_str * rotation_input.y
-		self.apply_force(pitch_force, control_offset)
-		if DebugDraw3D:
-			DebugDraw3D.draw_line(\
-				self.global_position + control_offset,
-				self.global_position + control_offset - pitch_force * 5,
-				Color.BLUE,
-				0.
-			)
+	apply_tilt(rotation_input.y, lander_forward,control_offset, Color.BLUE)
 
 	# Yaw left/right (A/D)
-	if rotation_input.x != 0:
-		var yaw_force = lander_right * control_thrust_str * -rotation_input.x
-		self.apply_force(yaw_force, control_offset)
-		if DebugDraw3D:
-			DebugDraw3D.draw_line(
-				self.global_position + control_offset,
-				self.global_position + control_offset - yaw_force * 5,
-				Color.GREEN,
-				0.0
-			)
+	apply_tilt(rotation_input.x,lander_right,control_offset, Color.GREEN)
 
 	# Roll (Q/E)
 	if roll_input != 0:
