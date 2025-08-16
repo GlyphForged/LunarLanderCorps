@@ -1,0 +1,111 @@
+[gd_scene load_steps=4 format=3 uid="uid://brrmfqhktxady"]
+
+[ext_resource type="Script" uid="uid://c5laqfbf5ll3p" path="res://scripts/ui/main_menu.gd" id="1_ussg7"]
+[ext_resource type="PackedScene" uid="uid://dhls1kjj4b557" path="res://scenes/ui/main_settings.tscn" id="4_rjecm"]
+
+[sub_resource type="Theme" id="Theme_fe2o3"]
+Button/icons/icon = null
+
+[node name="Main Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ussg7")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MainContainer" type="MarginContainer" parent="."]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 250
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 250
+theme_override_constants/margin_bottom = 80
+
+[node name="MMContainer" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="title" type="Label" parent="MainContainer/MMContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.941176, 0.941176, 0.941176, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.54902)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 4
+theme_override_constants/shadow_outline_size = 6
+theme_override_font_sizes/font_size = 64
+text = "LLC"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="subtitle" type="Label" parent="MainContainer/MMContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.941176, 0.941176, 0.941176, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.54902)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 4
+theme_override_constants/shadow_outline_size = 6
+theme_override_font_sizes/font_size = 32
+text = "Lunar Lander Corporation"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="author0" type="Label" parent="MainContainer/MMContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.93845, 0.93845, 0.93845, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "written by NoFoxTuGiv and to-json"
+horizontal_alignment = 1
+
+[node name="author1" type="Label" parent="MainContainer/MMContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.93845, 0.93845, 0.93845, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "art and assets by trexchicken and ChiisaiHoshiko"
+horizontal_alignment = 1
+
+[node name="Separator" type="Control" parent="MainContainer/MMContainer"]
+layout_mode = 2
+
+[node name="Start" type="Button" parent="MainContainer/MMContainer"]
+layout_mode = 2
+theme = SubResource("Theme_fe2o3")
+text = "Start Game"
+
+[node name="Settings" type="Button" parent="MainContainer/MMContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Quit" type="Button" parent="MainContainer/MMContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="MainSettings" parent="MainContainer" instance=ExtResource("4_rjecm")]
+process_mode = 3
+visible = false
+layout_mode = 2
+
+[connection signal="pressed" from="MainContainer/MMContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="MainContainer/MMContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="MainContainer/MMContainer/Quit" to="." method="_on_quit_pressed"]

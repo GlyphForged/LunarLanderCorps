@@ -1,0 +1,125 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhls1kjj4b557"]
+
+[ext_resource type="Script" uid="uid://dpqqm1j0d76si" path="res://scripts/ui/volumelabel.gd" id="1_ohpva"]
+[ext_resource type="Script" uid="uid://ryxf7ebl0rqt" path="res://scripts/ui/main_settings.gd" id="1_xmcas"]
+
+[node name="MainSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xmcas")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -5.5
+offset_bottom = 5.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 240
+theme_override_constants/margin_top = 70
+theme_override_constants/margin_right = 240
+theme_override_constants/margin_bottom = 70
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
+color = Color(0, 0, 0, 0.490196)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="Settings" type="Label" parent="MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.941176, 0.941176, 0.941176, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.54902)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 4
+theme_override_constants/shadow_outline_size = 6
+theme_override_font_sizes/font_size = 32
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Separator" type="Control" parent="MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Separator2" type="Control" parent="MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Volume" type="Label" parent="MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Volume"
+
+[node name="vol_slider" type="HSlider" parent="MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0
+tick_count = 5
+ticks_on_borders = true
+script = ExtResource("1_ohpva")
+
+[node name="vol_label" type="Label" parent="MarginContainer/MarginContainer/VBoxContainer/vol_slider"]
+layout_mode = 0
+offset_left = 49.0
+offset_top = -19.5
+offset_right = 89.0
+offset_bottom = -6.5
+text = "0%"
+
+[node name="MuteToggle" type="CheckButton" parent="MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Mute"
+
+[node name="Separator3" type="Control" parent="MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="FSToggle" type="CheckButton" parent="MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Toggles between Fullscreen and Windowed mode."
+text = "Fullscreen"
+icon_alignment = 1
+
+[node name="Separator4" type="Control" parent="MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ResolutionDD" type="OptionButton" parent="MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+selected = 2
+item_count = 3
+popup/item_0/text = "1920 x 1080"
+popup/item_0/id = 0
+popup/item_1/text = "1280 x 720"
+popup/item_1/id = 1
+popup/item_2/text = "640 x 360"
+popup/item_2/id = 2
+
+[node name="Separator5" type="Control" parent="MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="BackBtn" type="Button" parent="MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[connection signal="value_changed" from="MarginContainer/MarginContainer/VBoxContainer/vol_slider" to="." method="_on_vol_slider_value_changed"]
+[connection signal="value_changed" from="MarginContainer/MarginContainer/VBoxContainer/vol_slider" to="MarginContainer/MarginContainer/VBoxContainer/vol_slider/vol_label" method="_on_slider_changed"]
+[connection signal="toggled" from="MarginContainer/MarginContainer/VBoxContainer/MuteToggle" to="." method="_on_mute_toggled"]
+[connection signal="toggled" from="MarginContainer/MarginContainer/VBoxContainer/FSToggle" to="." method="_on_fs_toggled"]
+[connection signal="item_selected" from="MarginContainer/MarginContainer/VBoxContainer/ResolutionDD" to="." method="_on_resolution_selected"]
+[connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/BackBtn" to="." method="_on_back_btn_pressed"]
