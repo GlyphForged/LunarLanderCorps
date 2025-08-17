@@ -6,9 +6,9 @@ const CAM_STICK_SENS: float = 10.0
 @onready var v_cam_pivot: Node3D = $"../h-cam-pivot/v-cam-pivot"
 
 # === Movement ===
-@export var thrust_str := 10
-@export var control_thrust_str := 0.5
-@export var control_thrust_offset := 1.5
+@export var thrust_str := 2.25
+@export var control_thrust_str := 0.25
+@export var control_thrust_offset := 0.8
 
 # === Internal Variables ===
 var is_thrusting := false
@@ -86,7 +86,7 @@ func _physics_process(_delta: float):
 		if DebugDraw3D:
 			DebugDraw3D.draw_line(
 				self.global_position,
-				self.global_position - thrust_force * 0.1,
+				self.global_position - thrust_force,
 				Color.RED, 0)
 
 	var lander_up = self.global_transform.basis.y
@@ -95,10 +95,12 @@ func _physics_process(_delta: float):
 	var control_offset = lander_up * control_thrust_offset
 
 	# Pitch up/down (W/S)
-	apply_tilt(rotation_input.y, lander_forward,control_offset, Color.BLUE)
+	apply_tilt(rotation_input.y, lander_forward, control_offset, Color.BLUE)
+	apply_tilt(-rotation_input.y, lander_forward, -control_offset, Color.DARK_BLUE)
 
 	# Yaw left/right (A/D)
-	apply_tilt(rotation_input.x,lander_right,control_offset, Color.GREEN)
+	apply_tilt(-rotation_input.x,lander_right,control_offset, Color.GREEN)
+	apply_tilt(rotation_input.x,lander_right,-control_offset, Color.DARK_GREEN)
 
 	# Roll (Q/E)
 	if roll_input != 0:
