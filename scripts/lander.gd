@@ -63,7 +63,7 @@ func _input(e):
 				_apply_zoom(+1.0)
 			MOUSE_BUTTON_WHEEL_DOWN:
 				_apply_zoom(-1.0)
-				
+
 func apply_tilt(input, reference_direction, offset, color):
 	if input != 0:
 		var pitch_force = reference_direction * control_thrust_str * input

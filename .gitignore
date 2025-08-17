@@ -8,3 +8,6 @@ assets.7z
 
 # Ignore DD3D examples
 examples_dd3d/
+
+# Ignore DD3D libs
+addons/debug_draw_3d/libs/

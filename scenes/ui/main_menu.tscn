@@ -1,10 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://brrmfqhktxady"]
+[gd_scene load_steps=5 format=3 uid="uid://brrmfqhktxady"]
 
 [ext_resource type="Script" uid="uid://c5laqfbf5ll3p" path="res://scripts/ui/main_menu.gd" id="1_ussg7"]
+[ext_resource type="FontFile" uid="uid://b5rp26eyjbxji" path="res://assets/fonts/Sixtyfour/Sixtyfour-Regular-VariableFont_BLED,SCAN.ttf" id="3_m1kxf"]
+[ext_resource type="Theme" uid="uid://b0f1g2k7xxm12" path="res://assets/main.theme" id="3_x2yvf"]
 [ext_resource type="PackedScene" uid="uid://dhls1kjj4b557" path="res://scenes/ui/main_settings.tscn" id="4_rjecm"]
-
-[sub_resource type="Theme" id="Theme_fe2o3"]
-Button/icons/icon = null
 
 [node name="Main Menu" type="Control"]
 layout_mode = 3
@@ -13,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_x2yvf")
 script = ExtResource("1_ussg7")
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -48,7 +48,8 @@ theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 2
 theme_override_constants/outline_size = 4
 theme_override_constants/shadow_outline_size = 6
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("3_m1kxf")
+theme_override_font_sizes/font_size = 96
 text = "LLC"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -62,7 +63,8 @@ theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 2
 theme_override_constants/outline_size = 4
 theme_override_constants/shadow_outline_size = 6
-theme_override_font_sizes/font_size = 32
+theme_override_fonts/font = ExtResource("3_m1kxf")
+theme_override_font_sizes/font_size = 28
 text = "Lunar Lander Corporation"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -72,7 +74,8 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.93845, 0.93845, 0.93845, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 18
 text = "written by NoFoxTuGiv and to-json"
 horizontal_alignment = 1
 
@@ -82,6 +85,7 @@ theme_override_colors/font_color = Color(0.93845, 0.93845, 0.93845, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 18
 text = "art and assets by trexchicken and ChiisaiHoshiko"
 horizontal_alignment = 1
 
@@ -90,15 +94,17 @@ layout_mode = 2
 
 [node name="Start" type="Button" parent="MainContainer/MMContainer"]
 layout_mode = 2
-theme = SubResource("Theme_fe2o3")
+size_flags_horizontal = 4
 text = "Start Game"
 
 [node name="Settings" type="Button" parent="MainContainer/MMContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 text = "Settings"
 
 [node name="Quit" type="Button" parent="MainContainer/MMContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 text = "Quit"
 
 [node name="MainSettings" parent="MainContainer" instance=ExtResource("4_rjecm")]

@@ -1,8 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://woljfvnriix0"]
+[gd_scene load_steps=9 format=3 uid="uid://woljfvnriix0"]
 
 [ext_resource type="Script" uid="uid://p2kt3ir6diur" path="res://scripts/lander.gd" id="1_kx23b"]
 [ext_resource type="Material" uid="uid://csacuicd5cs3y" path="res://assets/textures/lander.material" id="2_3ri1r"]
 [ext_resource type="Material" uid="uid://238oo7rqh3pb" path="res://assets/textures/top-legs.material" id="2_os8ps"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mdgtd"]
+height = 1.0
+radial_segments = 12
+
+[sub_resource type="SphereMesh" id="SphereMesh_o55dv"]
+radial_segments = 12
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_kx23b"]
 
@@ -10,79 +17,69 @@
 height = 1.0
 radius = 0.25
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_w7tdi"]
+top_radius = 0.25
+bottom_radius = 0.25
+height = 1.0
+radial_segments = 12
+
 [node name="lander" type="Node3D"]
 
 [node name="body" type="RigidBody3D" parent="."]
-mass = 0.5
-center_of_mass_mode = 1
 script = ExtResource("1_kx23b")
 
-[node name="lander-body" type="CSGCylinder3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
-height = 1.0
-sides = 12
-smooth_faces = false
-material = ExtResource("2_3ri1r")
+[node name="lander-body" type="MeshInstance3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+material_override = ExtResource("2_3ri1r")
+mesh = SubResource("CylinderMesh_mdgtd")
 
-[node name="lander-top" type="CSGSphere3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
-rings = 12
-material = ExtResource("2_3ri1r")
+[node name="lander-top" type="MeshInstance3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+material_override = ExtResource("2_3ri1r")
+mesh = SubResource("SphereMesh_o55dv")
 
 [node name="lander-top-col" type="CollisionShape3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 shape = SubResource("SphereShape3D_kx23b")
 
 [node name="lander-body-col" type="CollisionShape3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 shape = SubResource("CylinderShape3D_f7vsw")
 
-[node name="lander-leg-1" type="CSGCylinder3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -0.5)
-radius = 0.25
-height = 1.0
-sides = 12
-smooth_faces = false
-material = ExtResource("2_3ri1r")
+[node name="lander-leg-1" type="MeshInstance3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.4, -0.5)
+material_override = ExtResource("2_3ri1r")
+mesh = SubResource("CylinderMesh_w7tdi")
 
-[node name="lander-leg-1-col" type="CollisionShape3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -0.5)
+[node name="lander-leg-col-1" type="CollisionShape3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.4, -0.5)
 shape = SubResource("CylinderShape3D_f7vsw")
 
-[node name="lander-leg-2" type="CSGCylinder3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, -0.5)
-radius = 0.25
-height = 1.0
-sides = 12
-smooth_faces = false
-material = ExtResource("2_3ri1r")
+[node name="lander-leg-2" type="MeshInstance3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.4, -0.5)
+material_override = ExtResource("2_3ri1r")
+mesh = SubResource("CylinderMesh_w7tdi")
 
-[node name="lander-leg-2-col" type="CollisionShape3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, -0.5)
+[node name="lander-leg-col-2" type="CollisionShape3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.4, -0.5)
 shape = SubResource("CylinderShape3D_f7vsw")
 
-[node name="lander-leg-3" type="CSGCylinder3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 0.5)
-radius = 0.25
-height = 1.0
-sides = 12
-smooth_faces = false
-material = ExtResource("2_os8ps")
+[node name="lander-leg-3" type="MeshInstance3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.4, 0.5)
+material_override = ExtResource("2_os8ps")
+mesh = SubResource("CylinderMesh_w7tdi")
 
-[node name="lander-leg-3-col" type="CollisionShape3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 0.5)
+[node name="lander-leg-col-3" type="CollisionShape3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.4, 0.5)
 shape = SubResource("CylinderShape3D_f7vsw")
 
-[node name="lander-leg-4" type="CSGCylinder3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
-radius = 0.25
-height = 1.0
-sides = 12
-smooth_faces = false
-material = ExtResource("2_os8ps")
+[node name="lander-leg-4" type="MeshInstance3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.4, 0.5)
+material_override = ExtResource("2_os8ps")
+mesh = SubResource("CylinderMesh_w7tdi")
 
-[node name="lander-leg-4-col" type="CollisionShape3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+[node name="lander-leg-col-4" type="CollisionShape3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.4, 0.5)
 shape = SubResource("CylinderShape3D_f7vsw")
 
 [node name="h-cam-pivot" type="Node3D" parent="."]

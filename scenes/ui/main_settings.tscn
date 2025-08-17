@@ -77,14 +77,15 @@ script = ExtResource("1_ohpva")
 
 [node name="vol_label" type="Label" parent="MarginContainer/MarginContainer/VBoxContainer/vol_slider"]
 layout_mode = 0
-offset_left = 49.0
-offset_top = -19.5
-offset_right = 89.0
-offset_bottom = -6.5
+offset_left = 70.0
+offset_top = -25.5
+offset_right = 110.0
+offset_bottom = -5.5
 text = "0%"
 
 [node name="MuteToggle" type="CheckButton" parent="MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 text = "Mute"
 
 [node name="Separator3" type="Control" parent="MarginContainer/MarginContainer/VBoxContainer"]
@@ -92,6 +93,7 @@ layout_mode = 2
 
 [node name="FSToggle" type="CheckButton" parent="MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 tooltip_text = "Toggles between Fullscreen and Windowed mode."
 text = "Fullscreen"
 icon_alignment = 1
@@ -101,6 +103,8 @@ layout_mode = 2
 
 [node name="ResolutionDD" type="OptionButton" parent="MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
 selected = 2
 item_count = 3
 popup/item_0/text = "1920 x 1080"
@@ -115,6 +119,7 @@ layout_mode = 2
 
 [node name="BackBtn" type="Button" parent="MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 text = "Back"
 
 [connection signal="value_changed" from="MarginContainer/MarginContainer/VBoxContainer/vol_slider" to="." method="_on_vol_slider_value_changed"]

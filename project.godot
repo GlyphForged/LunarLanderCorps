@@ -18,6 +18,11 @@ config/features=PackedStringArray("4.4", "GL Compatibility")
 
 settings/addon_root_folder="res://addons/debug_draw_3d"
 
+[gui]
+
+theme/custom="uid://b0f1g2k7xxm12"
+theme/custom_font="uid://sx2fcvd377a2"
+
 [input]
 
 debug-forward={
