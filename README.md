@@ -30,4 +30,4 @@ Control camera with mouse or right stick
 
 ## General Concept
 
-You are a pilot for a large corporation in the not too distant future, tasked with moving resources, goods, personnel, etc., between landing pads on a moon, as a part of a corporate colonization mission. Balancing time, speed, and fuel, move between landing pads, upgrading your lander between jobs, trying to stay out of debt.
+A 3D Lunar Lander clone.
