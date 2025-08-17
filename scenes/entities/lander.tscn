@@ -46,39 +46,39 @@ shape = SubResource("SphereShape3D_kx23b")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 shape = SubResource("CylinderShape3D_f7vsw")
 
-[node name="lander-leg-1" type="MeshInstance3D" parent="body"]
+[node name="lander-leg-bottom-right" type="MeshInstance3D" parent="body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.4, -0.5)
 material_override = ExtResource("2_3ri1r")
 mesh = SubResource("CylinderMesh_w7tdi")
 
-[node name="lander-leg-col-1" type="CollisionShape3D" parent="body"]
+[node name="lander-leg-col-bottom-right" type="CollisionShape3D" parent="body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.4, -0.5)
 shape = SubResource("CylinderShape3D_f7vsw")
 
-[node name="lander-leg-2" type="MeshInstance3D" parent="body"]
+[node name="lander-leg-bottom-left" type="MeshInstance3D" parent="body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.4, -0.5)
 material_override = ExtResource("2_3ri1r")
 mesh = SubResource("CylinderMesh_w7tdi")
 
-[node name="lander-leg-col-2" type="CollisionShape3D" parent="body"]
+[node name="lander-leg-col-bottom-left" type="CollisionShape3D" parent="body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.4, -0.5)
 shape = SubResource("CylinderShape3D_f7vsw")
 
-[node name="lander-leg-3" type="MeshInstance3D" parent="body"]
+[node name="lander-leg-top-left" type="MeshInstance3D" parent="body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.4, 0.5)
 material_override = ExtResource("2_os8ps")
 mesh = SubResource("CylinderMesh_w7tdi")
 
-[node name="lander-leg-col-3" type="CollisionShape3D" parent="body"]
+[node name="lander-leg-col-top-left" type="CollisionShape3D" parent="body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.4, 0.5)
 shape = SubResource("CylinderShape3D_f7vsw")
 
-[node name="lander-leg-4" type="MeshInstance3D" parent="body"]
+[node name="lander-leg-top-right" type="MeshInstance3D" parent="body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.4, 0.5)
 material_override = ExtResource("2_os8ps")
 mesh = SubResource("CylinderMesh_w7tdi")
 
-[node name="lander-leg-col-4" type="CollisionShape3D" parent="body"]
+[node name="lander-leg-col-top-right" type="CollisionShape3D" parent="body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.4, 0.5)
 shape = SubResource("CylinderShape3D_f7vsw")
 
