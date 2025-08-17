@@ -1,9 +1,10 @@
 extends Control
 
 const WINDOW_RESOLUTION_OPTIONS: Array[String] = [
+	"2560 x 1440",
 	"1920 x 1080",
+	"1600 x 900",
 	"1280 x 720",
-	"640 x 360"
 ]
 
 @onready var vol_slider: HSlider = $MarginContainer/MarginContainer/VBoxContainer/vol_slider
@@ -27,18 +28,20 @@ func _on_back_btn_pressed() -> void:
 
 func _on_resolution_selected(index: int) -> void:
 	match index:
-		0: # 1920 x 1080
+		0: # 2560 x 1440
+			DisplayServer.window_set_size(Vector2i(2560, 1440))
+		1: # 1920 x 1080
 			DisplayServer.window_set_size(Vector2i(1920, 1080))
-		1: # 1280 x 720
+		2: # 1600 x 900
+			DisplayServer.window_set_size(Vector2i(1600, 900))
+		3: # 1280 x 720
 			DisplayServer.window_set_size(Vector2i(1280, 720))
-		2: # 640 x 360
-			DisplayServer.window_set_size(Vector2i(640, 360))
 
 func _on_fs_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		DisplayServer.window_set_mode(3)
+		DisplayServer.window_set_mode(DisplayServer.WindowMode.WINDOW_MODE_FULLSCREEN)
 	else:
-		DisplayServer.window_set_mode(0)
+		DisplayServer.window_set_mode(DisplayServer.WindowMode.WINDOW_MODE_WINDOWED)
 
 func _on_vol_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(value))
