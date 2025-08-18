@@ -78,7 +78,3 @@ func get_active_threads():
 	#This version isnt using
 	#threading so return 0
 	return 0
-
-
-func _on_body_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
-	pass # Replace with function body.

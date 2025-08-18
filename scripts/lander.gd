@@ -7,7 +7,7 @@ const CAM_STICK_SENS: float = 10.0
 
 # === Movement ===
 @export var thrust_str := 2.25
-@export var control_thrust_str := 0.25
+@export var control_thrust_str := 0.5
 @export var control_thrust_offset := 0.8
 
 # === Internal Variables ===

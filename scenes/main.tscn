@@ -47,7 +47,7 @@ lander = NodePath("../lander/body")
 chunk_mesh_scene = ExtResource("8_tipki")
 noise = SubResource("FastNoiseLite_85g3d")
 
-[connection signal="body_shape_entered" from="lander/body" to="infinite_terrain" method="_on_body_body_shape_entered"]
+[connection signal="body_shape_entered" from="lander/body" to="lander/body" method="_on_body_shape_entered"]
 
 [editable path="lander"]
 [editable path="hud"]
