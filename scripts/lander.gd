@@ -54,7 +54,7 @@ func _ready():
 		_target_fov = clamp(cam.fov, cam_fov_min, cam_fov_max)
 
 func _input(e):
-	if e is InputEventMouseMotion:
+	if e is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		h_cam_pivot.rotate_y(deg_to_rad(-e.relative.x) * h_cam_sens)
 		if camera_mode == CameraMode.HORIZON_LOCK:
 			v_cam_pivot.rotation_degrees = clamp(v_cam_pivot.rotation_degrees, Vector3(0, 0, 0), Vector3(0, 0, 0))
