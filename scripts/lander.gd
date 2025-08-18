@@ -57,11 +57,18 @@ func _input(e):
 	if e is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		h_cam_pivot.rotate_y(deg_to_rad(-e.relative.x) * h_cam_sens)
 		if camera_mode == CameraMode.HORIZON_LOCK:
-			v_cam_pivot.rotation_degrees = clamp(v_cam_pivot.rotation_degrees, Vector3(0, 0, 0), Vector3(0, 0, 0))
+			v_cam_pivot.rotation_degrees = clamp(
+				v_cam_pivot.rotation_degrees,
+				Vector3(0, 0, 0),
+				Vector3(0, 0, 0)
+			)
 		elif camera_mode == CameraMode.FREE:
 			v_cam_pivot.rotate_x(deg_to_rad(-e.relative.y) * v_cam_sens)
-			v_cam_pivot.rotation_degrees = clamp(v_cam_pivot.rotation_degrees, Vector3(-40, 0, 0), Vector3(30, 0, 0))
-			print(v_cam_pivot.rotation_degrees)
+			v_cam_pivot.rotation_degrees = clamp(
+				v_cam_pivot.rotation_degrees,
+				Vector3(-40, 0, 0),
+				Vector3(30, 0, 0)
+			)
 
 	if e is InputEventMouseButton and e.pressed:
 		match e.button_index:
@@ -137,7 +144,7 @@ func handle_input():
 	roll_input = 0.0
 
 	if Input.is_action_just_pressed("camera-mode"):
-		camera_mode = (camera_mode + 1) % 2
+		camera_mode = (camera_mode + 1) % 2 as CameraMode
 
 	if Input.is_action_pressed("thrust"):
 		is_thrusting = true

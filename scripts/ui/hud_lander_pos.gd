@@ -11,4 +11,10 @@ func _process(_delta):
 		var h_vel := Vector2(vel.x, vel.z).length()
 		var v_vel: float = abs(vel.y)
 
-		text = "POS: %4.2f, %4.2f\nH_SPD: %4.2f\nV_SPD: %4.2f" % [pos.x, pos.z, h_vel, v_vel]
+		text = "POS: %4.2f, %4.2f\nH_SPD: %4.2f\nV_SPD: %4.2f\nFPS: %2d" % [
+			pos.x,
+			pos.z,
+			h_vel,
+			v_vel,
+			Engine.get_frames_per_second()
+		]
