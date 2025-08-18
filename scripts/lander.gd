@@ -25,6 +25,7 @@ var roll_input := 0.0
 @export var cam_fov_max: float = 115.0
 @export var cam_zoom_step: float = 5.0
 @export var cam_zoom_smooth: float = 10.0
+@export var camera_mode := CameraMode.HORIZON_LOCK
 
 @onready var cam: Camera3D = (
 	get_node_or_null(camera_path) as Camera3D
@@ -55,7 +56,12 @@ func _ready():
 func _input(e):
 	if e is InputEventMouseMotion:
 		h_cam_pivot.rotate_y(deg_to_rad(-e.relative.x) * h_cam_sens)
-		v_cam_pivot.rotate_x(deg_to_rad(-e.relative.y) * v_cam_sens)
+		if camera_mode == CameraMode.HORIZON_LOCK:
+			v_cam_pivot.rotation_degrees = clamp(v_cam_pivot.rotation_degrees, Vector3(0, 0, 0), Vector3(0, 0, 0))
+		elif camera_mode == CameraMode.FREE:
+			v_cam_pivot.rotate_x(deg_to_rad(-e.relative.y) * v_cam_sens)
+			v_cam_pivot.rotation_degrees = clamp(v_cam_pivot.rotation_degrees, Vector3(-40, 0, 0), Vector3(30, 0, 0))
+			print(v_cam_pivot.rotation_degrees)
 
 	if e is InputEventMouseButton and e.pressed:
 		match e.button_index:
@@ -114,8 +120,9 @@ func _physics_process(_delta: float):
 				0.0
 			)
 
-	h_cam_pivot.rotate_y(deg_to_rad(-look_input.x) * h_cam_sens * _delta * 100.0)
-	v_cam_pivot.rotate_x(deg_to_rad(-look_input.y) * v_cam_sens * _delta * 100.0)
+	#h_cam_pivot.rotate_y(deg_to_rad(-look_input.x) * h_cam_sens * _delta * 100.0)
+	#v_cam_pivot.rotate_x(deg_to_rad(-look_input.y) * v_cam_sens * _delta * 100.0)
+	#v_cam_pivot.rotation_degrees = clamp(v_cam_pivot.rotation_degrees, Vector3(0, 0, 0), Vector3(0, 0, 0))
 
 	# Camera follows lander
 	h_cam_pivot.global_position = self.global_position
@@ -128,6 +135,9 @@ func handle_input():
 	rotation_input = Vector2.ZERO
 	look_input = Vector2.ZERO
 	roll_input = 0.0
+
+	if Input.is_action_just_pressed("camera-mode"):
+		camera_mode = (camera_mode + 1) % 2
 
 	if Input.is_action_pressed("thrust"):
 		is_thrusting = true
@@ -161,3 +171,11 @@ func handle_input():
 
 	look_input.x = Input.get_action_strength("look-right") * CAM_STICK_SENS - Input.get_action_strength("look-left") * CAM_STICK_SENS
 	look_input.y = Input.get_action_strength("look-up") * CAM_STICK_SENS - Input.get_action_strength("look-down") * CAM_STICK_SENS
+
+func _on_body_shape_entered(_body_rid: RID, _body: Node, _body_shape_index: int, local_shape_index: int) -> void:
+	print(local_shape_index) # Replace with function body.
+
+enum CameraMode {
+	HORIZON_LOCK,
+	FREE
+}

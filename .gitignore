@@ -11,3 +11,6 @@ examples_dd3d/
 
 # Ignore DD3D libs
 addons/debug_draw_3d/libs/
+
+# Ignore tmp files
+**.tmp
