@@ -6,8 +6,8 @@ const CAM_STICK_SENS: float = 10.0
 @onready var v_cam_pivot: Node3D = $"../h-cam-pivot/v-cam-pivot"
 
 # === Movement ===
-@export var thrust_str := 2.25
-@export var control_thrust_str := 0.5
+@export var thrust_str := 2.5
+@export var control_thrust_str := 0.3
 @export var control_thrust_offset := 0.8
 
 # === Damage ===

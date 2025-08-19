@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://byqwuca6xvdsb" path="res://assets/HDR_rich_multi_nebulae_1.hdr" id="1_85g3d"]
 [ext_resource type="PackedScene" uid="uid://woljfvnriix0" path="res://scenes/entities/lander.tscn" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://bu7u4cigsr257" path="res://scenes/utils/pad_spawner.tscn" id="6_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://dodfiyirio50c" path="res://scenes/ui/hud.tscn" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://crn5r6ro7r2ka" path="res://scenes/terrain_gen/infinite_terrain.tscn" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://cmy0pvr4ggnac" path="res://scenes/terrain_gen/chunk.tscn" id="8_tipki"]
@@ -22,8 +23,6 @@ fog_light_color = Color(0.05, 0.05, 0.05, 1)
 fog_density = 0.008
 fog_sky_affect = 0.0
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_85g3d"]
-
 [node name="game" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -35,19 +34,19 @@ environment = SubResource("Environment_choun")
 
 [node name="lander" parent="." instance=ExtResource("5_tbgi4")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 36.7, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 0)
 
 [node name="hud" parent="." instance=ExtResource("6_tefeu")]
 
 [node name="lander-pos" parent="hud/MarginContainer/MarginContainer2" index="0" node_paths=PackedStringArray("lander")]
 lander = NodePath("../../../../lander")
 
-[node name="infinite_terrain" parent="." node_paths=PackedStringArray("lander") instance=ExtResource("7_o6xl0")]
-lander = NodePath("../lander/body")
+[node name="infinite_terrain" parent="." instance=ExtResource("7_o6xl0")]
+unique_name_in_owner = true
 chunk_mesh_scene = ExtResource("8_tipki")
-noise = SubResource("FastNoiseLite_85g3d")
 
-[connection signal="body_shape_entered" from="lander/body" to="lander/body" method="_on_body_shape_entered"]
+[node name="pad_spawner" parent="." instance=ExtResource("6_o6xl0")]
+unique_name_in_owner = true
 
-[editable path="lander"]
 [editable path="hud"]
+[editable path="pad_spawner"]

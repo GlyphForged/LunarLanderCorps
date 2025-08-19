@@ -1,9 +1,12 @@
+class_name TerrainGenerator
+
 extends Node3D
+
+@onready var lander: RigidBody3D = %lander/body
 
 @export var chunkSize = 100
 @export var terrain_height = 20
 @export var view_distance = 500
-@export var lander: RigidBody3D
 @export var chunk_mesh_scene: PackedScene
 @export var render_debug := false
 var viewer_position = Vector2()
@@ -11,21 +14,21 @@ var terrain_chunks = {}
 var chunksvisible=0
 
 var last_visible_chunks = []
-@export var noise:FastNoiseLite
+var noise := FastNoiseLite.new()
 
 func _ready():
 	#set the total chunks to be visible
+	@warning_ignore("integer_division")
 	chunksvisible = roundi(view_distance/chunkSize)
 	if render_debug:
 		set_wireframe()
 	updateVisibleChunk()
 
-
 func set_wireframe():
 	RenderingServer.set_debug_generate_wireframes(true)
 	get_viewport().debug_draw = Viewport.DEBUG_DRAW_WIREFRAME
 
-func _process(delta):
+func _process(_delta):
 	viewer_position.x = lander.global_position.x
 	viewer_position.y = lander.global_position.z
 	updateVisibleChunk()
@@ -45,7 +48,7 @@ func updateVisibleChunk():
 			var view_chunk_coord = Vector2(currentX-xOffset,currentY-yOffset)
 			#check if chunk was already created
 			if terrain_chunks.has(view_chunk_coord):
-				var ref = weakref(terrain_chunks[view_chunk_coord])
+				var _ref = weakref(terrain_chunks[view_chunk_coord])
 				#if chunk exist update the chunk passing viewer_position and view_distance
 				terrain_chunks[view_chunk_coord].update_chunk(viewer_position,view_distance)
 				if terrain_chunks[view_chunk_coord].update_lod(viewer_position):
@@ -57,6 +60,7 @@ func updateVisibleChunk():
 				#print(view_chunk_coord)
 			#if chunk doesnt exist, create chunk
 				var chunk :TerrainChunk= chunk_mesh_scene.instantiate()
+				chunk.name = "chunk_%d_%d" % [xOffset, yOffset]
 				add_child(chunk)
 				#set chunk parameters
 				chunk.max_terrain_height = terrain_height
@@ -73,6 +77,8 @@ func updateVisibleChunk():
 			if terrain_chunks.has(chunk.grid_coord):
 				terrain_chunks.erase(chunk.grid_coord)
 
+func get_height_at_position(pos: Vector2) -> float:
+	return noise.get_noise_2d(pos.x, pos.y) * terrain_height
 
 func get_active_threads():
 	#This version isnt using
