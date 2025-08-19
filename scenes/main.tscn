@@ -1,42 +1,28 @@
-[gd_scene load_steps=14 format=3 uid="uid://da6rrxer76heh"]
+[gd_scene load_steps=10 format=3 uid="uid://da6rrxer76heh"]
 
-[ext_resource type="Texture2D" uid="uid://c8arnlq67qi7" path="res://assets/textures/grids/Dark/texture_05.png" id="1_jyhfs"]
-[ext_resource type="Texture2D" uid="uid://b58xv1joypxo5" path="res://assets/textures/grids/Orange/texture_09.png" id="2_tbgi4"]
-[ext_resource type="Texture2D" uid="uid://cm5m7nr7dugjd" path="res://assets/textures/grids/Purple/texture_09.png" id="3_tefeu"]
-[ext_resource type="Texture2D" uid="uid://djg8y25y06h5n" path="res://assets/textures/grids/Green/texture_09.png" id="4_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://byqwuca6xvdsb" path="res://assets/HDR_rich_multi_nebulae_1.hdr" id="1_85g3d"]
 [ext_resource type="PackedScene" uid="uid://woljfvnriix0" path="res://scenes/entities/lander.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://dodfiyirio50c" path="res://scenes/ui/hud.tscn" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://crn5r6ro7r2ka" path="res://scenes/terrain_gen/infinite_terrain.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://cmy0pvr4ggnac" path="res://scenes/terrain_gen/chunk.tscn" id="8_tipki"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tipki"]
-sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_choun"]
+panorama = ExtResource("1_85g3d")
+energy_multiplier = 5.0
 
 [sub_resource type="Sky" id="Sky_85g3d"]
-sky_material = SubResource("ProceduralSkyMaterial_tipki")
+sky_material = SubResource("PanoramaSkyMaterial_choun")
 
 [sub_resource type="Environment" id="Environment_choun"]
 background_mode = 2
 sky = SubResource("Sky_85g3d")
 tonemap_mode = 2
 fog_enabled = true
-fog_light_color = Color(0.9, 0.897, 0.864, 1)
-fog_density = 0.001
+fog_light_color = Color(0.05, 0.05, 0.05, 1)
+fog_density = 0.008
+fog_sky_affect = 0.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ya4ey"]
-albedo_texture = ExtResource("1_jyhfs")
-uv1_triplanar = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eb6dy"]
-albedo_texture = ExtResource("2_tbgi4")
-uv1_triplanar = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_trceg"]
-albedo_texture = ExtResource("3_tefeu")
-uv1_triplanar = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a8y0u"]
-albedo_texture = ExtResource("4_o6xl0")
-uv1_triplanar = true
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_85g3d"]
 
 [node name="game" type="Node3D"]
 
@@ -47,32 +33,6 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_choun")
 
-[node name="map" type="Node3D" parent="."]
-
-[node name="floor" type="CSGBox3D" parent="map"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0026927, -0.5, -2.3365e-05)
-material_override = SubResource("StandardMaterial3D_ya4ey")
-use_collision = true
-size = Vector3(1000, 1, 1000)
-
-[node name="landing-pad-0" type="CSGBox3D" parent="map"]
-transform = Transform3D(0.819152, 0, 0.573576, 0, 1, 0, -0.573576, 0, 0.819152, 39.3598, 0.5, -17.893)
-material_override = SubResource("StandardMaterial3D_eb6dy")
-use_collision = true
-size = Vector3(15, 1, 15)
-
-[node name="landing-pad-1" type="CSGBox3D" parent="map"]
-transform = Transform3D(0.939693, 0, 0.34202, 0, 1, 0, -0.34202, 0, 0.939693, -82.9, 1, -84)
-material_override = SubResource("StandardMaterial3D_trceg")
-use_collision = true
-size = Vector3(10, 1, 10)
-
-[node name="landing-pad-2" type="CSGBox3D" parent="map"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -66.5563, 1, 95.3708)
-material_override = SubResource("StandardMaterial3D_a8y0u")
-use_collision = true
-size = Vector3(20, 1, 20)
-
 [node name="lander" parent="." instance=ExtResource("5_tbgi4")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 36.7, 0)
@@ -82,4 +42,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 36.7, 0)
 [node name="lander-pos" parent="hud/MarginContainer/MarginContainer2" index="0" node_paths=PackedStringArray("lander")]
 lander = NodePath("../../../../lander")
 
+[node name="infinite_terrain" parent="." node_paths=PackedStringArray("lander") instance=ExtResource("7_o6xl0")]
+lander = NodePath("../lander/body")
+chunk_mesh_scene = ExtResource("8_tipki")
+noise = SubResource("FastNoiseLite_85g3d")
+
+[connection signal="body_shape_entered" from="lander/body" to="lander/body" method="_on_body_shape_entered"]
+
+[editable path="lander"]
 [editable path="hud"]

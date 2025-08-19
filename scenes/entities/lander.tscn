@@ -29,7 +29,7 @@ radial_segments = 12
 
 [node name="body" type="RigidBody3D" parent="."]
 contact_monitor = true
-max_contacts_reported = 4
+max_contacts_reported = 5
 script = ExtResource("1_kx23b")
 
 [node name="lander-body" type="MeshInstance3D" parent="body"]
