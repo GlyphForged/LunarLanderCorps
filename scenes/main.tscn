@@ -46,8 +46,7 @@ unique_name_in_owner = true
 chunk_mesh_scene = ExtResource("8_tipki")
 
 [node name="pad_spawner" parent="." instance=ExtResource("6_o6xl0")]
+unique_name_in_owner = true
 
-[connection signal="body_shape_entered" from="lander/body" to="lander/body" method="_on_body_shape_entered"]
-
-[editable path="lander"]
 [editable path="hud"]
+[editable path="pad_spawner"]
