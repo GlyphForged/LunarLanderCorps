@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://woljfvnriix0"]
 
 [ext_resource type="Script" uid="uid://p2kt3ir6diur" path="res://scripts/lander.gd" id="1_kx23b"]
-[ext_resource type="Material" uid="uid://csacuicd5cs3y" path="res://assets.bak/textures/lander.material" id="2_3ri1r"]
-[ext_resource type="Material" uid="uid://238oo7rqh3pb" path="res://assets.bak/textures/top-legs.material" id="2_os8ps"]
+[ext_resource type="Material" uid="uid://csacuicd5cs3y" path="res://assets/textures/lander.material" id="2_3ri1r"]
+[ext_resource type="Material" uid="uid://238oo7rqh3pb" path="res://assets/textures/top-legs.material" id="2_os8ps"]
 [ext_resource type="Shape3D" uid="uid://wvteh23s2jig" path="res://shapes/lander-leg-collision-shape.tres" id="3_w7tdi"]
 [ext_resource type="Shape3D" uid="uid://su7k6hknuct5" path="res://shapes/lander-foot-collision-shape.tres" id="4_nro1m"]
 
@@ -42,22 +42,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 material_override = ExtResource("2_3ri1r")
 mesh = SubResource("SphereMesh_o55dv")
 
-[node name="lander-foot-col-top-right" type="CollisionShape3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.875, 0.5)
-shape = ExtResource("4_nro1m")
-
-[node name="lander-foot-col-top-left" type="CollisionShape3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.875, 0.5)
-shape = ExtResource("4_nro1m")
-
-[node name="lander-foot-col-bottom-right" type="CollisionShape3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.875, -0.5)
-shape = ExtResource("4_nro1m")
-
-[node name="lander-foot-col-bottom-left" type="CollisionShape3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.875, -0.5)
-shape = ExtResource("4_nro1m")
-
 [node name="lander-top-col" type="CollisionShape3D" parent="body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 shape = SubResource("SphereShape3D_kx23b")
@@ -75,6 +59,10 @@ mesh = SubResource("CylinderMesh_w7tdi")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.375, -0.5)
 shape = ExtResource("3_w7tdi")
 
+[node name="lander-foot-col-bottom-right" type="CollisionShape3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.875, -0.5)
+shape = ExtResource("4_nro1m")
+
 [node name="lander-leg-bottom-left" type="MeshInstance3D" parent="body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.4, -0.5)
 material_override = ExtResource("2_3ri1r")
@@ -83,6 +71,10 @@ mesh = SubResource("CylinderMesh_w7tdi")
 [node name="lander-leg-col-bottom-left" type="CollisionShape3D" parent="body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.375, -0.5)
 shape = ExtResource("3_w7tdi")
+
+[node name="lander-foot-col-bottom-left" type="CollisionShape3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.875, -0.5)
+shape = ExtResource("4_nro1m")
 
 [node name="lander-leg-top-left" type="MeshInstance3D" parent="body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.4, 0.5)
@@ -93,6 +85,10 @@ mesh = SubResource("CylinderMesh_w7tdi")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.375, 0.5)
 shape = ExtResource("3_w7tdi")
 
+[node name="lander-foot-col-top-left" type="CollisionShape3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.875, 0.5)
+shape = ExtResource("4_nro1m")
+
 [node name="lander-leg-top-right" type="MeshInstance3D" parent="body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.4, 0.5)
 material_override = ExtResource("2_os8ps")
@@ -101,6 +97,10 @@ mesh = SubResource("CylinderMesh_w7tdi")
 [node name="lander-leg-col-top-right" type="CollisionShape3D" parent="body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.375, 0.5)
 shape = ExtResource("3_w7tdi")
+
+[node name="lander-foot-col-top-right" type="CollisionShape3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.875, 0.5)
+shape = ExtResource("4_nro1m")
 
 [node name="h-cam-pivot" type="Node3D" parent="."]
 
