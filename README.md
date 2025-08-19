@@ -1,4 +1,4 @@
-# LLC: Lunar Lander Corporation
+# LLC : Lunar Lander Community
 
 A [20 Games Challenge - Summer Jam](https://itch.io/jam/20-games-challenge-summer-jam) entry roughly based on [Lunar Lander](http://moonlander.seb.ly/).
 
@@ -32,4 +32,4 @@ Control camera with mouse or right stick
 
 ## General Concept
 
-A 3D Lunar Lander clone.
+A 3D Lunar Lander clone. You are a member of a group of curious sentient robots living in a system of dozens of moons orbiting a gas giant. Help deliver supplies between landing pads on the latest target of the research corps. Earn points based on your landing, upgrade your lander, and blow up in spectacular fashion when you miss the pad. Don't worry, we saved a backup of your program.
