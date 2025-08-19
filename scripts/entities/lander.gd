@@ -10,6 +10,12 @@ const CAM_STICK_SENS: float = 10.0
 @export var control_thrust_str := 0.3
 @export var control_thrust_offset := 0.8
 
+# === Damage ===
+@export var damage_offset := 0.4
+@export var current_damage := 0.0
+@export var leg_strength := 0.5
+var safe_collider_count := 4
+
 # === Internal Variables ===
 var is_thrusting := false
 var rotation_input := Vector2.ZERO
@@ -19,8 +25,8 @@ var roll_input := 0.0
 # === Camera Config ===
 # Camera Properties
 @export var camera_path: NodePath
-@export var h_cam_sens = 0.1
-@export var v_cam_sens = 0.1
+@export var h_cam_sens := 0.1
+@export var v_cam_sens := 0.1
 @export var cam_fov_min: float = 45.0
 @export var cam_fov_max: float = 115.0
 @export var cam_zoom_step: float = 5.0
@@ -180,7 +186,27 @@ func handle_input():
 	look_input.y = Input.get_action_strength("look-up") * CAM_STICK_SENS - Input.get_action_strength("look-down") * CAM_STICK_SENS
 
 func _on_body_shape_entered(_body_rid: RID, _body: Node, _body_shape_index: int, local_shape_index: int) -> void:
-	print(local_shape_index) # Replace with function body.
+	# slightly unreasonable approach; we have placed all the safe colliders in
+	# the top 4 positions in the collider list.
+	# currently, we do not need to care what we hit for this to count.
+	if local_shape_index < safe_collider_count: 
+		if self.linear_velocity.y > leg_strength:
+			apply_damage(self.linear_velocity, self.rotation)
+		else:
+			return
+	apply_damage(self.linear_velocity, self.rotation)
+
+func apply_damage(velocity: Vector3, _angle: Vector3):
+	var lateral_damage: float = max(abs(velocity.z), abs(velocity.x)) - damage_offset
+	if lateral_damage < 0:
+		lateral_damage = 0
+	var vertical_damage: float
+	if ((velocity.y > 0) and (velocity.y - damage_offset > 0)):
+		vertical_damage = velocity.y - damage_offset
+	var damage = vertical_damage + lateral_damage
+	self.current_damage += damage
+
+	
 
 enum CameraMode {
 	HORIZON_LOCK,
