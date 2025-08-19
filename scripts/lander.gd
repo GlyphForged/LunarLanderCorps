@@ -13,6 +13,8 @@ const CAM_STICK_SENS: float = 10.0
 # === Damage ===
 @export var damage_offset := 0.4
 @export var current_damage := 0.0
+@export var leg_strength := 0.5
+var safe_collider_count := 4
 
 # === Internal Variables ===
 var is_thrusting := false
@@ -187,8 +189,8 @@ func _on_body_shape_entered(_body_rid: RID, _body: Node, _body_shape_index: int,
 	# slightly unreasonable approach; we have placed all the safe colliders in
 	# the top 4 positions in the collider list.
 	# currently, we do not need to care what we hit for this to count.
-	if local_shape_index < 3: 
-		if self.linear_velocity.y > 0.5:
+	if local_shape_index < safe_collider_count: 
+		if self.linear_velocity.y > leg_strength:
 			apply_damage(self.linear_velocity, self.rotation)
 		else:
 			return
