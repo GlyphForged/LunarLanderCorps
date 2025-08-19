@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bu7u4cigsr257"]
+
+[ext_resource type="Script" uid="uid://5ahwitm8mkos" path="res://scripts/utils/pad_spawner.gd" id="1_obvaf"]
+
+[node name="pad_spawner" type="Node"]
+script = ExtResource("1_obvaf")

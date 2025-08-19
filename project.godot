@@ -14,6 +14,10 @@ config/name="LunarLandarCorporation"
 run/main_scene="uid://brrmfqhktxady"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 
+[debug]
+
+gdscript/warnings/integer_division=0
+
 [debug_draw_3d]
 
 settings/addon_root_folder="res://addons/debug_draw_3d"
@@ -22,6 +26,10 @@ settings/addon_root_folder="res://addons/debug_draw_3d"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+
+[global_group]
+
+landing-pads=""
 
 [gui]
 
