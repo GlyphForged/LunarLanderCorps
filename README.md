@@ -4,6 +4,8 @@ A [20 Games Challenge - Summer Jam](https://itch.io/jam/20-games-challenge-summe
 
 Written by [NoFoxTuGiv](https://github.com/NoFoxTuGiv) and [to-json](https://github.com/to-json) in August 2025.
 
+![Early-Dev-Screenshot-0](promo/dev-screen-0.png)
+
 ## Controls:
 
 - Thrust
