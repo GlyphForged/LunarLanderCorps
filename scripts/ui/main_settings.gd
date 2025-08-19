@@ -24,6 +24,7 @@ func _on_back_btn_pressed() -> void:
 	if get_parent():
 		hide()
 		mm_container.show()
+		%MuteContainer.show()
 		$"../MMContainer/Start".grab_focus()
 
 func _on_resolution_selected(index: int) -> void:

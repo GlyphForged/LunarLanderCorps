@@ -15,6 +15,10 @@ func _on_start_pressed() -> void:
 func _on_settings_pressed() -> void:
 	$MainContainer/MMContainer.hide()
 	$MainContainer/MainSettings.show()
+	$MuteContainer.hide()
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()
+
+func _on_mute_toggled(toggled_on: bool) -> void:
+	AudioServer.set_bus_mute(0, toggled_on)
