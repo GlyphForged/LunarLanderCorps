@@ -1,4 +1,4 @@
-# LLC : Lunar Lander Community
+# LLC : Lunar Lander Corps
 
 A [20 Games Challenge - Summer Jam](https://itch.io/jam/20-games-challenge-summer-jam) entry roughly based on [Lunar Lander](http://moonlander.seb.ly/).
 

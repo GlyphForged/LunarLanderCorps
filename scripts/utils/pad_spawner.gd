@@ -1,9 +1,3 @@
-# The pad spawner will be a child to the main game scene
-# Its role is to spawn landing pads at the beginning of the game
-# based on an algorithm.
-# Each pad's constructor is called and given a width, altitude, and location
-# The pad is then responsible for setting its own dimensions and spawning
-# foundational pillars.
 class_name PadSpawner
 
 extends Node
@@ -17,10 +11,6 @@ const MIN_DISTANCE: float = 200.0
 const MAX_DISTANCE: float = 500.0
 
 @onready var ground: TerrainGenerator = %infinite_terrain
-
-# For now, start spawning at 0,0 we will spawn 5 pads, equidistant from
-# each other. One directly below the player, and one at each cardinal direction,
-# between 50 and 250 meters away.
 
 func _ready() -> void:
 	for n in 5:
