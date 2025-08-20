@@ -14,7 +14,8 @@ var position_coord: Vector2
 var grid_coord: Vector2
 
 func generate_terrain(
-	noise: FastNoiseLite,
+	noise0: FastNoiseLite,
+	noise1: FastNoiseLite,
 	coords: Vector2,
 	init_visible: bool
 ):
@@ -34,10 +35,15 @@ func generate_terrain(
 				(percent.y - CENTER_OFFSET)
 			)
 			var vertex = pt_on_mesh * TERRAIN_SIZE
-			vertex.y = noise.get_noise_2d(
+			var temp_y = noise0.get_noise_2d(
 				position.x + vertex.x,
 				position.z + vertex.z
 			) * max_terrain_height
+			temp_y *= noise1.get_noise_2d(
+				position.x + vertex.x,
+				position.z + vertex.z
+			) * max_terrain_height
+			vertex.y = temp_y
 			var uv := Vector2(percent.x, percent.y)
 			surftool.set_uv(uv)
 			surftool.add_vertex(vertex)
@@ -71,10 +77,11 @@ func update_chunk(view_pos:Vector2,max_view_dis):
 	var _is_visible = viewer_distance <= max_view_dis
 
 #SLOW
-func should_remove(view_pos:Vector2,max_view_dis):
+func should_remove(view_pos:Vector2, max_view_dis):
 	var remove = false
-	var viewer_distance = position_coord.distance_to(view_pos)
+	var viewer_distance = view_pos.distance_to(position_coord) - (TERRAIN_SIZE * 3)
 	if viewer_distance > max_view_dis:
+		print("Chunk removal: ", viewer_distance, "Chunk: ", grid_coord)
 		remove = true
 	return remove
 
