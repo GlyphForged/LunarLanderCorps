@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://brrmfqhktxady"]
+[gd_scene load_steps=7 format=3 uid="uid://brrmfqhktxady"]
 
 [ext_resource type="Script" uid="uid://c5laqfbf5ll3p" path="res://scripts/ui/main_menu.gd" id="1_ussg7"]
 [ext_resource type="FontFile" uid="uid://b5rp26eyjbxji" path="res://assets/fonts/Sixtyfour/Sixtyfour-Regular-VariableFont_BLED,SCAN.ttf" id="3_m1kxf"]
+[ext_resource type="Texture2D" uid="uid://pqh7igw04hik" path="res://assets/images/ph_title.png" id="3_uhagc"]
 [ext_resource type="Theme" uid="uid://b0f1g2k7xxm12" path="res://assets/main.theme" id="3_x2yvf"]
 [ext_resource type="PackedScene" uid="uid://dhls1kjj4b557" path="res://scenes/ui/main_settings.tscn" id="4_rjecm"]
+[ext_resource type="AudioStream" uid="uid://d3r4vno2hclil" path="res://assets/music/llc-ditty-one.wav" id="5_x2yvf"]
 
 [node name="Main Menu" type="Control"]
 layout_mode = 3
@@ -17,9 +19,14 @@ script = ExtResource("1_ussg7")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = -5
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_uhagc")
+expand_mode = 3
 
 [node name="MainContainer" type="MarginContainer" parent="."]
 process_mode = 3
@@ -34,7 +41,21 @@ theme_override_constants/margin_top = 80
 theme_override_constants/margin_right = 250
 theme_override_constants/margin_bottom = 80
 
+[node name="BGContainer" type="MarginContainer" parent="MainContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 50
+
+[node name="ColorRect" type="ColorRect" parent="MainContainer/BGContainer"]
+layout_mode = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.509804)
+
 [node name="MMContainer" type="VBoxContainer" parent="MainContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
@@ -93,25 +114,54 @@ horizontal_alignment = 1
 layout_mode = 2
 
 [node name="Start" type="Button" parent="MainContainer/MMContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Start Game"
 
 [node name="Settings" type="Button" parent="MainContainer/MMContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Settings"
 
 [node name="Quit" type="Button" parent="MainContainer/MMContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Quit"
 
 [node name="MainSettings" parent="MainContainer" instance=ExtResource("4_rjecm")]
+unique_name_in_owner = true
 process_mode = 3
 visible = false
 layout_mode = 2
 
+[node name="MuteContainer" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -88.0
+offset_bottom = 54.0
+grow_horizontal = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Mute" type="Button" parent="MuteContainer"]
+layout_mode = 2
+toggle_mode = true
+text = "Mute"
+
+[node name="TitleMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_x2yvf")
+volume_db = -5.0
+autoplay = true
+
 [connection signal="pressed" from="MainContainer/MMContainer/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="MainContainer/MMContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="MainContainer/MMContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="toggled" from="MuteContainer/Mute" to="." method="_on_mute_toggled"]
