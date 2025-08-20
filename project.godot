@@ -19,6 +19,11 @@ config/version="0.0.1"
 run/main_scene="uid://brrmfqhktxady"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 
+[autoload]
+
+SceneChanger="*res://scenes/utils/scene_changer.tscn"
+Util="*res://scripts/utils/util.gd"
+
 [debug]
 
 gdscript/warnings/integer_division=0

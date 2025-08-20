@@ -41,19 +41,21 @@ theme_override_constants/margin_top = 80
 theme_override_constants/margin_right = 250
 theme_override_constants/margin_bottom = 80
 
-[node name="MarginContainer" type="MarginContainer" parent="MainContainer"]
+[node name="BGContainer" type="MarginContainer" parent="MainContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/margin_left = 100
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 100
 theme_override_constants/margin_bottom = 50
 
-[node name="ColorRect" type="ColorRect" parent="MainContainer/MarginContainer"]
+[node name="ColorRect" type="ColorRect" parent="MainContainer/BGContainer"]
 layout_mode = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.509804)
 
 [node name="MMContainer" type="VBoxContainer" parent="MainContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
@@ -112,21 +114,25 @@ horizontal_alignment = 1
 layout_mode = 2
 
 [node name="Start" type="Button" parent="MainContainer/MMContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Start Game"
 
 [node name="Settings" type="Button" parent="MainContainer/MMContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Settings"
 
 [node name="Quit" type="Button" parent="MainContainer/MMContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Quit"
 
 [node name="MainSettings" parent="MainContainer" instance=ExtResource("4_rjecm")]
+unique_name_in_owner = true
 process_mode = 3
 visible = false
 layout_mode = 2

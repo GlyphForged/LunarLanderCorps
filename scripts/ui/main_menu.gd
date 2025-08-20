@@ -1,21 +1,17 @@
 extends Control
 
-@onready var start: Button = $MainContainer/MMContainer/Start
-@onready var settings: Button = $MainContainer/MMContainer/Settings
-@onready var quit: Button = $MainContainer/MMContainer/Quit
-
-
 func _ready() -> void:
-	start.grab_focus()
+	%Start.grab_focus()
 	$MainContainer/MainSettings.hide()
 
 func _on_start_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/main.tscn")
+	SceneChanger.change_to(Util.GAME_SCENES.GAME)
 
 func _on_settings_pressed() -> void:
-	$MainContainer/MMContainer.hide()
-	$MainContainer/MainSettings.show()
-	$MuteContainer.hide()
+	%MMContainer.hide()
+	%MuteContainer.hide()
+	%BGContainer.hide()
+	%MainSettings.show()
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()
