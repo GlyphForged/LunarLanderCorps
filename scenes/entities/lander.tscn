@@ -108,3 +108,5 @@ shape = ExtResource("4_nro1m")
 
 [node name="Camera3D" type="Camera3D" parent="h-cam-pivot/v-cam-pivot"]
 transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 2, 4)
+
+[connection signal="body_shape_entered" from="body" to="body" method="_on_body_shape_entered"]
