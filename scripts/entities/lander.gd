@@ -94,9 +94,14 @@ func apply_tilt(input, reference_direction, offset, color):
 				color,
 				0.
 			)
+func _process(_delta: float):
+	handle_input()
+	
+	# Camera follows lander
+	h_cam_pivot.global_position = self.global_position
+	_update_fov(_delta)
 
 func _physics_process(_delta: float):
-	handle_input()
 
 	if is_thrusting:
 		var thrust_direction = self.global_transform.basis.y.normalized()
@@ -133,14 +138,6 @@ func _physics_process(_delta: float):
 				0.0
 			)
 
-	#h_cam_pivot.rotate_y(deg_to_rad(-look_input.x) * h_cam_sens * _delta * 100.0)
-	#v_cam_pivot.rotate_x(deg_to_rad(-look_input.y) * v_cam_sens * _delta * 100.0)
-	#v_cam_pivot.rotation_degrees = clamp(v_cam_pivot.rotation_degrees, Vector3(0, 0, 0), Vector3(0, 0, 0))
-
-	# Camera follows lander
-	h_cam_pivot.global_position = self.global_position
-
-	_update_fov(_delta)
 
 func handle_input():
 	# Reset every frame
