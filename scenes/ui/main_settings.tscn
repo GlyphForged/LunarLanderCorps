@@ -26,10 +26,9 @@ color = Color(0, 0, 0, 0.490196)
 
 [node name="TabContainer" type="TabContainer" parent="MarginContainer"]
 layout_mode = 2
-current_tab = 2
+current_tab = 0
 
 [node name="Audio" type="VBoxContainer" parent="MarginContainer/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -135,6 +134,7 @@ theme_override_constants/separation = 15
 
 [node name="InputMapping" type="VBoxContainer" parent="MarginContainer/TabContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
