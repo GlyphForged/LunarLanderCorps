@@ -11,6 +11,7 @@ func change_to(new_scene: Util.GAME_SCENES):
 		Util.GAME_SCENES.MENU:
 			new_scene_path = Util.MENU_PATH
 
+
 	if animation_player.is_playing():
 		animation_player.stop()
 	animation_player.play("Fade In Out")

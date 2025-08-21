@@ -16,13 +16,17 @@ config/name_localized={
 }
 config/description="A 3D Lunar Lander clone. You are a member of a group of curious sentient robots living in a system of dozens of moons orbiting a gas giant. Help deliver supplies between landing pads on the latest target of the research corps. Earn points based on your landing, upgrade your lander, and blow up in spectacular fashion when you miss the pad. Don't worry, we saved a backup of your program."
 config/version="0.0.1"
-run/main_scene="uid://brrmfqhktxady"
+run/main_scene="uid://8mak8po6ocns"
 config/features=PackedStringArray("4.4", "GL Compatibility")
+boot_splash/show_image=false
+boot_splash/fullsize=false
+boot_splash/use_filter=false
+config/icon="uid://dyx7441bk14sw"
 
 [autoload]
 
-SceneChanger="*res://scenes/utils/scene_changer.tscn"
 Util="*res://scripts/utils/util.gd"
+SceneChanger="*res://scenes/utils/scene_changer.tscn"
 
 [debug]
 

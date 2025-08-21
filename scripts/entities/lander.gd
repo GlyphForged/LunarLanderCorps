@@ -228,7 +228,7 @@ func _on_body_shape_entered(_body_rid: RID, _body: Node, _body_shape_index: int,
 	# slightly unreasonable approach; we have placed all the safe colliders in
 	# the top 4 positions in the collider list.
 	# currently, we do not need to care what we hit for this to count.
-	if local_shape_index < safe_collider_count: 
+	if local_shape_index < safe_collider_count:
 		if self.linear_velocity.y > leg_strength:
 			apply_damage(self.linear_velocity, self.rotation)
 		else:
@@ -245,7 +245,7 @@ func apply_damage(velocity: Vector3, _angle: Vector3):
 	var damage = vertical_damage + lateral_damage
 	self.current_damage += damage
 
-	
+
 
 enum CameraMode {
 	HORIZON_LOCK,
