@@ -10,12 +10,16 @@ const WINDOW_RESOLUTION_OPTIONS: Array[String] = [
 @onready var actions := InputMap.get_actions()
 
 #func _ready() -> void:
+#var input_key: InputEventKey
+#var input_action: InputEventAction
 	#for action in actions:
 		#if !action.begins_with("ui_"):
 			#var action_button = InputMap.action_get_events(action)
 			#for bttn in action_button:
 				#if bttn.get_class() = InputEventKey:
-					#
+					#input_key = bttn
+				#elif bttn.get_class() = InputEventAction:
+					#input_action = bttn
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_VISIBILITY_CHANGED:

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c5laqfbf5ll3p" path="res://scripts/ui/main_menu.gd" id="1_ussg7"]
 [ext_resource type="FontFile" uid="uid://b5rp26eyjbxji" path="res://assets/fonts/Sixtyfour/Sixtyfour-Regular-VariableFont_BLED,SCAN.ttf" id="3_m1kxf"]
-[ext_resource type="Texture2D" uid="uid://pqh7igw04hik" path="res://assets/images/ph_title.png" id="3_uhagc"]
+[ext_resource type="Texture2D" uid="uid://bqfdb2jh6myfl" path="res://assets/images/title.png" id="3_uhagc"]
 [ext_resource type="Theme" uid="uid://b0f1g2k7xxm12" path="res://assets/main.theme" id="3_x2yvf"]
 [ext_resource type="PackedScene" uid="uid://dhls1kjj4b557" path="res://scenes/ui/main_settings.tscn" id="4_rjecm"]
 [ext_resource type="AudioStream" uid="uid://d3r4vno2hclil" path="res://assets/music/llc-ditty-one.wav" id="5_x2yvf"]
@@ -19,6 +19,7 @@ script = ExtResource("1_ussg7")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = -5
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,6 +28,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_uhagc")
 expand_mode = 3
+stretch_mode = 4
 
 [node name="MainContainer" type="MarginContainer" parent="."]
 process_mode = 3
