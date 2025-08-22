@@ -27,11 +27,9 @@ func _notification(what: int) -> void:
 			%BackBtn.grab_focus()
 
 func _on_back_btn_pressed() -> void:
-	if get_parent():
-		hide()
-		%MMContainer.show()
-		%MuteContainer.show()
-		%Start.grab_focus()
+	var main_menu = get_tree().get_node("MainMenu")
+	main_menu.show()
+	# TODO: Show the rest
 
 func _on_resolution_selected(index: int) -> void:
 	match index:
