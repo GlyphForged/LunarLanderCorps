@@ -18,7 +18,7 @@ const CAM_STICK_SENS: float = 10.0
 var safe_collider_count := 4
 var velocity_cache := Vector3.ZERO
 var damage_calculated_this_frame := false
-var damage_points_of_contact := 0
+var damage_points_of_contact := 0.0
 
 # === Internal Variables ===
 var is_thrusting := false
@@ -262,10 +262,11 @@ func calculate_damage(velocity: Vector3, _angle: Vector3):
 	damage_points_of_contact = 1
 
 func apply_damage():
-	damage_calculated_this_frame = false
-	damage_points_of_contact = 0
-	current_damage += next_damage / damage_points_of_contact
-
+	if damage_calculated_this_frame:
+		damage_calculated_this_frame = false
+		current_damage += (next_damage / damage_points_of_contact)
+		damage_points_of_contact = 0.0
+		next_damage = 0.0
 
 
 
