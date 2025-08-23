@@ -14,3 +14,6 @@ addons/debug_draw_3d/libs/
 
 # Ignore tmp files
 **.tmp
+
+# Ignore weird macos shit
+.DS_Store

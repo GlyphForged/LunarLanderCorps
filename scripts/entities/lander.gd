@@ -32,6 +32,7 @@ var roll_input := 0.0
 @export var cam_zoom_step: float = 5.0
 @export var cam_zoom_smooth: float = 10.0
 @export var camera_mode := CameraMode.HORIZON_LOCK
+@export var control_mode := handle_input
 
 @onready var cam: Camera3D = (
 	get_node_or_null(camera_path) as Camera3D
@@ -94,9 +95,14 @@ func apply_tilt(input, reference_direction, offset, color):
 				color,
 				0.
 			)
+func _process(_delta: float):
+	self.control_mode.call()
+	
+	# Camera follows lander
+	h_cam_pivot.global_position = self.global_position
+	_update_fov(_delta)
 
 func _physics_process(_delta: float):
-	handle_input()
 
 	if is_thrusting:
 		var thrust_direction = self.global_transform.basis.y.normalized()
@@ -133,24 +139,39 @@ func _physics_process(_delta: float):
 				0.0
 			)
 
-	#h_cam_pivot.rotate_y(deg_to_rad(-look_input.x) * h_cam_sens * _delta * 100.0)
-	#v_cam_pivot.rotate_x(deg_to_rad(-look_input.y) * v_cam_sens * _delta * 100.0)
-	#v_cam_pivot.rotation_degrees = clamp(v_cam_pivot.rotation_degrees, Vector3(0, 0, 0), Vector3(0, 0, 0))
+func handle_mouse_mode_input():
+	if Input.is_action_just_pressed("mouse-mode-toggle"):
+		match Input.mouse_mode:
+			Input.MOUSE_MODE_VISIBLE:
+				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			Input.MOUSE_MODE_CAPTURED:
+				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			_: print(Input.mouse_mode)
 
-	# Camera follows lander
-	h_cam_pivot.global_position = self.global_position
+func handle_camera_input():
+	if Input.is_action_just_pressed("camera-mode"):
+		camera_mode = (camera_mode + 1) % 2 as CameraMode
 
-	_update_fov(_delta)
+	look_input.x = Input.get_action_strength("look-right") * CAM_STICK_SENS - Input.get_action_strength("look-left") * CAM_STICK_SENS
+	look_input.y = Input.get_action_strength("look-up") * CAM_STICK_SENS - Input.get_action_strength("look-down") * CAM_STICK_SENS
 
-func handle_input():
-	# Reset every frame
+	if Input.is_action_just_pressed("zoom-in"):
+		_apply_zoom(+1.0)
+	if Input.is_action_just_pressed("zoom-out"):
+		_apply_zoom(-1.0)
+
+func reset_input():
 	is_thrusting = false
 	rotation_input = Vector2.ZERO
 	look_input = Vector2.ZERO
 	roll_input = 0.0
 
-	if Input.is_action_just_pressed("camera-mode"):
-		camera_mode = (camera_mode + 1) % 2 as CameraMode
+func handle_input():
+	# Reset every frame
+	reset_input()
+
+	handle_mouse_mode_input()
+	handle_camera_input()
 
 	if Input.is_action_pressed("thrust"):
 		is_thrusting = true
@@ -163,27 +184,45 @@ func handle_input():
 		rotation_input.y += 1
 	if Input.is_action_pressed("pitch-down"):
 		rotation_input.y -= 1
-
 	if Input.is_action_pressed("roll-l"):
 		roll_input += 1
 	if Input.is_action_pressed("roll-r"):
 		roll_input -= 1
 
-	if Input.is_action_just_pressed("mouse-mode-toggle"):
-		match Input.mouse_mode:
-			Input.MOUSE_MODE_VISIBLE:
-				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-			Input.MOUSE_MODE_CAPTURED:
-				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			_: print(Input.mouse_mode)
+	if Input.is_action_just_pressed('input-mode-toggle'):
+		self.control_mode = handle_debug_input
+		self.gravity_scale = 0
 
-	if Input.is_action_just_pressed("zoom-in"):
-		_apply_zoom(+1.0)
-	if Input.is_action_just_pressed("zoom-out"):
-		_apply_zoom(-1.0)
+func handle_debug_input():
+	reset_input()
+	handle_mouse_mode_input()
+	handle_camera_input()
 
-	look_input.x = Input.get_action_strength("look-right") * CAM_STICK_SENS - Input.get_action_strength("look-left") * CAM_STICK_SENS
-	look_input.y = Input.get_action_strength("look-up") * CAM_STICK_SENS - Input.get_action_strength("look-down") * CAM_STICK_SENS
+	if Input.is_action_just_pressed('input-mode-toggle'):
+		self.control_mode = handle_input
+		self.gravity_scale = 1
+
+	# rather than generate yet another inputmap for a non-user-facing feature
+	# we just cheat and repurpose
+
+	# yaw is lateral strafe
+	if Input.is_action_pressed("yaw-l"):
+		position.x += 1
+	if Input.is_action_pressed("yaw-r"):
+		position.x -= 1
+	
+	# pitch is forward/backwards
+	if Input.is_action_pressed("pitch-up"):
+		position.z += 1
+	if Input.is_action_pressed("pitch-down"):
+		position.z -= 1
+
+	# roll, very counterintuitively, is up down. rightward is up
+	if Input.is_action_pressed("roll-l"):
+		position.y += 1
+	if Input.is_action_pressed("roll-r"):
+		position.y -= 1
+
 
 func _on_body_shape_entered(_body_rid: RID, _body: Node, _body_shape_index: int, local_shape_index: int) -> void:
 	# slightly unreasonable approach; we have placed all the safe colliders in
