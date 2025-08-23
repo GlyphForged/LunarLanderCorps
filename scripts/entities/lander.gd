@@ -31,7 +31,11 @@ var roll_input := 0.0
 @export var cam_fov_max: float = 115.0
 @export var cam_zoom_step: float = 5.0
 @export var cam_zoom_smooth: float = 10.0
+<<<<<<< HEAD
 @export var camera_mode := Util.CAMERA_MODE.FREE
+=======
+@export var camera_mode := CameraMode.HORIZON_LOCK
+>>>>>>> origin
 @export var control_mode := handle_input
 
 @onready var cam: Camera3D = (
