@@ -11,10 +11,14 @@ const CAM_STICK_SENS: float = 10.0
 @export var control_thrust_offset := 0.8
 
 # === Damage ===
-@export var damage_offset := 0.4
+@export var damage_offset := 0.5
+@export var next_damage := 0.0
 @export var current_damage := 0.0
-@export var leg_strength := 0.5
+@export var leg_strength := 2
 var safe_collider_count := 4
+var velocity_cache := Vector3.ZERO
+var damage_calculated_this_frame := false
+var damage_points_of_contact := 0.0
 
 # === Internal Variables ===
 var is_thrusting := false
@@ -37,7 +41,10 @@ var roll_input := 0.0
 @onready var cam: Camera3D = (
 	get_node_or_null(camera_path) as Camera3D
 	if camera_path != NodePath("")
-	else (v_cam_pivot.get_child(0) as Camera3D if v_cam_pivot.get_child_count() > 0 and v_cam_pivot.get_child(0) is Camera3D else null)
+	else (self.v_cam_pivot.get_child(0) as Camera3D 
+		  if self.v_cam_pivot.get_child_count() > 0
+			 and self.v_cam_pivot.get_child(0) is Camera3D 
+		  else null)
 )
 
 var _target_fov: float = 75.0
@@ -101,6 +108,8 @@ func _process(_delta: float):
 	# Camera follows lander
 	h_cam_pivot.global_position = self.global_position
 	_update_fov(_delta)
+	velocity_cache = linear_velocity
+	apply_damage()
 
 func _physics_process(_delta: float):
 
@@ -229,21 +238,35 @@ func _on_body_shape_entered(_body_rid: RID, _body: Node, _body_shape_index: int,
 	# the top 4 positions in the collider list.
 	# currently, we do not need to care what we hit for this to count.
 	if local_shape_index < safe_collider_count:
-		if self.linear_velocity.y > leg_strength:
-			apply_damage(self.linear_velocity, self.rotation)
+		var vertical_speed = abs(velocity_cache.y)
+		if vertical_speed > leg_strength:
+			calculate_damage(self.velocity_cache, self.rotation)
 		else:
 			return
-	apply_damage(self.linear_velocity, self.rotation)
+	calculate_damage(self.velocity_cache, self.rotation)
 
-func apply_damage(velocity: Vector3, _angle: Vector3):
+func calculate_damage(velocity: Vector3, _angle: Vector3):
+	if damage_calculated_this_frame:
+		damage_points_of_contact += 1
+		return
 	var lateral_damage: float = max(abs(velocity.z), abs(velocity.x)) - damage_offset
 	if lateral_damage < 0:
 		lateral_damage = 0
 	var vertical_damage: float
-	if ((velocity.y > 0) and (velocity.y - damage_offset > 0)):
-		vertical_damage = velocity.y - damage_offset
+	var vertical_speed = abs(velocity.y)
+	if ((vertical_speed > 0) and (vertical_speed - damage_offset > 0)):
+		vertical_damage = vertical_speed - damage_offset
 	var damage = vertical_damage + lateral_damage
-	self.current_damage += damage
+	self.next_damage += damage
+	damage_calculated_this_frame = true
+	damage_points_of_contact = 1
+
+func apply_damage():
+	if damage_calculated_this_frame:
+		damage_calculated_this_frame = false
+		current_damage += (next_damage / damage_points_of_contact)
+		damage_points_of_contact = 0.0
+		next_damage = 0.0
 
 
 
