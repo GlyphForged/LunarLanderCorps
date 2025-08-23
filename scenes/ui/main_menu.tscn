@@ -45,10 +45,6 @@ theme_override_constants/margin_bottom = 80
 [node name="BGContainer" type="MarginContainer" parent="MainContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/margin_left = 100
-theme_override_constants/margin_top = 50
-theme_override_constants/margin_right = 100
-theme_override_constants/margin_bottom = 50
 
 [node name="ColorRect" type="ColorRect" parent="MainContainer/BGContainer"]
 layout_mode = 2
@@ -141,10 +137,6 @@ anchor_right = 1.0
 offset_left = -88.0
 offset_bottom = 54.0
 grow_horizontal = 0
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
 
 [node name="Mute" type="Button" parent="MuteContainer"]
 layout_mode = 2
@@ -156,6 +148,7 @@ stream = ExtResource("5_x2yvf")
 volume_db = -5.0
 autoplay = true
 
+[connection signal="visibility_changed" from="MainContainer/MMContainer" to="." method="_on_mm_container_visibility_changed"]
 [connection signal="pressed" from="MainContainer/MMContainer/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="MainContainer/MMContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="MainContainer/MMContainer/Quit" to="." method="_on_quit_pressed"]

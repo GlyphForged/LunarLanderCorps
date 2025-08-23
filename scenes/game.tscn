@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://crn5r6ro7r2ka" path="res://scenes/terrain_gen/infinite_terrain.tscn" id="5_kvpfn"]
 [ext_resource type="PackedScene" uid="uid://cmy0pvr4ggnac" path="res://scenes/terrain_gen/chunk.tscn" id="6_dinhu"]
 [ext_resource type="PackedScene" uid="uid://bu7u4cigsr257" path="res://scenes/utils/pad_spawner.tscn" id="7_kvuet"]
-[ext_resource type="PackedScene" path="res://scenes/utils/camera_rig.tscn" id="8_gee14"]
+[ext_resource type="PackedScene" uid="uid://c050hpkcnfdea" path="res://scenes/utils/camera_rig.tscn" id="8_gee14"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_choun"]
 panorama = ExtResource("2_gee14")

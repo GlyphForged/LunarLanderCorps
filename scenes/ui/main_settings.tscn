@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://dhls1kjj4b557"]
+[gd_scene load_steps=4 format=3 uid="uid://dhls1kjj4b557"]
 
 [ext_resource type="Script" uid="uid://dpqqm1j0d76si" path="res://scripts/ui/volumelabel.gd" id="1_ohpva"]
 [ext_resource type="Script" uid="uid://ryxf7ebl0rqt" path="res://scripts/ui/main_settings.gd" id="1_xmcas"]
+[ext_resource type="PackedScene" uid="uid://dp3rgqaehb3xu" path="res://addons/maaacks_input_remapping/base/scenes/input_remapping/input_options_menu.tscn" id="3_sd0eh"]
 
 [node name="MainSettings" type="Control"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,9 +28,10 @@ color = Color(0, 0, 0, 0.490196)
 
 [node name="TabContainer" type="TabContainer" parent="MarginContainer"]
 layout_mode = 2
-current_tab = 0
+current_tab = 1
 
 [node name="Audio" type="VBoxContainer" parent="MarginContainer/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -84,7 +87,6 @@ layout_mode = 2
 theme_override_constants/separation = 15
 
 [node name="Video" type="VBoxContainer" parent="MarginContainer/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -132,17 +134,10 @@ icon_alignment = 1
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="InputMapping" type="VBoxContainer" parent="MarginContainer/TabContainer"]
-unique_name_in_owner = true
+[node name="Controls" parent="MarginContainer/TabContainer" instance=ExtResource("3_sd0eh")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
-
-[node name="InputMappingLabel" type="Label" parent="MarginContainer/TabContainer/InputMapping"]
-layout_mode = 2
-text = "Input Mapping"
-horizontal_alignment = 1
-uppercase = true
 
 [node name="Gameplay" type="VBoxContainer" parent="MarginContainer/TabContainer"]
 visible = false
