@@ -2,9 +2,6 @@ extends RigidBody3D
 
 const CAM_STICK_SENS: float = 10.0
 
-@onready var h_cam_pivot: Node3D = $"../h-cam-pivot"
-@onready var v_cam_pivot: Node3D = $"../h-cam-pivot/v-cam-pivot"
-
 # === Movement ===
 @export var thrust_str := 2.5
 @export var control_thrust_str := 0.3
@@ -24,20 +21,27 @@ var roll_input := 0.0
 
 # === Camera Config ===
 # Camera Properties
+@onready var lander: RigidBody3D = %Lander
 @export var camera_path: NodePath
+@onready var h_pivot: Node3D = %CameraRig/%HPivot
+@onready var v_pivot: Node3D = %CameraRig/%VPivot
 @export var h_cam_sens := 0.1
 @export var v_cam_sens := 0.1
 @export var cam_fov_min: float = 45.0
 @export var cam_fov_max: float = 115.0
 @export var cam_zoom_step: float = 5.0
 @export var cam_zoom_smooth: float = 10.0
+<<<<<<< HEAD
+@export var camera_mode := Util.CAMERA_MODE.FREE
+=======
 @export var camera_mode := CameraMode.HORIZON_LOCK
+>>>>>>> origin
 @export var control_mode := handle_input
 
 @onready var cam: Camera3D = (
 	get_node_or_null(camera_path) as Camera3D
 	if camera_path != NodePath("")
-	else (v_cam_pivot.get_child(0) as Camera3D if v_cam_pivot.get_child_count() > 0 and v_cam_pivot.get_child(0) is Camera3D else null)
+	else (v_pivot.get_child(0) as Camera3D if v_pivot.get_child_count() > 0 and v_pivot.get_child(0) is Camera3D else null)
 )
 
 var _target_fov: float = 75.0
@@ -62,19 +66,19 @@ func _ready():
 
 func _input(e):
 	if e is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		h_cam_pivot.rotate_y(deg_to_rad(-e.relative.x) * h_cam_sens)
-		if camera_mode == CameraMode.HORIZON_LOCK:
-			v_cam_pivot.rotation_degrees = clamp(
-				v_cam_pivot.rotation_degrees,
+		h_pivot.rotate_y(deg_to_rad(-e.relative.x) * h_cam_sens)
+		if camera_mode == Util.CAMERA_MODE.HORIZON_LOCK:
+			v_pivot.rotation_degrees = clamp(
+				v_pivot.rotation_degrees,
 				Vector3(0, 0, 0),
 				Vector3(0, 0, 0)
 			)
-		elif camera_mode == CameraMode.FREE:
-			v_cam_pivot.rotate_x(deg_to_rad(-e.relative.y) * v_cam_sens)
-			v_cam_pivot.rotation_degrees = clamp(
-				v_cam_pivot.rotation_degrees,
-				Vector3(-40, 0, 0),
-				Vector3(30, 0, 0)
+		elif camera_mode == Util.CAMERA_MODE.FREE:
+			v_pivot.rotate_x(deg_to_rad(e.relative.y) * v_cam_sens)
+			v_pivot.rotation_degrees = clamp(
+				v_pivot.rotation_degrees,
+				Vector3(-60, 0, 0),
+				Vector3(35, 0, 0)
 			)
 
 	if e is InputEventMouseButton and e.pressed:
@@ -97,9 +101,9 @@ func apply_tilt(input, reference_direction, offset, color):
 			)
 func _process(_delta: float):
 	self.control_mode.call()
-	
+
 	# Camera follows lander
-	h_cam_pivot.global_position = self.global_position
+	%CameraRig.position = lander.position
 	_update_fov(_delta)
 
 func _physics_process(_delta: float):
@@ -150,7 +154,7 @@ func handle_mouse_mode_input():
 
 func handle_camera_input():
 	if Input.is_action_just_pressed("camera-mode"):
-		camera_mode = (camera_mode + 1) % 2 as CameraMode
+		camera_mode = (camera_mode + 1) % 2 as Util.CAMERA_MODE
 
 	look_input.x = Input.get_action_strength("look-right") * CAM_STICK_SENS - Input.get_action_strength("look-left") * CAM_STICK_SENS
 	look_input.y = Input.get_action_strength("look-up") * CAM_STICK_SENS - Input.get_action_strength("look-down") * CAM_STICK_SENS
@@ -210,7 +214,7 @@ func handle_debug_input():
 		position.x += 1
 	if Input.is_action_pressed("yaw-r"):
 		position.x -= 1
-	
+
 	# pitch is forward/backwards
 	if Input.is_action_pressed("pitch-up"):
 		position.z += 1
@@ -244,10 +248,3 @@ func apply_damage(velocity: Vector3, _angle: Vector3):
 		vertical_damage = velocity.y - damage_offset
 	var damage = vertical_damage + lateral_damage
 	self.current_damage += damage
-
-
-
-enum CameraMode {
-	HORIZON_LOCK,
-	FREE
-}
