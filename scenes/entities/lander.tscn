@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=4 uid="uid://ba46gd0w27gn2"]
+[gd_scene load_steps=85 format=4 uid="uid://woljfvnriix0"]
 
 [ext_resource type="Script" uid="uid://p2kt3ir6diur" path="res://scripts/entities/lander.gd" id="1_kx23b"]
 [ext_resource type="Material" uid="uid://csacuicd5cs3y" path="res://assets/textures/lander_body.material" id="2_3ri1r"]
