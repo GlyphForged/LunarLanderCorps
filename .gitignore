@@ -2,9 +2,11 @@
 .godot/
 /android/
 
-# Ignore assets for space concerns
-assets/
+# # Ignore assets for space concerns
+# assets/
 assets.7z
+assets.tar
+
 
 # Ignore DD3D examples
 examples_dd3d/

@@ -1,17 +1,3 @@
-[remap]
-
-importer="csv_translation"
-type="Translation"
-uid="uid://i6ihop1vp2ei"
-
-[deps]
-
-files=["res://addons/maaacks_input_remapping/base/translations/menus_translations.en.translation", "res://addons/maaacks_input_remapping/base/translations/menus_translations.fr.translation"]
-
-source_file="res://addons/maaacks_input_remapping/base/translations/menus_translations.csv"
-dest_files=["res://addons/maaacks_input_remapping/base/translations/menus_translations.en.translation", "res://addons/maaacks_input_remapping/base/translations/menus_translations.fr.translation"]
-
-[params]
-
-compress=true
-delimiter=0
+version https://git-lfs.github.com/spec/v1
+oid sha256:efa220ab7dcf73d6b708616c135812bc52bffbea2b27696013fbf45e59153da7
+size 606
