@@ -7,37 +7,15 @@ const WINDOW_RESOLUTION_OPTIONS: Array[String] = [
 	"1280 x 720",
 ]
 
-@onready var actions := InputMap.get_actions()
-var key_mouse: Array
-var other: Array
-
 func _ready() -> void:
-	var input_key: InputEventKey
-	var input_action: InputEventAction
-	for action in actions:
-		if !action.begins_with("ui_"):
-			var action_button = InputMap.action_get_events(action)
-			for bttn in action_button:
-				if bttn.get_class().begins_with("InputEventKey") or bttn.get_class().begins_with("InputEventMouse"):
-					key_mouse.append(bttn)
-				else:
-					other.append(bttn)
-	print("key/mouse events ------")
-	print(key_mouse)
-	print("other events ------")
-	print(other)
+	%BackBtn.call_deferred("grab_focus")
 
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_VISIBILITY_CHANGED:
-		if is_visible():
-			%BackBtn.grab_focus()
+	var margin_container: MarginContainer = self.get_node("MarginContainer")
+	Util.set_margins(margin_container, 0.2, 0.15)
 
 func _on_back_btn_pressed() -> void:
-	if get_parent():
-		hide()
-		%MMContainer.show()
-		%MuteContainer.show()
-		%Start.grab_focus()
+	Signals.settings_closed.emit()
+	self.queue_free()
 
 func _on_resolution_selected(index: int) -> void:
 	match index:
@@ -58,7 +36,6 @@ func _on_fs_toggled(toggled_on: bool) -> void:
 
 func _on_vol_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(value))
-	print(str(AudioServer.get_bus_volume_db(0)))
 
 func _on_mute_toggled(toggled_on: bool) -> void:
 		AudioServer.set_bus_mute(0, toggled_on)

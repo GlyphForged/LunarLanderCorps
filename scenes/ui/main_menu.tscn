@@ -1,13 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://brrmfqhktxady"]
+[gd_scene load_steps=6 format=3 uid="uid://brrmfqhktxady"]
 
 [ext_resource type="Script" uid="uid://c5laqfbf5ll3p" path="res://scripts/ui/main_menu.gd" id="1_ussg7"]
 [ext_resource type="FontFile" uid="uid://b5rp26eyjbxji" path="res://assets/fonts/Sixtyfour/Sixtyfour-Regular-VariableFont_BLED,SCAN.ttf" id="3_m1kxf"]
 [ext_resource type="Texture2D" uid="uid://bqfdb2jh6myfl" path="res://assets/images/title.png" id="3_uhagc"]
 [ext_resource type="Theme" uid="uid://b0f1g2k7xxm12" path="res://assets/main.theme" id="3_x2yvf"]
-[ext_resource type="PackedScene" uid="uid://dhls1kjj4b557" path="res://scenes/ui/main_settings.tscn" id="4_rjecm"]
 [ext_resource type="AudioStream" uid="uid://d3r4vno2hclil" path="res://assets/music/llc-ditty-one.wav" id="5_x2yvf"]
 
-[node name="Main Menu" type="Control"]
+[node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -46,10 +45,6 @@ theme_override_constants/margin_bottom = 80
 [node name="BGContainer" type="MarginContainer" parent="MainContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/margin_left = 100
-theme_override_constants/margin_top = 50
-theme_override_constants/margin_right = 100
-theme_override_constants/margin_bottom = 50
 
 [node name="ColorRect" type="ColorRect" parent="MainContainer/BGContainer"]
 layout_mode = 2
@@ -133,12 +128,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Quit"
 
-[node name="MainSettings" parent="MainContainer" instance=ExtResource("4_rjecm")]
-unique_name_in_owner = true
-process_mode = 3
-visible = false
-layout_mode = 2
-
 [node name="MuteContainer" type="MarginContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
@@ -148,10 +137,6 @@ anchor_right = 1.0
 offset_left = -88.0
 offset_bottom = 54.0
 grow_horizontal = 0
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
 
 [node name="Mute" type="Button" parent="MuteContainer"]
 layout_mode = 2
@@ -163,6 +148,7 @@ stream = ExtResource("5_x2yvf")
 volume_db = -5.0
 autoplay = true
 
+[connection signal="visibility_changed" from="MainContainer/MMContainer" to="." method="_on_mm_container_visibility_changed"]
 [connection signal="pressed" from="MainContainer/MMContainer/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="MainContainer/MMContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="MainContainer/MMContainer/Quit" to="." method="_on_quit_pressed"]

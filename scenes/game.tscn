@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://da6rrxer76heh"]
+[gd_scene load_steps=12 format=3 uid="uid://da6rrxer76heh"]
 
 [ext_resource type="Script" uid="uid://cfvyywhkshju4" path="res://scripts/game.gd" id="1_u5sy4"]
 [ext_resource type="Texture2D" uid="uid://byqwuca6xvdsb" path="res://assets/HDR_rich_multi_nebulae_1.hdr" id="2_gee14"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://crn5r6ro7r2ka" path="res://scenes/terrain_gen/infinite_terrain.tscn" id="5_kvpfn"]
 [ext_resource type="PackedScene" uid="uid://cmy0pvr4ggnac" path="res://scenes/terrain_gen/chunk.tscn" id="6_dinhu"]
 [ext_resource type="PackedScene" uid="uid://bu7u4cigsr257" path="res://scenes/utils/pad_spawner.tscn" id="7_kvuet"]
+[ext_resource type="PackedScene" uid="uid://c050hpkcnfdea" path="res://scenes/utils/camera_rig.tscn" id="8_gee14"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_choun"]
 panorama = ExtResource("2_gee14")
@@ -28,20 +29,17 @@ fog_sky_affect = 0.0
 script = ExtResource("1_u5sy4")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+transform = Transform3D(0.0871558, -0.571394, 0.816035, 0, 0.819152, 0.573576, -0.996194, -0.0499905, 0.0713938, 0, 0, 0)
+light_color = Color(0.888, 0.882, 0.9, 1)
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_choun")
 
-[node name="lander" parent="." instance=ExtResource("3_0tnpc")]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 0)
-
 [node name="hud" parent="." instance=ExtResource("4_vtaks")]
 
 [node name="lander-pos" parent="hud/MarginContainer/MarginContainer2" index="0" node_paths=PackedStringArray("lander")]
-lander = NodePath("../../../../lander")
+lander = NodePath("../../../../Lander")
 
 [node name="infinite_terrain" parent="." instance=ExtResource("5_kvpfn")]
 unique_name_in_owner = true
@@ -50,6 +48,16 @@ chunk_mesh_scene = ExtResource("6_dinhu")
 [node name="pad_spawner" parent="." instance=ExtResource("7_kvuet")]
 unique_name_in_owner = true
 
-[editable path="lander"]
+[node name="Lander" parent="." instance=ExtResource("3_0tnpc")]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 0, 30, 0)
+camera_path = NodePath("../CameraRig/HPivot/VPivot/Camera3D")
+cam_fov_min = 60.0
+
+[node name="CameraRig" parent="." instance=ExtResource("8_gee14")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 0)
+
 [editable path="hud"]
 [editable path="pad_spawner"]
+[editable path="CameraRig"]

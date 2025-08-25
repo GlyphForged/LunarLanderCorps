@@ -2,7 +2,7 @@ class_name TerrainGenerator
 
 extends Node3D
 
-@onready var lander: RigidBody3D = %lander/body
+@onready var lander: RigidBody3D = %Lander
 
 const TERRAIN_HEIGHT = 15
 const CHUNK_SIZE = 100
