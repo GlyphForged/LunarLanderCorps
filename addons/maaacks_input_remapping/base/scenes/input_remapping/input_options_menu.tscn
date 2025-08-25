@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://dp3rgqaehb3xu"]
 
-[ext_resource type="Script" uid="uid://eborw7q4b07h" path="res://addons/maaacks_input_remapping/base/scenes/input_remapping/input_options_menu.gd" id="1"]
+[ext_resource type="Script" path="res://addons/maaacks_input_remapping/base/scenes/input_remapping/input_options_menu.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://qoexj4ptqt8a" path="res://addons/maaacks_input_remapping/base/scenes/input_remapping/input_icon_mapper.tscn" id="2_627ul"]
 [ext_resource type="Script" uid="uid://1nf36h0gms3q" path="res://addons/maaacks_input_remapping/base/scripts/capture_focus.gd" id="2_wft4x"]
-[ext_resource type="Script" uid="uid://custha7r0uoic" path="res://addons/maaacks_input_remapping/base/scenes/input_remapping/key_assignment_dialog.gd" id="3_wsh2h"]
+[ext_resource type="Script" path="res://addons/maaacks_input_remapping/base/scenes/input_remapping/key_assignment_dialog.gd" id="3_wsh2h"]
 [ext_resource type="PackedScene" uid="uid://bxp45814v6ydv" path="res://addons/maaacks_input_remapping/base/scenes/input_remapping/input_actions_list.tscn" id="4_lf2nw"]
 [ext_resource type="PackedScene" uid="uid://ci6wgl2ngd35n" path="res://addons/maaacks_input_remapping/base/scenes/input_remapping/input_actions_tree.tscn" id="5_b2whh"]
 
@@ -15,23 +15,22 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 8
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
 script = ExtResource("1")
 
 [node name="InputIconMapper" parent="." instance=ExtResource("2_627ul")]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 script = ExtResource("2_wft4x")
 search_depth = 5
 
 [node name="InputMappingContainer" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/InputMappingContainer"]
@@ -47,13 +46,23 @@ input_action_names = Array[StringName]([&"thrust", &"pitch-up", &"pitch-down", &
 readable_action_names = Array[String](["Thrust", "Pitch-up", "Pitch-down", "Yaw Left", "Yaw Right", "Roll Left", "Roll Right"])
 input_icon_mapper = NodePath("../../../InputIconMapper")
 action_name_map = {
-&"pitch-down": "Pitch-down",
-&"pitch-up": "Pitch-up",
+&"camera-mode": "Camera Mode",
+&"input-mode-toggle": "Toggle Input Mode",
+&"look-down": "Look Down",
+&"look-left": "Look Left",
+&"look-right": "Look Right",
+&"look-up": "Look Up",
+&"mouse-mode-toggle": "Toggle Mouse Mode",
+&"pause": "Pause",
+&"pitch-down": "Pitch Down",
+&"pitch-up": "Pitch Up",
 &"roll-l": "Roll Left",
 &"roll-r": "Roll Right",
 &"thrust": "Thrust",
 &"yaw-l": "Yaw Left",
-&"yaw-r": "Yaw Right"
+&"yaw-r": "Yaw Right",
+&"zoom-in": "Zoom In",
+&"zoom-out": "Zoom Out"
 }
 
 [node name="InputActionsTree" parent="VBoxContainer/InputMappingContainer" node_paths=PackedStringArray("input_icon_mapper") instance=ExtResource("5_b2whh")]
