@@ -41,9 +41,9 @@ var roll_input := 0.0
 @onready var cam: Camera3D = (
 	get_node_or_null(camera_path) as Camera3D
 	if camera_path != NodePath("")
-	else (self.v_cam_pivot.get_child(0) as Camera3D 
+	else (self.v_cam_pivot.get_child(0) as Camera3D
 		  if self.v_cam_pivot.get_child_count() > 0
-			 and self.v_cam_pivot.get_child(0) is Camera3D 
+			 and self.v_cam_pivot.get_child(0) is Camera3D
 		  else null)
 )
 

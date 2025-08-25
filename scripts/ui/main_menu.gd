@@ -3,6 +3,7 @@ extends Control
 const MAIN_SETTINGS = preload("res://scenes/ui/main_settings.tscn")
 
 func _ready() -> void:
+	%Mute.button_pressed = Util.settings.mute
 	Signals.settings_closed.connect(_on_settings_closed)
 	Util.set_margins($MainContainer, 0.2, 0.15)
 	%Start.grab_focus()
