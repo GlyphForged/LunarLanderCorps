@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="LanderResource" load_steps=2 format=3 uid="uid://dbgwbyy641iwg"]
+
+[ext_resource type="Script" uid="uid://brhypuagohj6p" path="res://resources/lander_res.gd" id="1_nseue"]
+
+[resource]
+script = ExtResource("1_nseue")
+current_damage = 0
+current_fuel = 0
+max_fuel = 0
+location = Vector3(0, 0, 0)
+camera_mode = 0

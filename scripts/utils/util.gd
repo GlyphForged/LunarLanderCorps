@@ -2,6 +2,7 @@ extends Node
 
 # === GLOBAL VARS ===
 var settings: UserSettings = load_settings()
+var l_res: LanderResource = load_lander_resource()
 
 # === CONSTS ===
 const GAME_PATH: String = "res://scenes/game.tscn"
@@ -52,7 +53,6 @@ func _ready() -> void:
 	var res: Vector2i = Util.RESOLUTIONS.get(
 		Util.RESOLUTIONS_INDEX[Util.settings.resolution_index]
 	)
-	print(res)
 	DisplayServer.window_set_size(res)
 
 func set_margins(node: MarginContainer, hPerc: float, vPerc: float) -> void:
@@ -66,20 +66,29 @@ func set_margins(node: MarginContainer, hPerc: float, vPerc: float) -> void:
 
 func load_settings() -> UserSettings:
 	if FileAccess.file_exists("user://user_settings.tres"):
-		var s = ResourceLoader.load("user://user_settings.tres")
-		print("Found settings file.")
-		return s
+		return ResourceLoader.load("user://user_settings.tres")
 	else:
-		var s = UserSettings.new()
-		print("No Settings file found, creating new file.")
-		return s
+		return UserSettings.new()
 
 func  save_settings() -> void:
 	var error = ResourceSaver.save(Util.settings, "user://user_settings.tres")
 	if error != OK:
-		print("Error saving settings: ", error)
+		push_error("Error saving settings: ", error)
 	else:
 		print("Settings updated successfully.")
 
 func refresh_settings() -> void:
 	settings = ResourceLoader.load("user://user_settings.tres")
+
+func load_lander_resource() -> LanderResource:
+	if FileAccess.file_exists("user://lander_res.tres"):
+		return ResourceLoader.load("user://lander_res.tres")
+	else :
+		return LanderResource.new()
+
+func save_lander_resource() -> void:
+	var err = ResourceSaver.save(Util.l_res, "user://lander_res.tres")
+	if err != OK:
+		push_error("Error saving lander resource: ", err)
+	else:
+		print("Lander Resource saved.")

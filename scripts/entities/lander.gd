@@ -10,7 +10,8 @@ const CAM_STICK_SENS: float = 10.0
 # === Damage ===
 @export var damage_offset := 0.5
 @export var next_damage := 0.0
-@export var current_damage := 0.0
+@warning_ignore("narrowing_conversion")
+@export var current_damage: int = Util.l_res.current_damage
 @export var leg_strength := 2
 var safe_collider_count := 4
 var velocity_cache := Vector3.ZERO
@@ -35,8 +36,9 @@ var roll_input := 0.0
 @export var cam_fov_max: float = 115.0
 @export var cam_zoom_step: float = 5.0
 @export var cam_zoom_smooth: float = 10.0
-@export var camera_mode := Util.CAMERA_MODE.FREE
+@export var camera_mode: Util.CAMERA_MODE = Util.l_res.camera_mode
 @export var control_mode := handle_input
+var _target_fov: float = Util.l_res.cam_fov
 
 @onready var cam: Camera3D = (
 	get_node_or_null(camera_path) as Camera3D
@@ -47,12 +49,16 @@ var roll_input := 0.0
 		  else null)
 )
 
-var _target_fov: float = 75.0
+func _ready():
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	if cam:
+		_target_fov = clamp(cam.fov, cam_fov_min, cam_fov_max)
 
 func _apply_zoom(delta_sign: float):
 	if cam == null:
 		return
 	_target_fov = clamp(_target_fov - delta_sign * cam_zoom_step, cam_fov_min, cam_fov_max)
+	Util.l_res.cam_fov = _target_fov
 
 func _update_fov(dt: float):
 	if cam == null:
@@ -61,11 +67,6 @@ func _update_fov(dt: float):
 		cam.fov = _target_fov
 	else:
 		cam.fov = lerp(cam.fov, _target_fov, clamp(dt * cam_zoom_smooth, 0.0, 1.0))
-
-func _ready():
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	if cam:
-		_target_fov = clamp(cam.fov, cam_fov_min, cam_fov_max)
 
 func _input(e):
 	if e is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -93,10 +94,11 @@ func _input(e):
 
 func apply_tilt(input, reference_direction, offset, color):
 	if input != 0:
-		var pitch_force = reference_direction * control_thrust_str * input
+		var pitch_force = reference_direction * \
+		(control_thrust_str * Util.l_res.control_mult) * input
 		self.apply_force(pitch_force, offset)
 		if DebugDraw3D:
-			DebugDraw3D.draw_line(\
+			DebugDraw3D.draw_line(
 				self.global_position + offset,
 				self.global_position + offset - pitch_force * 5,
 				color,
@@ -115,7 +117,7 @@ func _physics_process(_delta: float):
 
 	if is_thrusting:
 		var thrust_direction = self.global_transform.basis.y.normalized()
-		var thrust_force = thrust_direction * thrust_str
+		var thrust_force = thrust_direction * (thrust_str * Util.l_res.thrust_mult)
 		self.apply_central_force(thrust_force)
 		if DebugDraw3D:
 			DebugDraw3D.draw_line(
@@ -237,6 +239,7 @@ func _on_body_shape_entered(_body_rid: RID, _body: Node, _body_shape_index: int,
 	# slightly unreasonable approach; we have placed all the safe colliders in
 	# the top 4 positions in the collider list.
 	# currently, we do not need to care what we hit for this to count.
+	print(local_shape_index)
 	if local_shape_index < safe_collider_count:
 		var vertical_speed = abs(velocity_cache.y)
 		if vertical_speed > leg_strength:
@@ -264,6 +267,7 @@ func calculate_damage(velocity: Vector3, _angle: Vector3):
 func apply_damage():
 	if damage_calculated_this_frame:
 		damage_calculated_this_frame = false
+		@warning_ignore("narrowing_conversion")
 		current_damage += (next_damage / damage_points_of_contact)
 		damage_points_of_contact = 0.0
 		next_damage = 0.0
