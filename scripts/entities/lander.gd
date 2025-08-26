@@ -24,6 +24,8 @@ var rotation_input := Vector2.ZERO
 var look_input := Vector2.ZERO
 var roll_input := 0.0
 
+var thruster_firing:= false
+
 # === Camera Config ===
 # Camera Properties
 @onready var lander: RigidBody3D = %Lander
@@ -104,6 +106,18 @@ func apply_tilt(input, reference_direction, offset, color):
 				color,
 				0.
 			)
+			
+func thruster_sound(on: bool):
+	if on:
+		$AudioStreamPlayer3D.stream
+		if not $AudioStreamPlayer3D.playing:
+			$AudioStreamPlayer3D.play()
+		else:
+			pass
+	else:
+		$AudioStreamPlayer3D.stop()
+	
+
 func _process(_delta: float):
 	self.control_mode.call()
 
@@ -124,6 +138,9 @@ func _physics_process(_delta: float):
 				self.global_position,
 				self.global_position - thrust_force,
 				Color.RED, 0)
+		thruster_sound(true)
+	if not is_thrusting:
+		thruster_sound(false)
 
 	var lander_up = self.global_transform.basis.y
 	var lander_right = self.global_transform.basis.x
@@ -239,7 +256,6 @@ func _on_body_shape_entered(_body_rid: RID, _body: Node, _body_shape_index: int,
 	# slightly unreasonable approach; we have placed all the safe colliders in
 	# the top 4 positions in the collider list.
 	# currently, we do not need to care what we hit for this to count.
-	print(local_shape_index)
 	if local_shape_index < safe_collider_count:
 		var vertical_speed = abs(velocity_cache.y)
 		if vertical_speed > leg_strength:
