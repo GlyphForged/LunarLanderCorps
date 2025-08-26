@@ -5,12 +5,17 @@
 # Ignore assets for space concerns
 assets/
 assets.7z
+assets.tar
 
 # Ignore DD3D examples
 examples_dd3d/
 
 # Ignore DD3D libs
 addons/debug_draw_3d/libs/
+
+# Don't ignore addons shit, they make compiler angy
+!/addons/
+!/addons/**
 
 # Ignore tmp files
 **.tmp
