@@ -58,6 +58,8 @@ cam_fov_min = 60.0
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 0)
 
+[connection signal="body_shape_entered" from="Lander" to="Lander" method="_on_body_shape_entered"]
+
 [editable path="hud"]
 [editable path="pad_spawner"]
 [editable path="CameraRig"]
