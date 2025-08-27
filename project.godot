@@ -31,6 +31,7 @@ Signals="*res://scripts/utils/signals.gd"
 
 [debug]
 
+gdscript/warnings/unused_signal=0
 gdscript/warnings/integer_division=0
 
 [debug_draw_3d]
@@ -46,6 +47,8 @@ window/size/resizable=false
 [global_group]
 
 lander=""
+cam=""
+game_events=""
 
 [gui]
 

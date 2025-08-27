@@ -20,6 +20,8 @@ func _ready() -> void:
 		var pad = LANDING_PAD.instantiate()
 		pad.name = "landing-pad-%s" % str(pos)
 		self.add_child(pad)
+		pad.add_to_group("landing_pads")
+		pad.add_to_group("game_events")
 		var w = randf_range(MIN_WIDTH, MAX_WIDTH)
 		pad.width = w
 		var height: Array[float]

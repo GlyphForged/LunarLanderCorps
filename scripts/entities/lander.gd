@@ -173,7 +173,6 @@ func handle_debug_input():
 	if Input.is_action_pressed("roll-r"):
 		position.y -= 1
 
-
 func _on_body_shape_entered(_body_rid: RID, _body: Node, _body_shape_index: int, local_shape_index: int) -> void:
 	# slightly unreasonable approach; we have placed all the safe colliders in
 	# the top 4 positions in the collider list.
@@ -208,3 +207,28 @@ func apply_damage():
 		current_damage += (next_damage / damage_points_of_contact)
 		damage_points_of_contact = 0.0
 		next_damage = 0.0
+
+func on_save_game(lander_data:LanderData) -> void:
+	lander_data.position = self.global_position
+	lander_data.rotation = self.rotation
+	lander_data.scene_path = scene_file_path
+	lander_data.current_damage = self.current_damage
+	lander_data.leg_strength = self.leg_strength
+	lander_data.max_fuel = self.max_fuel
+	lander_data.current_fuel = self.current_fuel
+	lander_data.control_mult = self.control_mult
+	lander_data.thrust_mult = self.thrust_mult
+
+func on_load_game(saved_data: SaveData) -> void:
+	if saved_data is LanderData:
+		var lander_data = saved_data as LanderData
+		self.global_position = lander_data.position
+		self.rotation = lander_data.rotation
+		self.current_damage = lander_data.current_damage
+		self.leg_strength = lander_data.leg_strength
+		self.max_fuel = lander_data.max_fuel
+		self.current_fuel = lander_data.current_fuel
+		self.thrust_mult = lander_data.control_mult
+		self.thrust_mult = lander_data.thrust_mult
+		self.linear_velocity = Vector3.ZERO
+		self.angular_velocity = Vector3.ZERO

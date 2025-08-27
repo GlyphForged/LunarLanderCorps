@@ -28,7 +28,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	# Camera follows the lander's position
 	if is_instance_valid(lander):
-		self.position = lander.position
+		self.global_position = lander.position
 
 	_update_fov(delta)
 
@@ -83,3 +83,10 @@ func _update_fov(dt: float):
 		cam.fov = _target_fov
 	else:
 		cam.fov = lerp(cam.fov, _target_fov, clamp(dt * cam_zoom_smooth, 0.0, 1.0))
+
+func on_save_game(cam_data: SaveData) -> void:
+	cam_data.position = self.global_position
+	cam_data.scene_path = scene_file_path
+
+func on_load_game(cam_data: SaveData) -> void:
+	self.global_position = cam_data.position
