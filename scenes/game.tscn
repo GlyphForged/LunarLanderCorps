@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=3 uid="uid://da6rrxer76heh"]
 
 [ext_resource type="Script" uid="uid://cfvyywhkshju4" path="res://scripts/game.gd" id="1_u5sy4"]
-[ext_resource type="Texture2D" uid="uid://byqwuca6xvdsb" path="res://assets/HDR_rich_multi_nebulae_1.hdr" id="2_gee14"]
-[ext_resource type="PackedScene" uid="uid://woljfvnriix0" path="res://scenes/entities/lander.tscn" id="3_0tnpc"]
+[ext_resource type="Texture2D" uid="uid://by78sjo68wt2o" path="res://assets/HDR_rich_multi_nebulae_1.hdr" id="2_gee14"]
+[ext_resource type="PackedScene" uid="uid://woljfvnriix0" path="res://scenes/entities/lander_base.tscn" id="3_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://dodfiyirio50c" path="res://scenes/ui/hud.tscn" id="4_vtaks"]
 [ext_resource type="PackedScene" uid="uid://crn5r6ro7r2ka" path="res://scenes/terrain_gen/infinite_terrain.tscn" id="5_kvpfn"]
 [ext_resource type="PackedScene" uid="uid://cmy0pvr4ggnac" path="res://scenes/terrain_gen/chunk.tscn" id="6_dinhu"]
@@ -22,6 +22,7 @@ sky = SubResource("Sky_85g3d")
 tonemap_mode = 2
 fog_enabled = true
 fog_light_color = Color(0.05, 0.05, 0.05, 1)
+fog_light_energy = 0.15
 fog_density = 0.008
 fog_sky_affect = 0.0
 
