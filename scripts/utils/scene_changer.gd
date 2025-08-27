@@ -7,9 +7,9 @@ func change_to(new_scene: Util.GAME_SCENES):
 	print("Changing to ", new_scene)
 	match new_scene:
 		Util.GAME_SCENES.GAME:
-			new_scene_path = Util.GAME_PATH
+			new_scene_path = Util.GAME_ID
 		Util.GAME_SCENES.MENU:
-			new_scene_path = Util.MENU_PATH
+			new_scene_path = Util.MENU_ID
 
 
 	if animation_player.is_playing():

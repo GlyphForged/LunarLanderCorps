@@ -2,12 +2,14 @@ class_name TerrainGenerator
 
 extends Node3D
 
-@onready var lander: RigidBody3D = %Lander
+# This breaks with how we create the lander now.
+#@onready var lander: RigidBody3D = get_tree().get_first_node_in_group("lander")
+var lander: RigidBody3D
+var chunk_mesh_scene = preload(Util.CHUNK_ID)
 
 const TERRAIN_HEIGHT = 15
 const CHUNK_SIZE = 100
 @export var view_distance = 500
-@export var chunk_mesh_scene: PackedScene
 @export var render_debug := false
 var viewer_position = Vector2()
 var terrain_chunks = {}
@@ -23,27 +25,24 @@ func _ready():
 	chunksvisible = roundi(view_distance/CHUNK_SIZE)
 	if render_debug:
 		set_wireframe()
-	updateVisibleChunk()
 	# == NOISE FUCKERY ===
 	noise0.noise_type = FastNoiseLite.TYPE_CELLULAR
 	noise1.noise_type = FastNoiseLite.TYPE_VALUE_CUBIC
 
+func set_lander(new_lander: RigidBody3D) -> void:
+	lander = new_lander
 
 func set_wireframe():
 	RenderingServer.set_debug_generate_wireframes(true)
 	get_viewport().debug_draw = Viewport.DEBUG_DRAW_WIREFRAME
 
 func _process(_delta):
-	viewer_position.x = lander.global_position.x
-	viewer_position.y = lander.global_position.z
-	updateVisibleChunk()
+	if is_instance_valid(lander):
+		viewer_position.x = lander.global_position.x
+		viewer_position.y = lander.global_position.z
+		updateVisibleChunk()
 
 func updateVisibleChunk():
-	#hide chunks that were are out of view
-#	for chunk in last_visible_chunks:
-#		chunk.setChunkVisible(false)
-#	last_visible_chunks.clear()
-	#get grid position
 	var currentX = roundi(viewer_position.x/CHUNK_SIZE)
 	var currentY = roundi(viewer_position.y/CHUNK_SIZE)
 	#get all the chunks within visiblity range

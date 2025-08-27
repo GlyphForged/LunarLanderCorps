@@ -43,6 +43,10 @@ window/size/viewport_width=1366
 window/size/viewport_height=768
 window/size/resizable=false
 
+[global_group]
+
+lander=""
+
 [gui]
 
 theme/custom="uid://b0f1g2k7xxm12"

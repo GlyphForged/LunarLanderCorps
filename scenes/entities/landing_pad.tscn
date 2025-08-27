@@ -3,10 +3,11 @@
 [ext_resource type="Script" uid="uid://dd0thhjxar165" path="res://scripts/entities/landing_pad.gd" id="1_0tvj7"]
 [ext_resource type="Script" uid="uid://co6f0l015df1l" path="res://scripts/entities/pad_mesh.gd" id="1_pbuum"]
 [ext_resource type="Script" uid="uid://s8xrlkffdtlu" path="res://scripts/entities/pad_collider.gd" id="1_y2jw0"]
-[ext_resource type="Texture2D" uid="uid://dqgbgrchvfwve" path="res://assets/textures/grids/Green/texture_05.png" id="3_kgcnt"]
+[ext_resource type="Texture2D" uid="uid://cx4r1j6m3vtye" path="res://assets/textures/grids/Orange/texture_10.png" id="2_kgcnt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mt1u6"]
-albedo_texture = ExtResource("3_kgcnt")
+albedo_color = Color(0.808998, 0.808998, 0.808998, 1)
+albedo_texture = ExtResource("2_kgcnt")
 uv1_triplanar = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_y2jw0"]

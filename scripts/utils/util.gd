@@ -8,8 +8,17 @@ var def_font: FontFile = load(Util.DEF_FONT_ID)
 var dys_font: FontFile = load(Util.DYS_FONT_ID)
 
 # === CONSTS ===
-const GAME_PATH: String = "res://scenes/game.tscn"
-const MENU_PATH: String = "res://scenes/ui/main_menu.tscn"
+# UIDs
+const GAME_ID: String = "uid://da6rrxer76heh"
+const MENU_ID: String = "uid://brrmfqhktxady"
+const PAUSE_ID: String = "uid://cuo3ndngmt4yq"
+const THEME_ID: String = "uid://b0f1g2k7xxm12"
+const DEF_FONT_ID: String = "uid://sx2fcvd377a2"
+const DYS_FONT_ID: String = "uid://ga80iuf7p686"
+const LANDER_ID: String = "uid://woljfvnriix0"
+const CAM_RIG_ID: String = "uid://c050hpkcnfdea"
+const INF_TERRAIN_ID: String = "uid://crn5r6ro7r2ka"
+const CHUNK_ID: String = "uid://cmy0pvr4ggnac"
 
 const RESOLUTIONS: Dictionary = {
 	"3840 x 2160": Vector3i(3840, 2160, 24),
@@ -34,11 +43,6 @@ const RESOLUTIONS_INDEX: Dictionary = {
 	10: "3440 x 1440",
 	11: "2560 x 1080",
 }
-
-# UIDs
-const THEME_ID: String = "uid://b0f1g2k7xxm12"
-const DEF_FONT_ID: String = "uid://sx2fcvd377a2"
-const DYS_FONT_ID: String = "uid://ga80iuf7p686"
 
 # === ENUMS ===
 enum GAME_SCENES {GAME, MENU}
