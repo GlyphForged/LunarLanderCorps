@@ -7,20 +7,22 @@ const CENTER_OFFSET = 0.5
 @export var max_terrain_height := 15
 @export var chunk_lods: Array[int] = [20, 40, 80, 150, 200, 500]
 @export var LOD_distances: Array[int] = [20000, 15000, 10500, 9000, 7900, 5500]
-var resolution := 2000
+var resolution := 800
 var set_collision := false
 
 var position_coord: Vector2
 var grid_coord: Vector2
 
 func generate_terrain(
+	terrain_size,
+	terrain_height,
 	noise0: FastNoiseLite,
 	noise1: FastNoiseLite,
 	coords: Vector2,
 	init_visible: bool
 ):
 	grid_coord = coords
-	position_coord = coords * TERRAIN_SIZE
+	position_coord = coords * terrain_size
 
 	var a_mesh: ArrayMesh
 	var surftool = SurfaceTool.new()
@@ -34,15 +36,15 @@ func generate_terrain(
 				0,
 				(percent.y - CENTER_OFFSET)
 			)
-			var vertex = pt_on_mesh * TERRAIN_SIZE
+			var vertex = pt_on_mesh * terrain_size
 			var temp_y = noise0.get_noise_2d(
 				position.x + vertex.x,
 				position.z + vertex.z
-			) * max_terrain_height
+			) * terrain_height
 			temp_y *= noise1.get_noise_2d(
 				position.x + vertex.x,
 				position.z + vertex.z
-			) * max_terrain_height
+			) * terrain_height
 			vertex.y = temp_y
 			var uv := Vector2(percent.x, percent.y)
 			surftool.set_uv(uv)
@@ -77,9 +79,9 @@ func update_chunk(view_pos:Vector2,max_view_dis):
 	var _is_visible = viewer_distance <= max_view_dis
 
 #SLOW
-func should_remove(view_pos:Vector2, max_view_dis):
+func should_remove(terrain_size,view_pos:Vector2, max_view_dis):
 	var remove = false
-	var viewer_distance = view_pos.distance_to(position_coord) - (TERRAIN_SIZE * 3)
+	var viewer_distance = view_pos.distance_to(position_coord) - (terrain_size * 3)
 	if viewer_distance > max_view_dis:
 		print("Chunk removal: ", viewer_distance, "Chunk: ", grid_coord)
 		remove = true
