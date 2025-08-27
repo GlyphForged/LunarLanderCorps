@@ -3,21 +3,24 @@ extends Node
 # === GLOBAL VARS ===
 var settings: UserSettings = load_settings()
 var l_res: LanderResource = load_lander_resource()
+var project_theme: Theme = load(Util.THEME_ID)
+var def_font: FontFile = load(Util.DEF_FONT_ID)
+var dys_font: FontFile = load(Util.DYS_FONT_ID)
 
 # === CONSTS ===
 const GAME_PATH: String = "res://scenes/game.tscn"
 const MENU_PATH: String = "res://scenes/ui/main_menu.tscn"
 
 const RESOLUTIONS: Dictionary = {
-	"3840 x 2160": Vector2i(3840, 2160),
-	"3440 x 1440": Vector2i(3440, 1440),
-	"2560 x 1600": Vector2i(2560, 1600),
-	"2560 x 1440": Vector2i(2560, 1440),
-	"2560 x 1080": Vector2i(2560, 1080),
-	"1920 x 1080": Vector2i(1920, 1080),
-	"1920 x 1200": Vector2i(1920, 1200),
-	"1440 x 900" : Vector2i(1440, 900),
-	"1366 x 768" : Vector2i(1366, 768),
+	"3840 x 2160": Vector3i(3840, 2160, 24),
+	"3440 x 1440": Vector3i(3440, 1440, 24),
+	"2560 x 1600": Vector3i(2560, 1600, 24),
+	"2560 x 1440": Vector3i(2560, 1440, 24),
+	"2560 x 1080": Vector3i(2560, 1080, 24),
+	"1920 x 1080": Vector3i(1920, 1080, 20),
+	"1920 x 1200": Vector3i(1920, 1200, 20),
+	"1440 x 900" : Vector3i(1440, 900, 16),
+	"1366 x 768" : Vector3i(1366, 768, 16),
 }
 
 const RESOLUTIONS_INDEX: Dictionary = {
@@ -44,16 +47,25 @@ enum CAMERA_MODE {HORIZON_LOCK, FREE}
 # === UTIL FUNCTIONS ===
 func _ready() -> void:
 	var fs: DisplayServer.WindowMode
+	var res: Vector3i = Util.RESOLUTIONS.get(
+		Util.RESOLUTIONS_INDEX[Util.settings.resolution_index]
+	)
 	if Util.settings.fullscreen:
 		fs = DisplayServer.WindowMode.WINDOW_MODE_FULLSCREEN
 	else:
 		fs = DisplayServer.WindowMode.WINDOW_MODE_WINDOWED
 	if settings:
 		DisplayServer.window_set_mode(fs)
-	var res: Vector2i = Util.RESOLUTIONS.get(
-		Util.RESOLUTIONS_INDEX[Util.settings.resolution_index]
-	)
-	DisplayServer.window_set_size(res)
+	DisplayServer.window_set_size(Vector2i(res.x, res.y))
+	# Font Fuckery
+	if settings.dyslexic_font:
+		project_theme.default_font = dys_font
+		project_theme.default_font_size = res.z - 4
+	else:
+		project_theme.default_font = def_font
+		project_theme.default_font_size = res.z
+		settings.font_size = res.z
+
 
 func set_margins(node: MarginContainer, hPerc: float, vPerc: float) -> void:
 	var margin_container: MarginContainer = node

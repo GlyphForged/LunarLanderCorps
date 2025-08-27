@@ -28,6 +28,8 @@ func _on_quit_pressed() -> void:
 
 func _on_mute_toggled(toggled_on: bool) -> void:
 	AudioServer.set_bus_mute(0, toggled_on)
+	Util.settings.mute = toggled_on
+	Util.save_settings()
 
 func _on_mm_container_visibility_changed() -> void:
 	if is_visible_in_tree():
