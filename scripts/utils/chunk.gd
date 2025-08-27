@@ -1,13 +1,13 @@
 class_name TerrainChunk
 extends MeshInstance3D
 
-const TERRAIN_SIZE := 100
+const TERRAIN_SIZE := 10000
 const CENTER_OFFSET = 0.5
 
-@export var max_terrain_height := 5
-@export var chunk_lods: Array[int] = [2, 4, 8, 15, 20, 50]
-@export var LOD_distances: Array[int] = [2000, 1500, 1050, 900, 790, 550]
-var resolution := 20
+@export var max_terrain_height := 15
+@export var chunk_lods: Array[int] = [20, 40, 80, 150, 200, 500]
+@export var LOD_distances: Array[int] = [20000, 15000, 10500, 9000, 7900, 5500]
+var resolution := 2000
 var set_collision := false
 
 var position_coord: Vector2

@@ -5,8 +5,8 @@ extends Node3D
 @onready var lander: RigidBody3D = %Lander
 
 const TERRAIN_HEIGHT = 15
-const CHUNK_SIZE = 100
-@export var view_distance = 500
+const CHUNK_SIZE = 10000
+@export var view_distance = 10000
 @export var chunk_mesh_scene: PackedScene
 @export var render_debug := false
 var viewer_position = Vector2()
