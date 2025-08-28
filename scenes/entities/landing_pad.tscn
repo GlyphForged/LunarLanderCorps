@@ -27,3 +27,12 @@ script = ExtResource("1_pbuum")
 [node name="pad_collider" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_pbuum")
 script = ExtResource("1_y2jw0")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="area_collider" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_pbuum")
+script = ExtResource("1_y2jw0")
+
+[connection signal="body_shape_entered" from="Area3D" to="." method="_on_landing_pad_entered"]
+[connection signal="body_shape_exited" from="Area3D" to="." method="_on_landing_pad_exited"]

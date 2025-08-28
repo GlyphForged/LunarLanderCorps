@@ -50,6 +50,7 @@ lander=""
 cam=""
 game_events=""
 terrain_gen=""
+landing_pads=""
 
 [gui]
 
@@ -163,6 +164,7 @@ input-mode-toggle={
 
 [physics]
 
+3d/physics_engine="Jolt Physics"
 3d/default_gravity=1.62
 
 [rendering]

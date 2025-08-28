@@ -20,6 +20,7 @@ const CAM_RIG_ID: String = "uid://c050hpkcnfdea"
 const INF_TERRAIN_ID: String = "uid://crn5r6ro7r2ka"
 const CHUNK_ID: String = "uid://cmy0pvr4ggnac"
 const LANDING_PAD_ID: String = "uid://ci7jf3mnw58nw"
+const TARGET_VECTOR_ID: String = "uid://dctmawwy0ohw"
 
 const RESOLUTIONS: Dictionary = {
 	"3840 x 2160": Vector3i(3840, 2160, 24),
