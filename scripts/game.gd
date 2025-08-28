@@ -18,9 +18,10 @@ func _ready() -> void:
 	cam_rig.call_deferred("set_lander", lander)
 	cam_rig.add_to_group("cam")
 
-	var infinite_terrain = INF_TERRAIN.instantiate() as TerrainGenerator
-	get_node(".").add_child.call_deferred(infinite_terrain)
-	infinite_terrain.call_deferred("set_lander", lander)
+	#var infinite_terrain = INF_TERRAIN.instantiate() as TerrainGenerator
+	#infinite_terrain.name = "infinite_terrain"
+	#infinite_terrain.unique_name_in_owner = true
+	#get_node(".").add_child.call_deferred(infinite_terrain)
 
 func _process(_delta) -> void:
 	_handle_pause_input()

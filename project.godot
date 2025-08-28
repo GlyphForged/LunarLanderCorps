@@ -49,6 +49,7 @@ window/size/resizable=false
 lander=""
 cam=""
 game_events=""
+terrain_gen=""
 
 [gui]
 

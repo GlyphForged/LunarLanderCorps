@@ -24,6 +24,7 @@ func _save_game() -> void:
 	saved_game.pad_data = pad_data
 	get_tree().call_group("cam", "on_save_game", cam_data)
 	saved_game.cam_data = cam_data
+	get_tree().call_group("terrain_gen", "on_save_game")
 
 	var err = ResourceSaver.save(saved_game, "user://savegame.tres")
 	if err != OK:
@@ -37,6 +38,7 @@ func _load_game() -> void:
 		return
 
 	get_tree().call_group("game_events", "on_before_load_game")
+	get_tree().call_group("terrain_gen", "on_load_game")
 	get_tree().call_group("lander", "on_load_game", saved_game.lander_data)
 	get_tree().call_group("cam", "on_load_game", saved_game.cam_data)
 
