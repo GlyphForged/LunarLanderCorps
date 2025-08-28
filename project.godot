@@ -50,6 +50,7 @@ lander=""
 cam=""
 game_events=""
 terrain_gen=""
+landing_pads=""
 
 [gui]
 

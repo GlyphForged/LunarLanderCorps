@@ -1,5 +1,4 @@
 extends Node
-
 class_name MissionController
 
 @onready var pads = get_tree().get_nodes_in_group("landing_pads")
@@ -35,13 +34,14 @@ func _award_mission_points() -> void:
 		Signals.points_awarded.emit(self.mission_reward)
 		self.mission_reward = 0
 
-
 func _get_new_mission(signal_data: int) -> void:
 	if Time.get_ticks_msec() - mission_timer > 5000 \
 	and signal_data == self.current_target_index:
 		self.current_target_index = _select_mission_target(signal_data)
+		var target_pos = pads[self.current_target_index].global_position
 		print("New Mission Target: Landing Pad ", self.current_target_index)
-		print("Target coordinates: ", str(pads[self.current_target_index].global_position))
+		print("Target coordinates: ", target_pos)
+		Signals.target_assigned.emit(target_pos)
 		_award_mission_points()
 		self.mission_reward = _calculate_mission_reward(
 			signal_data,

@@ -46,11 +46,11 @@ func _on_landing_pad_entered(_body_rid: RID, body: Node3D, body_shape_index: int
 		if body_shape_index < 4 and abs(body.velocity_cache.y) < SAFE_LANDING_VEL:
 			print("Safe landing!")
 			print(abs(body.velocity_cache.y))
+			Signals.landed_safely.emit(self.get_index())
 		else:
 			print("Crash landing!")
 			print(abs(body.velocity_cache.y))
 		last_coll_time = Time.get_ticks_msec()
-	Signals.landed_safely.emit(self.get_index())
 
 
 func _on_landing_pad_exited(_body_rid: RID, _body: Node3D, _body_shape_index: int, _local_shape_index: int) -> void:
