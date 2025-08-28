@@ -11,12 +11,20 @@ func _process(_delta):
 		var v_vel: float = abs(vel.y)
 		var dmg: float = lander.current_damage
 
-		text = "POS: %4.2f, %4.2f\nH_SPD: %4.2f\nV_SPD: %4.2f\nDMG: %4.2f\nFPS: %2d" % [
+		text = "POS: %4.2f, %4.2f | \
+				H_SPD: %4.2f | \
+				V_SPD: %4.2f\n\
+				DMG: %4.2f | \
+				SCORE: %d | \
+				FUEL: %4.2f | \
+				FPS: %2d" % [
 			pos.x,
 			pos.z,
 			h_vel,
 			v_vel,
 			dmg,
+			lander.total_score,
+			lander.current_fuel,
 			Engine.get_frames_per_second()
 		]
 	else:

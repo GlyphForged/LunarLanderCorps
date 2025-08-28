@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://mgbbguodsl8w"]
+
+[ext_resource type="Script" uid="uid://15hu4gq1crw8" path="res://scripts/utils/mission_controller.gd" id="1_lnscn"]
+
+[node name="MissionController" type="Node"]
+script = ExtResource("1_lnscn")

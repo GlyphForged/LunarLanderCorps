@@ -2,6 +2,10 @@ extends RigidBody3D
 
 class_name Lander
 
+# === Gameplay ===
+@export var total_score := 0
+@export var current_pts := 0
+
 # === Movement ===
 var control_mode := handle_input
 var thrust_str := 2.5
@@ -20,12 +24,15 @@ var damage_points_of_contact := 0.0
 
 # === Internal Variables ===
 @export var max_fuel := 100.0
+@export var current_fuel := 100.0
 @export var control_mult := 1.0
 @export var thrust_mult := 1.0
-var current_fuel := 100.0
 var is_thrusting := false
 var rotation_input := Vector2.ZERO
 var roll_input := 0.0
+var fuel_rate := 0.01
+@export var fuel_efficiency := 1.00
+var last_pad := 0
 
 var thruster_firing:= false
 var initial_position := Vector3(0., 40., 0.)
@@ -33,6 +40,8 @@ var initial_position := Vector3(0., 40., 0.)
 func _ready():
 	set_deferred("global_position", initial_position)
 	self.control_mode = handle_input
+	Signals.points_awarded.connect(_update_score)
+	Signals.landed_safely.connect(_refuel)
 
 func apply_tilt(input, reference_direction, offset, color):
 	if input != 0:
@@ -49,7 +58,6 @@ func apply_tilt(input, reference_direction, offset, color):
 
 func thruster_sound(on: bool):
 	if on:
-		#$AudioStreamPlayer3D.stream
 		if not $AudioStreamPlayer3D.playing:
 			$AudioStreamPlayer3D.play()
 		else:
@@ -64,9 +72,14 @@ func _process(_delta: float):
 	velocity_cache = linear_velocity
 	apply_damage()
 
+	if self.current_fuel < 0.0:
+		self.current_fuel = 0.0
+		self.is_thrusting = false
+		thruster_sound(false)
+
 func _physics_process(_delta: float):
 
-	if is_thrusting:
+	if self.is_thrusting and self.current_fuel > 0.0:
 		var thrust_direction = self.global_transform.basis.y.normalized()
 		var thrust_force = thrust_direction * (thrust_str * thrust_mult)
 		self.apply_central_force(thrust_force)
@@ -75,6 +88,7 @@ func _physics_process(_delta: float):
 				self.global_position,
 				self.global_position - thrust_force,
 				Color.RED, 0)
+		self.current_fuel -= self.fuel_rate * self.fuel_efficiency
 		thruster_sound(true)
 	if not is_thrusting:
 		thruster_sound(false)
@@ -163,9 +177,9 @@ func handle_debug_input():
 
 	# pitch is forward/backwards
 	if Input.is_action_pressed("pitch-up"):
-		position.z += 1
-	if Input.is_action_pressed("pitch-down"):
 		position.z -= 1
+	if Input.is_action_pressed("pitch-down"):
+		position.z += 1
 
 	# roll, very counterintuitively, is up down. rightward is up
 	if Input.is_action_pressed("roll-l"):
@@ -207,6 +221,17 @@ func apply_damage():
 		current_damage += (next_damage / damage_points_of_contact)
 		damage_points_of_contact = 0.0
 		next_damage = 0.0
+
+func _update_score(signal_data: int) -> void:
+	self.total_score += signal_data
+	self.current_pts += signal_data
+
+func _refuel(signal_data: int) -> void:
+	print("Landed on pad: ", signal_data)
+	print("Last pad: ", self.last_pad)
+	if signal_data != self.last_pad:
+		self.current_fuel = self.max_fuel
+		self.last_pad = signal_data
 
 func on_save_game(lander_data:LanderData) -> void:
 	lander_data.position = self.global_position

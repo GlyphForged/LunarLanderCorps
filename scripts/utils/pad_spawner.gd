@@ -7,7 +7,7 @@ const MAX_WIDTH: float = 30.0
 const MIN_WIDTH: float = 15.0
 const MAX_ALT: float = 4.0
 const MIN_ALT: float = 2.0
-const RADIUS: float = 500.0
+const RADIUS: float = 250.0
 const COUNT: int = 12
 
 @onready var ground: TerrainGenerator = %infinite_terrain
