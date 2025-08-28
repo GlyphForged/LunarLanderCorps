@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b3ifquuafbwsh" path="res://scripts/ui/splash_screens.gd" id="1_0mtdx"]
 [ext_resource type="Texture2D" uid="uid://bhof4diayiea" path="res://assets/images/NoGenAI_Seal_Yellow_DropShadow.webp" id="1_t28ie"]
-[ext_resource type="Texture2D" uid="uid://58qhe0fx6q2s" path="res://assets/images/NoFox-v2-Transparent.png" id="2_0mtdx"]
+[ext_resource type="Texture2D" uid="uid://dsn2fpwqghxjf" path="res://assets/images/nebula-zero-logo.png" id="3_0mtdx"]
 
 [sub_resource type="Animation" id="Animation_0mtdx"]
 length = 0.001
@@ -126,7 +126,7 @@ theme_override_constants/margin_bottom = 125
 [node name="DevLogo" type="TextureRect" parent="DevLogoContainer"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
-texture = ExtResource("2_0mtdx")
+texture = ExtResource("3_0mtdx")
 expand_mode = 3
 stretch_mode = 5
 

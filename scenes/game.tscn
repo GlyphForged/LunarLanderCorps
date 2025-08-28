@@ -1,13 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://da6rrxer76heh"]
+[gd_scene load_steps=10 format=3 uid="uid://da6rrxer76heh"]
 
 [ext_resource type="Script" uid="uid://cfvyywhkshju4" path="res://scripts/game.gd" id="1_u5sy4"]
-[ext_resource type="Texture2D" uid="uid://by78sjo68wt2o" path="res://assets/HDR_rich_multi_nebulae_1.hdr" id="2_gee14"]
-[ext_resource type="PackedScene" uid="uid://woljfvnriix0" path="res://scenes/entities/lander_base.tscn" id="3_0tnpc"]
+[ext_resource type="Texture2D" uid="uid://byqwuca6xvdsb" path="res://assets/HDR_rich_multi_nebulae_1.hdr" id="2_gee14"]
 [ext_resource type="PackedScene" uid="uid://dodfiyirio50c" path="res://scenes/ui/hud.tscn" id="4_vtaks"]
 [ext_resource type="PackedScene" uid="uid://crn5r6ro7r2ka" path="res://scenes/terrain_gen/infinite_terrain.tscn" id="5_kvpfn"]
-[ext_resource type="PackedScene" uid="uid://cmy0pvr4ggnac" path="res://scenes/terrain_gen/chunk.tscn" id="6_dinhu"]
+[ext_resource type="PackedScene" uid="uid://cgpj7l1s3jgsj" path="res://scenes/utils/saver_loader.tscn" id="6_p57ef"]
 [ext_resource type="PackedScene" uid="uid://bu7u4cigsr257" path="res://scenes/utils/pad_spawner.tscn" id="7_kvuet"]
-[ext_resource type="PackedScene" uid="uid://c050hpkcnfdea" path="res://scenes/utils/camera_rig.tscn" id="8_gee14"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_choun"]
 panorama = ExtResource("2_gee14")
@@ -39,28 +37,17 @@ environment = SubResource("Environment_choun")
 
 [node name="hud" parent="." instance=ExtResource("4_vtaks")]
 
-[node name="lander-pos" parent="hud/MarginContainer/MarginContainer2" index="0" node_paths=PackedStringArray("lander")]
-lander = NodePath("../../../../Lander")
-
-[node name="infinite_terrain" parent="." instance=ExtResource("5_kvpfn")]
-unique_name_in_owner = true
-chunk_mesh_scene = ExtResource("6_dinhu")
+[node name="lander-pos" parent="hud/MarginContainer/MarginContainer2" index="0"]
+text = ""
 
 [node name="pad_spawner" parent="." instance=ExtResource("7_kvuet")]
 unique_name_in_owner = true
 
-[node name="Lander" parent="." instance=ExtResource("3_0tnpc")]
+[node name="SaverLoader" parent="." instance=ExtResource("6_p57ef")]
 unique_name_in_owner = true
-transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 0, 30, 0)
-camera_path = NodePath("../CameraRig/HPivot/VPivot/Camera3D")
-cam_fov_min = 60.0
 
-[node name="CameraRig" parent="." instance=ExtResource("8_gee14")]
+[node name="infinite_terrain" parent="." groups=["game_events", "terrain_gen"] instance=ExtResource("5_kvpfn")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 0)
-
-[connection signal="body_shape_entered" from="Lander" to="Lander" method="_on_body_shape_entered"]
 
 [editable path="hud"]
 [editable path="pad_spawner"]
-[editable path="CameraRig"]

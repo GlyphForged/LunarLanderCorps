@@ -78,7 +78,6 @@ func update_chunk(view_pos:Vector2,max_view_dis):
 	var viewer_distance = position_coord.distance_to(view_pos)
 	var _is_visible = viewer_distance <= max_view_dis
 
-#SLOW
 func should_remove(terrain_size,view_pos:Vector2, max_view_dis):
 	var remove = false
 	var viewer_distance = view_pos.distance_to(position_coord) - (terrain_size * 3)

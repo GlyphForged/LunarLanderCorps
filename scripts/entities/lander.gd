@@ -1,103 +1,43 @@
 extends RigidBody3D
 
-const CAM_STICK_SENS: float = 10.0
+class_name Lander
 
 # === Movement ===
-@export var thrust_str := 2.5
-@export var control_thrust_str := 0.3
-@export var control_thrust_offset := 0.8
+var control_mode := handle_input
+var thrust_str := 2.5
+var control_thrust_str := 0.3
+var control_thrust_offset := 0.8
 
 # === Damage ===
 @export var damage_offset := 0.5
-@export var next_damage := 0.0
-@warning_ignore("narrowing_conversion")
-@export var current_damage: int = Util.l_res.current_damage
-@export var leg_strength := 2
+@export var current_damage := 0.0
+@export var leg_strength := 2.0
+var next_damage := 0.0
 var safe_collider_count := 4
 var velocity_cache := Vector3.ZERO
 var damage_calculated_this_frame := false
 var damage_points_of_contact := 0.0
 
 # === Internal Variables ===
+@export var max_fuel := 100.0
+@export var control_mult := 1.0
+@export var thrust_mult := 1.0
+var current_fuel := 100.0
 var is_thrusting := false
 var rotation_input := Vector2.ZERO
-var look_input := Vector2.ZERO
 var roll_input := 0.0
 
 var thruster_firing:= false
-
-# === Camera Config ===
-# Camera Properties
-@onready var lander: RigidBody3D = %Lander
-@export var camera_path: NodePath
-@onready var h_pivot: Node3D = %CameraRig/%HPivot
-@onready var v_pivot: Node3D = %CameraRig/%VPivot
-@export var h_cam_sens := 0.1
-@export var v_cam_sens := 0.1
-@export var cam_fov_min: float = 45.0
-@export var cam_fov_max: float = 115.0
-@export var cam_zoom_step: float = 5.0
-@export var cam_zoom_smooth: float = 10.0
-@export var camera_mode: Util.CAMERA_MODE = Util.l_res.camera_mode
-@export var control_mode := handle_input
-var _target_fov: float = Util.l_res.cam_fov
-
-@onready var cam: Camera3D = (
-	get_node_or_null(camera_path) as Camera3D
-	if camera_path != NodePath("")
-	else (self.v_cam_pivot.get_child(0) as Camera3D
-		  if self.v_cam_pivot.get_child_count() > 0
-			 and self.v_cam_pivot.get_child(0) is Camera3D
-		  else null)
-)
+var initial_position := Vector3(0., 40., 0.)
 
 func _ready():
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	if cam:
-		_target_fov = clamp(cam.fov, cam_fov_min, cam_fov_max)
-
-func _apply_zoom(delta_sign: float):
-	if cam == null:
-		return
-	_target_fov = clamp(_target_fov - delta_sign * cam_zoom_step, cam_fov_min, cam_fov_max)
-	Util.l_res.cam_fov = _target_fov
-
-func _update_fov(dt: float):
-	if cam == null:
-		return
-	if cam_zoom_smooth <= 0.0:
-		cam.fov = _target_fov
-	else:
-		cam.fov = lerp(cam.fov, _target_fov, clamp(dt * cam_zoom_smooth, 0.0, 1.0))
-
-func _input(e):
-	if e is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		h_pivot.rotate_y(deg_to_rad(-e.relative.x) * h_cam_sens)
-		if camera_mode == Util.CAMERA_MODE.HORIZON_LOCK:
-			v_pivot.rotation_degrees = clamp(
-				v_pivot.rotation_degrees,
-				Vector3(0, 0, 0),
-				Vector3(0, 0, 0)
-			)
-		elif camera_mode == Util.CAMERA_MODE.FREE:
-			v_pivot.rotate_x(deg_to_rad(e.relative.y) * v_cam_sens)
-			v_pivot.rotation_degrees = clamp(
-				v_pivot.rotation_degrees,
-				Vector3(-60, 0, 0),
-				Vector3(35, 0, 0)
-			)
-
-	if e is InputEventMouseButton and e.pressed:
-		match e.button_index:
-			MOUSE_BUTTON_WHEEL_UP:
-				_apply_zoom(+1.0)
-			MOUSE_BUTTON_WHEEL_DOWN:
-				_apply_zoom(-1.0)
+	set_deferred("global_position", initial_position)
+	self.control_mode = handle_input
 
 func apply_tilt(input, reference_direction, offset, color):
 	if input != 0:
 		var pitch_force = reference_direction * \
-		(control_thrust_str * Util.l_res.control_mult) * input
+		(control_thrust_str * control_mult) * input
 		self.apply_force(pitch_force, offset)
 		if DebugDraw3D:
 			DebugDraw3D.draw_line(
@@ -106,24 +46,21 @@ func apply_tilt(input, reference_direction, offset, color):
 				color,
 				0.
 			)
-			
+
 func thruster_sound(on: bool):
 	if on:
-		$AudioStreamPlayer3D.stream
+		#$AudioStreamPlayer3D.stream
 		if not $AudioStreamPlayer3D.playing:
 			$AudioStreamPlayer3D.play()
 		else:
 			pass
 	else:
 		$AudioStreamPlayer3D.stop()
-	
+
 
 func _process(_delta: float):
 	self.control_mode.call()
 
-	# Camera follows lander
-	%CameraRig.position = lander.position
-	_update_fov(_delta)
 	velocity_cache = linear_velocity
 	apply_damage()
 
@@ -131,7 +68,7 @@ func _physics_process(_delta: float):
 
 	if is_thrusting:
 		var thrust_direction = self.global_transform.basis.y.normalized()
-		var thrust_force = thrust_direction * (thrust_str * Util.l_res.thrust_mult)
+		var thrust_force = thrust_direction * (thrust_str * thrust_mult)
 		self.apply_central_force(thrust_force)
 		if DebugDraw3D:
 			DebugDraw3D.draw_line(
@@ -176,22 +113,9 @@ func handle_mouse_mode_input():
 				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			_: print(Input.mouse_mode)
 
-func handle_camera_input():
-	if Input.is_action_just_pressed("camera-mode"):
-		camera_mode = (camera_mode + 1) % 2 as Util.CAMERA_MODE
-
-	look_input.x = Input.get_action_strength("look-right") * CAM_STICK_SENS - Input.get_action_strength("look-left") * CAM_STICK_SENS
-	look_input.y = Input.get_action_strength("look-up") * CAM_STICK_SENS - Input.get_action_strength("look-down") * CAM_STICK_SENS
-
-	if Input.is_action_just_pressed("zoom-in"):
-		_apply_zoom(+1.0)
-	if Input.is_action_just_pressed("zoom-out"):
-		_apply_zoom(-1.0)
-
 func reset_input():
 	is_thrusting = false
 	rotation_input = Vector2.ZERO
-	look_input = Vector2.ZERO
 	roll_input = 0.0
 
 func handle_input():
@@ -199,7 +123,6 @@ func handle_input():
 	reset_input()
 
 	handle_mouse_mode_input()
-	handle_camera_input()
 
 	if Input.is_action_pressed("thrust"):
 		is_thrusting = true
@@ -224,7 +147,6 @@ func handle_input():
 func handle_debug_input():
 	reset_input()
 	handle_mouse_mode_input()
-	handle_camera_input()
 
 	if Input.is_action_just_pressed('input-mode-toggle'):
 		self.control_mode = handle_input
@@ -250,7 +172,6 @@ func handle_debug_input():
 		position.y += 1
 	if Input.is_action_pressed("roll-r"):
 		position.y -= 1
-
 
 func _on_body_shape_entered(_body_rid: RID, _body: Node, _body_shape_index: int, local_shape_index: int) -> void:
 	# slightly unreasonable approach; we have placed all the safe colliders in
@@ -283,7 +204,31 @@ func calculate_damage(velocity: Vector3, _angle: Vector3):
 func apply_damage():
 	if damage_calculated_this_frame:
 		damage_calculated_this_frame = false
-		@warning_ignore("narrowing_conversion")
 		current_damage += (next_damage / damage_points_of_contact)
 		damage_points_of_contact = 0.0
 		next_damage = 0.0
+
+func on_save_game(lander_data:LanderData) -> void:
+	lander_data.position = self.global_position
+	lander_data.rotation = self.rotation
+	lander_data.scene_path = scene_file_path
+	lander_data.current_damage = self.current_damage
+	lander_data.leg_strength = self.leg_strength
+	lander_data.max_fuel = self.max_fuel
+	lander_data.current_fuel = self.current_fuel
+	lander_data.control_mult = self.control_mult
+	lander_data.thrust_mult = self.thrust_mult
+
+func on_load_game(saved_data: SaveData) -> void:
+	if saved_data is LanderData:
+		var lander_data = saved_data as LanderData
+		self.global_position = lander_data.position
+		self.rotation = lander_data.rotation
+		self.current_damage = lander_data.current_damage
+		self.leg_strength = lander_data.leg_strength
+		self.max_fuel = lander_data.max_fuel
+		self.current_fuel = lander_data.current_fuel
+		self.thrust_mult = lander_data.control_mult
+		self.thrust_mult = lander_data.thrust_mult
+		self.linear_velocity = Vector3.ZERO
+		self.angular_velocity = Vector3.ZERO

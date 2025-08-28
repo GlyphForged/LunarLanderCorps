@@ -1,6 +1,6 @@
 extends Label
 
-@export var lander: RigidBody3D
+var lander: RigidBody3D
 
 func _process(_delta):
 	if lander:
@@ -19,3 +19,5 @@ func _process(_delta):
 			dmg,
 			Engine.get_frames_per_second()
 		]
+	else:
+		lander = get_tree().get_first_node_in_group("lander")

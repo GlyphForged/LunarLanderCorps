@@ -1059,3 +1059,5 @@ stream = SubResource("AudioStreamWAV_w7tdi")
 volume_db = -10.196
 max_db = -7.882
 pitch_scale = 0.9
+
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]

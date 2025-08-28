@@ -1,6 +1,9 @@
-[gd_scene load_steps=0 format=3 uid="uid://c050hpkcnfdea"]
+[gd_scene load_steps=2 format=3 uid="uid://c050hpkcnfdea"]
+
+[ext_resource type="Script" uid="uid://dk2ysqbbfw7xy" path="res://scripts/utils/camera_rig.gd" id="1_x60kj"]
 
 [node name="CameraRig" type="Node3D"]
+script = ExtResource("1_x60kj")
 
 [node name="HPivot" type="Node3D" parent="."]
 unique_name_in_owner = true
