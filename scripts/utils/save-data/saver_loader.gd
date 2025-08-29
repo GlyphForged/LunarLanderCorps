@@ -2,7 +2,7 @@ extends Node
 class_name SaverLoader
 
 @onready var game_node = get_tree().root.get_node("Game")
-@onready var pad_spawner = get_tree().root.get_node("Game/PadSpawner")
+@onready var pad_spawner = get_tree().root.get_node("Game/pad_spawner")
 
 func _ready() -> void:
 	Signals.save_game_clicked.connect(_save_game)

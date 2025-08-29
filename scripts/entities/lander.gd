@@ -6,7 +6,7 @@ const FUEL_RATE: float = 0.01
 const THRUST_STR: float = 2.5
 const CONTROL_THRUST_STR: float = 0.3
 const CONTROL_THRUST_OFFSET := 0.8
-const POINTER_SCENE: PackedScene = preload(Util.TARGET_VECTOR_ID)
+const POINTER_SCENE: PackedScene = preload("res://scenes/ui/target_vector.tscn")
 
 # MOVEMENT #
 var control_mode := handle_input
