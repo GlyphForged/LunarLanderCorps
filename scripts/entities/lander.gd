@@ -18,6 +18,12 @@ var initial_position := Vector3(0., 40., 0.)
 
 # GAMEPLAY #
 @onready var mission_controller: MissionController = get_node("../MissionController")
+@onready var main_thruster_particles: GPUParticles3D = %MainThrusterParticles
+@onready var main_thruster_light: OmniLight3D = %MainThrusterLight
+@onready var front_control_particles: GPUParticles3D = %FrontControlParticles
+@onready var rear_control_particles: GPUParticles3D = %RearControlParticles
+@onready var left_control_particles: GPUParticles3D = %LeftControlParticles
+@onready var right_control_particles: GPUParticles3D = %RightControlParticles
 @export var total_score := 0
 @export var current_pts := 0
 @export var damage_offset := 0.5
@@ -60,7 +66,8 @@ func _process(_delta: float):
 	_apply_damage()
 	_handle_out_of_fuel()
 
-func _physics_process(_delta: float):
+func _physics_process(delta: float):
+	_update_main_light(delta)
 	_main_thrust()
 	_pitch_yaw_roll()
 
@@ -76,14 +83,11 @@ func _main_thrust() -> void:
 		var thrust_direction = self.global_transform.basis.y.normalized()
 		var thrust_force = thrust_direction * (THRUST_STR * thrust_mult)
 		self.apply_central_force(thrust_force)
-		if DebugDraw3D:
-			DebugDraw3D.draw_line(
-				self.global_position,
-				self.global_position - thrust_force,
-				Color.RED, 0)
 		self.current_fuel -= self.FUEL_RATE * self.fuel_efficiency
+		main_thruster_particles.emitting = true
 		thruster_sound(true)
 	if not is_thrusting:
+		main_thruster_particles.emitting = false
 		thruster_sound(false)
 
 func _pitch_yaw_roll() -> void:
@@ -92,37 +96,23 @@ func _pitch_yaw_roll() -> void:
 	var lander_forward = self.global_transform.basis.z
 	var control_offset = lander_up * CONTROL_THRUST_OFFSET
 	# Pitch up/down (W/S)
-	apply_tilt(rotation_input.y, lander_forward, control_offset, Color.BLUE)
-	apply_tilt(-rotation_input.y, lander_forward, -control_offset, Color.DARK_BLUE)
+	apply_tilt(rotation_input.y, lander_forward, control_offset)
+	apply_tilt(-rotation_input.y, lander_forward, -control_offset)
 
 	# Yaw left/right (A/D)
-	apply_tilt(-rotation_input.x,lander_right,control_offset, Color.GREEN)
-	apply_tilt(rotation_input.x,lander_right,-control_offset, Color.DARK_GREEN)
+	apply_tilt(-rotation_input.x,lander_right,control_offset)
+	apply_tilt(rotation_input.x,lander_right,-control_offset)
 
 	# Roll (Q/E)
 	if roll_input != 0:
 		var roll_torque = -lander_up * CONTROL_THRUST_STR * roll_input
 		self.apply_torque(roll_torque)
-		if DebugDraw3D:
-			DebugDraw3D.draw_line(
-				self.global_position,
-				self.global_position + roll_torque * 0.5,
-				Color.ORANGE,
-				0.0
-			)
 
-func apply_tilt(input, reference_direction, offset, color):
+func apply_tilt(input, reference_direction, offset):
 	if input != 0:
 		var pitch_force = reference_direction * \
 		(CONTROL_THRUST_STR * control_mult) * input
 		self.apply_force(pitch_force, offset)
-		if DebugDraw3D:
-			DebugDraw3D.draw_line(
-				self.global_position + offset,
-				self.global_position + offset - pitch_force * 5,
-				color,
-				0.
-			)
 
 func thruster_sound(on: bool):
 	if on:
@@ -166,12 +156,24 @@ func handle_input():
 
 	if Input.is_action_pressed("yaw-l"):
 		rotation_input.x += 1
+		right_control_particles.emitting = true
+	else:
+		right_control_particles.emitting = false
 	if Input.is_action_pressed("yaw-r"):
 		rotation_input.x -= 1
+		left_control_particles.emitting = true
+	else:
+		left_control_particles.emitting = false
 	if Input.is_action_pressed("pitch-up"):
 		rotation_input.y += 1
+		front_control_particles.emitting = true
+	else:
+		front_control_particles.emitting = false
 	if Input.is_action_pressed("pitch-down"):
 		rotation_input.y -= 1
+		rear_control_particles.emitting = true
+	else:
+		rear_control_particles.emitting = false
 	if Input.is_action_pressed("roll-l"):
 		roll_input += 1
 	if Input.is_action_pressed("roll-r"):
@@ -274,6 +276,23 @@ func _spawn_target_vector() -> void:
 	var pointer = POINTER_SCENE.instantiate()
 	pointer.set_mission(mission_controller)
 	self.add_child(pointer)
+
+#########################################
+#				VISUALS					#
+#########################################
+func _update_main_light(delta) -> void:
+	if self.is_thrusting:
+		main_thruster_light.light_energy = move_toward(
+			main_thruster_light.light_energy,
+			10.0,
+			delta * 20
+		)
+	else:
+		main_thruster_light.light_energy = move_toward(
+			main_thruster_light.light_energy,
+			0.0,
+			delta * 15
+		)
 
 #########################################
 #				SIGNALS					#
