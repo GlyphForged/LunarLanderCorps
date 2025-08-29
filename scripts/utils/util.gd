@@ -23,8 +23,8 @@ const MISSION_CONTROLLER_ID: String = "res://scenes/utils/mission_controller.tsc
 const SAVER_LOADER_ID: String = "res://scenes/utils/mission_controller.tscn"
 const CHUNK_ID: String = "uid://cmy0pvr4ggnac"
 const LANDING_PAD_ID: String = "uid://ci7jf3mnw58nw"
-const TARGET_VECTOR_ID: String = "uid://dctmawwy0ohw"
-const UPGRADE_POPUP_ID: String = "uid://bvkmclassjvdt"
+const TARGET_VECTOR_ID: String = "res://scenes/ui/target_vector.tscn"
+const UPGRADE_POPUP_ID: String = "res://scenes/ui/upgrade_popup.tscn"
 
 
 const RESOLUTIONS: Dictionary = {

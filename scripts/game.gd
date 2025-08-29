@@ -30,7 +30,6 @@ func rig_camera(lander):
 	added_scenes.set("cam", true)
 
 func _ready() -> void:
-	_setup_game_scene()
 	Signals.landed_on_target_pad.connect(_spawn_upgrade_popup)
 	paused = false
 
@@ -65,17 +64,6 @@ func _handle_pause_input() -> void:
 		get_tree().paused = true
 		var pause_menu = PAUSE_MENU.instantiate()
 		get_node(".").add_child(pause_menu)
-
-func _setup_game_scene() -> void:
-	self.paused = false
-	var lander = LANDER_SCENE.instantiate()
-	get_node(".").add_child.call_deferred(lander)
-	lander.add_to_group("lander")
-
-	var cam_rig = CAM_RIG.instantiate() as CameraRig
-	get_node(".").add_child.call_deferred(cam_rig)
-	cam_rig.call_deferred("set_lander", lander)
-	cam_rig.add_to_group("cam")
 
 func _spawn_upgrade_popup() -> void:
 	Util.mouse_mode_cache = Input.mouse_mode
