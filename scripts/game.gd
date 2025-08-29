@@ -31,31 +31,45 @@ func rig_camera(lander):
 
 func _ready() -> void:
 	Signals.landed_on_target_pad.connect(_spawn_upgrade_popup)
+	%DebugHud.visible = false
+	$Loading.visible = true
 	paused = false
 
 func _process(_delta) -> void:
 	if not everything_added:
-		if not added_scenes.get("inf_terrain"):
+		if not added_scenes.get("zero"):
+			added_scenes.set("zero", true)
+			update_text("reticulating splines")
+		elif not added_scenes.get("inf_terrain"):
 			add_scene(INF_TERRAIN, "inf_terrain")
+			update_text("getting heading")
 		elif not added_scenes.get("pad_spawner"):
 			add_scene(PAD_SPAWNER, "pad_spawner")
+			update_text("contacting mission control")
 		elif not added_scenes.get("mission_controller"):
 			add_scene(MISSION_CONTROLLER, "mission_controller")
+			update_text("opening pod bay doors")
 		elif not added_scenes.get("lander"):
 			lander_instance = add_scene(LANDER, "lander")
+			update_text("calibrating retroencabulator")
 		elif not added_scenes.get("cam"):
 			rig_camera(lander_instance)
+			update_text("bargaining with death")
 		elif not added_scenes.get("saver_loader"):
+			update_text("get ready")
 			add_scene(SAVER_LOADER, "saver_loader")
 		else:
 			everything_added = true
+			$Loading.visible = false
+			$Loading.queue_free()
 			self.paused = false
-		update_text()
+			%DebugHud.visible = true
+			
 	_handle_pause_input()
 
 
-func update_text():
-	pass
+func update_text(input):
+	$Loading.set_text(input)
 
 func _handle_pause_input() -> void:
 	Util.mouse_mode_cache = Input.mouse_mode
