@@ -1,10 +1,12 @@
-[gd_scene load_steps=86 format=4 uid="uid://woljfvnriix0"]
+[gd_scene load_steps=95 format=4 uid="uid://woljfvnriix0"]
 
 [ext_resource type="Script" uid="uid://p2kt3ir6diur" path="res://scripts/entities/lander.gd" id="1_kx23b"]
 [ext_resource type="Material" uid="uid://csacuicd5cs3y" path="res://assets/textures/lander_body.material" id="2_3ri1r"]
 [ext_resource type="Material" uid="uid://c5pcuiv2wjsts" path="res://assets/textures/lander_gold.material" id="3_mdgtd"]
 [ext_resource type="Material" uid="uid://d0hh0gd03xood" path="res://assets/textures/lander_silver.material" id="4_o55dv"]
 [ext_resource type="Material" uid="uid://b5tp1r70v863q" path="res://assets/textures/lander_face.material" id="5_w7tdi"]
+[ext_resource type="Material" uid="uid://bcqcar0bredfl" path="res://assets/textures/control_thrust_particle_process_material.tres" id="6_jfkhd"]
+[ext_resource type="SphereMesh" uid="uid://blbrjcb0nwv7" path="res://assets/textures/control_thrust_particle.tres" id="7_ngw27"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_te484"]
 resource_name = "Material"
@@ -863,149 +865,188 @@ loop_begin = 4400
 loop_end = 39000
 stereo = true
 
+[sub_resource type="Curve" id="Curve_nro1m"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_jfkhd"]
+curve = SubResource("Curve_nro1m")
+
+[sub_resource type="Curve" id="Curve_w7tdi"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 0.674157), 0.0, 0.881194, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_nro1m"]
+curve = SubResource("Curve_w7tdi")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jfkhd"]
+direction = Vector3(0, -1, 0)
+spread = 1.0
+initial_velocity_min = 0.8
+initial_velocity_max = 1.2
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_nro1m")
+alpha_curve = SubResource("CurveTexture_jfkhd")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ngw27"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.388235, 0.0784314, 0.494118, 0.686275)
+emission = Color(0.521551, 0.12905, 0.657579, 1)
+emission_energy_multiplier = 16.0
+emission_operator = 1
+disable_receive_shadows = true
+
+[sub_resource type="TorusMesh" id="TorusMesh_a2sio"]
+material = SubResource("StandardMaterial3D_ngw27")
+outer_radius = 0.6
+
 [node name="Lander" type="RigidBody3D"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 contact_monitor = true
 max_contacts_reported = 5
 script = ExtResource("1_kx23b")
 
-[node name="Body" type="MeshInstance3D" parent="."]
+[node name="Meshes" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="Meshes"]
 material_override = ExtResource("2_3ri1r")
 mesh = SubResource("ArrayMesh_c3ka3")
 skeleton = NodePath("")
 
-[node name="Skirt" type="MeshInstance3D" parent="."]
+[node name="Skirt" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(1.34277, 0, 0, 0, 0.312668, 0, 0, 0, 1.34277, 0, -1.06994, 0)
 material_override = ExtResource("3_mdgtd")
 mesh = SubResource("ArrayMesh_7fwdb")
 skeleton = NodePath("")
 
-[node name="LeftLeg" type="MeshInstance3D" parent="."]
+[node name="LeftLeg" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(-0.0829376, -0.530122, 0, 0.037649, -1.16782, 0, 0, 0, 0.0910829, -1.48785, -2.03057, 0)
 material_override = ExtResource("2_3ri1r")
 mesh = SubResource("ArrayMesh_2twbt")
 skeleton = NodePath("")
 
-[node name="LeftFoot" type="MeshInstance3D" parent="."]
+[node name="LeftFoot" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(-6.95966e-05, 0, 0.196407, 0, -0.121671, 0, -0.196407, 0, -6.95966e-05, -1.90546, -3.13486, 0.000754239)
 material_override = ExtResource("4_o55dv")
 mesh = SubResource("ArrayMesh_awphv")
 skeleton = NodePath("")
 
-[node name="RightEye" type="MeshInstance3D" parent="."]
+[node name="RightEye" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(0.187479, 0, 0, 0, 0.313173, 0, 0, 0, 0.187479, 0.534998, 0.286062, -1.04686)
 material_override = ExtResource("5_w7tdi")
 mesh = SubResource("ArrayMesh_dg403")
 skeleton = NodePath("")
 
-[node name="LeftEye" type="MeshInstance3D" parent="."]
+[node name="LeftEye" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(0.187479, 0, 0, 0, 0.313173, 0, 0, 0, 0.187479, -0.572731, 0.286062, -1.04686)
 material_override = ExtResource("5_w7tdi")
 mesh = SubResource("ArrayMesh_ugumj")
 skeleton = NodePath("")
 
-[node name="Hair" type="MeshInstance3D" parent="."]
+[node name="Hair" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(0.839722, 0, 0, 0, 0.839722, 0, 0, 0, 0.839722, -0.00669343, 0.452703, 0)
 material_override = ExtResource("5_w7tdi")
 mesh = SubResource("ArrayMesh_gl5fb")
 skeleton = NodePath("")
 
-[node name="RightExhaust" type="MeshInstance3D" parent="."]
+[node name="RightExhaust" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(-0.180282, 0, 0, 0, -0.264114, 0.061919, 0, -0.0965869, -0.169315, 0.53995, 0.745064, 0.806924)
 material_override = ExtResource("4_o55dv")
 mesh = SubResource("ArrayMesh_pkwap")
 skeleton = NodePath("")
 
-[node name="LeftExhaust" type="MeshInstance3D" parent="."]
+[node name="LeftExhaust" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(-0.180282, 0, 0, 0, -0.264114, 0.061919, 0, -0.0965869, -0.169315, -0.714053, 0.745064, 0.806924)
 material_override = ExtResource("4_o55dv")
 mesh = SubResource("ArrayMesh_704n1")
 skeleton = NodePath("")
 
-[node name="RightFoot" type="MeshInstance3D" parent="."]
+[node name="RightFoot" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(-0.00651684, 0, -0.196298, 0, -0.121671, 0, 0.196298, 0, -0.00651684, 1.90835, -3.13486, 0.00700277)
 material_override = ExtResource("4_o55dv")
 mesh = SubResource("ArrayMesh_r5gre")
 skeleton = NodePath("")
 
-[node name="RightLeg" type="MeshInstance3D" parent="."]
+[node name="RightLeg" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(0.0828909, 0.529824, 0.00305444, 0.037649, -1.16782, 1.69184e-10, 0.00278129, 0.0177775, -0.0910316, 1.49095, -2.03057, -0.00624824)
 material_override = ExtResource("2_3ri1r")
 mesh = SubResource("ArrayMesh_bx07v")
 skeleton = NodePath("")
 
-[node name="FrontFoot" type="MeshInstance3D" parent="."]
+[node name="FrontFoot" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(0.195822, 0, 0.0151415, 0, -0.121671, 0, -0.0151415, 0, 0.195822, -0.0353408, -3.13486, -1.90093)
 material_override = ExtResource("4_o55dv")
 mesh = SubResource("ArrayMesh_iv2du")
 skeleton = NodePath("")
 
-[node name="BackLeg" type="MeshInstance3D" parent="."]
+[node name="BackLeg" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(0.00358784, 0.0229328, 0.0909976, 0.037649, -1.16781, -4.72043e-09, 0.0828599, 0.529627, -0.0039402, -0.0563912, -2.03057, 1.48493)
 material_override = ExtResource("2_3ri1r")
 mesh = SubResource("ArrayMesh_kcbi5")
 skeleton = NodePath("")
 
-[node name="BackFoot" type="MeshInstance3D" parent="."]
+[node name="BackFoot" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(-0.19622, 0, -0.00856602, 0, -0.121671, 0, 0.00856602, 0, -0.19622, -0.0375719, -3.13486, 1.90212)
 material_override = ExtResource("4_o55dv")
 mesh = SubResource("ArrayMesh_v1kif")
 skeleton = NodePath("")
 
-[node name="FrontLeg" type="MeshInstance3D" parent="."]
+[node name="FrontLeg" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(-0.00636457, -0.0406811, -0.0908143, 0.037649, -1.16781, -4.62632e-09, -0.082693, -0.528559, 0.00698963, -0.00254168, -2.03057, -1.48461)
 material_override = ExtResource("2_3ri1r")
 mesh = SubResource("ArrayMesh_wvakq")
 skeleton = NodePath("")
 
-[node name="Thruster" type="MeshInstance3D" parent="."]
+[node name="Thruster" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(0.565715, 0, 0, 0, 0.620939, 0, 0, 0, 0.565715, -0.00669343, -1.43331, 0)
 material_override = ExtResource("4_o55dv")
 mesh = SubResource("ArrayMesh_jxwnn")
 skeleton = NodePath("")
 
-[node name="LThrustHousing" type="MeshInstance3D" parent="."]
+[node name="LThrustHousing" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(0.0213832, -0.217865, 0, 0.217865, 0.0213832, 0, 0, 0, 0.218912, -1.21304, 0.0338735, 0)
 material_override = ExtResource("3_mdgtd")
 mesh = SubResource("ArrayMesh_dfyre")
 skeleton = NodePath("")
 
-[node name="LThruster" type="MeshInstance3D" parent="."]
+[node name="LThruster" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(-0.0217118, 0.221213, 0, -0.221213, -0.0217118, 0, 0, 0, -0.222276, -1.35842, 0.0481424, 0)
 material_override = ExtResource("4_o55dv")
 mesh = SubResource("ArrayMesh_3wclr")
 skeleton = NodePath("")
 
-[node name="RThrustHousing" type="MeshInstance3D" parent="."]
+[node name="RThrustHousing" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(-0.0213754, 0.217785, -0.00592678, 0.217865, 0.0213832, 9.78584e-10, 0.000578925, -0.00589844, -0.218832, 1.19732, 0.0338735, 0.00196803)
 material_override = ExtResource("3_mdgtd")
 mesh = SubResource("ArrayMesh_037v0")
 skeleton = NodePath("")
 
-[node name="RThruster" type="MeshInstance3D" parent="."]
+[node name="RThruster" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(0.0217038, -0.221132, 0.00601785, -0.221213, -0.0217118, -2.46462e-10, -0.000587821, 0.00598907, 0.222194, 1.34265, 0.0481424, -0.00196793)
 material_override = ExtResource("4_o55dv")
 mesh = SubResource("ArrayMesh_17m4n")
 skeleton = NodePath("")
 
-[node name="BThruster" type="MeshInstance3D" parent="."]
+[node name="BThruster" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(-0.000873445, 0.00889923, 0.218729, 0.217865, 0.0213832, -4.75732e-09, -0.0213654, 0.217683, -0.00894199, 0.00676762, 0.0338735, 1.20511)
 mesh = SubResource("ArrayMesh_rquql")
 skeleton = NodePath("")
 
-[node name="FThrustHousing" type="MeshInstance3D" parent="."]
+[node name="FThrustHousing" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(0.00029468, -0.00300253, -0.218891, 0.217865, 0.0213832, -1.53308e-08, 0.0213812, -0.217844, 0.00301696, -0.0244833, 0.0338735, -1.20505)
 material_override = ExtResource("3_mdgtd")
 mesh = SubResource("ArrayMesh_hoxuj")
 skeleton = NodePath("")
 
-[node name="BThrustHousing" type="MeshInstance3D" parent="."]
+[node name="BThrustHousing" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(0.000886892, -0.00903596, -0.22209, -0.221213, -0.0217118, -2.14521e-08, 0.0216937, -0.221028, 0.00907938, 0.0127059, 0.0481424, 1.35036)
 material_override = ExtResource("4_o55dv")
 mesh = SubResource("ArrayMesh_6uujs")
 skeleton = NodePath("")
 
-[node name="FThruster" type="MeshInstance3D" parent="."]
+[node name="FThruster" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(-0.000299261, 0.00304866, 0.222255, -0.221213, -0.0217118, -3.77655e-08, -0.0217097, 0.221192, -0.00306332, -0.0264868, 0.0481424, -1.35042)
 material_override = ExtResource("4_o55dv")
 mesh = SubResource("ArrayMesh_33mgg")
@@ -1059,5 +1100,70 @@ stream = SubResource("AudioStreamWAV_w7tdi")
 volume_db = -10.196
 max_db = -7.882
 pitch_scale = 0.9
+
+[node name="MainThrusterParticles" type="GPUParticles3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 7.10543e-15, 7.10543e-15, 7.10543e-15, 1, 0, 7.10543e-15, -6.21176e-22, 1, 0, -2.00381, 0)
+cast_shadow = 0
+emitting = false
+amount = 12
+preprocess = 0.5
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_jfkhd")
+draw_pass_1 = SubResource("TorusMesh_a2sio")
+
+[node name="MainThrusterLight" type="OmniLight3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.6, 0)
+light_color = Color(0.258824, 0.0392157, 0.333333, 1)
+light_energy = 0.0
+light_indirect_energy = 10.0
+light_specular = 0.0
+shadow_enabled = true
+
+[node name="FrontControlParticles" type="GPUParticles3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 1.51808e-08, -1.32815e-09, -1.51808e-08, 0.984808, -0.173648, -1.32815e-09, 0.173648, 0.984808, -1.04907e-07, 0, -1.2)
+cast_shadow = 0
+emitting = false
+amount = 250
+lifetime = 0.03
+preprocess = 1.0
+fixed_fps = 60
+process_material = ExtResource("6_jfkhd")
+draw_pass_1 = ExtResource("7_ngw27")
+
+[node name="RearControlParticles" type="GPUParticles3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-1, -7.73023e-09, 6.2917e-08, -1.6179e-08, 0.984808, -0.173648, -6.15888e-08, -0.173648, -0.984808, 1.04907e-07, 0, 1.2)
+emitting = false
+amount = 250
+lifetime = 0.03
+preprocess = 1.0
+fixed_fps = 60
+process_material = ExtResource("6_jfkhd")
+draw_pass_1 = ExtResource("7_ngw27")
+
+[node name="LeftControlParticles" type="GPUParticles3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1.053e-07, 0.173648, 0.984808, -1.6179e-08, 0.984808, -0.173648, -1, -1.39829e-10, 1.05964e-07, -1.2, 0, 1.04907e-07)
+emitting = false
+amount = 250
+lifetime = 0.03
+preprocess = 1.0
+fixed_fps = 60
+process_material = ExtResource("6_jfkhd")
+draw_pass_1 = ExtResource("7_ngw27")
+
+[node name="RightControlParticles" type="GPUParticles3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-1.78774e-08, -0.173648, -0.984808, -1.6179e-08, 0.984808, -0.173648, 1, 1.53206e-08, -1.98696e-08, 1.2, 0, -1.04907e-07)
+emitting = false
+amount = 250
+lifetime = 0.03
+preprocess = 1.0
+fixed_fps = 60
+process_material = ExtResource("6_jfkhd")
+draw_pass_1 = ExtResource("7_ngw27")
 
 [connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
