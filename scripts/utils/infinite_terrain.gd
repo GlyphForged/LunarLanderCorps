@@ -25,15 +25,19 @@ func _ready():
 	# == NOISE FUCKERY ===
 	noise0.noise_type = FastNoiseLite.TYPE_CELLULAR
 	noise1.noise_type = FastNoiseLite.TYPE_VALUE_CUBIC
+	viewer_position.x = 0
+	viewer_position.y = 0
+	updateVisibleChunk()
 
 func set_wireframe():
 	RenderingServer.set_debug_generate_wireframes(true)
 	get_viewport().debug_draw = Viewport.DEBUG_DRAW_WIREFRAME
 
 func _process(_delta):
-	viewer_position.x = 0
-	viewer_position.y = 0
-	updateVisibleChunk()
+	# viewer_position.x = 0
+	# viewer_position.y = 0
+	# updateVisibleChunk()
+	pass
 
 func updateVisibleChunk():
 	#get grid position
@@ -52,7 +56,8 @@ func updateVisibleChunk():
 				if terrain_chunks.has(view_chunk_coord):
 					terrain_chunks[view_chunk_coord].update_chunk(viewer_position,view_distance)
 					if terrain_chunks[view_chunk_coord].update_lod(viewer_position):
-						terrain_chunks[view_chunk_coord].generate_terrain(CHUNK_SIZE, TERRAIN_HEIGHT,noise0, noise1, view_chunk_coord,true)
+						pass
+						# terrain_chunks[view_chunk_coord].generate_terrain(CHUNK_SIZE, TERRAIN_HEIGHT,noise0, noise1, view_chunk_coord,true)
 				else:
 					var chunk: TerrainChunk = chunk_mesh_scene.instantiate()
 					chunk.name = "chunk_%d_%d" % [xOffset, yOffset]
@@ -64,7 +69,7 @@ func updateVisibleChunk():
 					var pos = view_chunk_coord*CHUNK_SIZE
 					var world_position = Vector3(pos.x,0,pos.y)
 					chunk.global_position = world_position
-					chunk.generate_terrain(CHUNK_SIZE,TERRAIN_HEIGHT, noise0, noise1, view_chunk_coord,false)
+					chunk.generate_terrain(CHUNK_SIZE,TERRAIN_HEIGHT, noise0, noise1, view_chunk_coord,true)
 					terrain_chunks[view_chunk_coord] = chunk
 
 func on_save_game() -> void:
