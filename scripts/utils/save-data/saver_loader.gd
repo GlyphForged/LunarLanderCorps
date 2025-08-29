@@ -14,7 +14,8 @@ func _save_game() -> void:
 	# Start with blank data
 	var lander_data := LanderData.new()
 	var cam_data := SaveData.new()
-	var pad_data: Array[SaveData]
+	var pad_data: Array[PadData]
+	var mission_data := MissionData.new()
 
 	# Fire the signal to ask folks to save their data
 	get_tree().call_group("lander", "on_save_game", lander_data)
@@ -23,11 +24,13 @@ func _save_game() -> void:
 	saved_game.pad_data = pad_data
 	get_tree().call_group("cam", "on_save_game", cam_data)
 	saved_game.cam_data = cam_data
+	get_tree().call_group("mission_gen", "on_save_game", mission_data)
+	saved_game.mission_data = mission_data
 	get_tree().call_group("terrain_gen", "on_save_game")
 
 	var err = ResourceSaver.save(saved_game, "user://savegame.tres")
 	if err != OK:
-		print("Something went wrong: ", err)
+		push_error("Something went wrong: ", err)
 	else:
 		print("Saved game successfully.")
 
@@ -40,6 +43,7 @@ func _load_game() -> void:
 	get_tree().call_group("terrain_gen", "on_load_game")
 	get_tree().call_group("lander", "on_load_game", saved_game.lander_data)
 	get_tree().call_group("cam", "on_load_game", saved_game.cam_data)
+	get_tree().call_group("mission_gen", "on_load_game", saved_game.mission_data)
 
 	# Restore Landing Pad Data
 	for pad_data in saved_game.pad_data:

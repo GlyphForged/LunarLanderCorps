@@ -1,8 +1,7 @@
+class_name SavedGame
 extends Resource
 
-class_name SavedGame
-
 @export var lander_data: LanderData
-@export var pad_data: Array[SaveData]
+@export var pad_data: Array[PadData]
 @export var cam_data: SaveData
-#@export var chunk_data: Array[ChunkData]
+@export var mission_data: MissionData

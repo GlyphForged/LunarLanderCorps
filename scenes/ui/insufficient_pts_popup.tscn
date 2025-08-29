@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://c61j1yns5gcr4"]
+
+[node name="InsufficientPtsPopup" type="CanvasLayer"]

@@ -36,6 +36,13 @@ var damage_points_of_contact := 0.0
 var last_pad := 0
 var next_target := Node
 
+var upgrades: Dictionary = {
+	"MaxFuelUpgrade": self.max_fuel,
+	"FuelEfficiencyUpgrade": self.fuel_efficiency,
+	"MainThrustUpgrade": self.thrust_mult,
+	"ControlThrustUpgrade": self.control_mult,
+}
+
 #########################################
 #			NATIVE FUNCTIONS			#
 #########################################
@@ -234,11 +241,31 @@ func _update_score(signal_data: int) -> void:
 	self.current_pts += signal_data
 
 func _refuel(signal_data: int) -> void:
-	print("Landed on pad: ", signal_data)
-	print("Last pad: ", self.last_pad)
 	if signal_data != self.last_pad:
 		self.current_fuel = self.max_fuel
 		self.last_pad = signal_data
+
+func get_stat(upgrade_key: String) -> String:
+	var stat = self.upgrades[upgrade_key]
+	return str(stat)
+
+func apply_upgrade(upgrade_key: String, cost: int, amt: float) -> void:
+	if self.current_pts < cost:
+		return # TODO: Show insufficient pts popup and return
+	self.current_pts -= cost
+	match upgrade_key:
+		"MaxFuelUpgrade":
+			self.max_fuel += amt
+			upgrades[upgrade_key] += amt
+		"FuelEfficiencyUpgrade":
+			self.fuel_efficiency -= amt
+			upgrades[upgrade_key] += amt
+		"MainThrustUpgrade":
+			self.thrust_mult += amt
+			upgrades[upgrade_key] += amt
+		"ControlThrustUpgrade":
+			self.control_mult += amt
+			upgrades[upgrade_key] += amt
 
 #########################################
 #					HUD					#

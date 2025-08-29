@@ -51,6 +51,7 @@ cam=""
 game_events=""
 terrain_gen=""
 landing_pads=""
+mission_gen=""
 
 [gui]
 

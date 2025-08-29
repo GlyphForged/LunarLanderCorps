@@ -42,3 +42,6 @@ func _on_save_pressed() -> void:
 func _on_load_pressed() -> void:
 	Signals.load_game_clicked.emit()
 	_on_resume_pressed()
+
+func _on_upgrades_pressed() -> void:
+	Signals.landed_on_target_pad.emit()
