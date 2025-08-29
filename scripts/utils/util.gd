@@ -18,10 +18,14 @@ const DYS_FONT_ID: String = "uid://ga80iuf7p686"
 const LANDER_ID: String = "uid://woljfvnriix0"
 const CAM_RIG_ID: String = "uid://c050hpkcnfdea"
 const INF_TERRAIN_ID: String = "uid://crn5r6ro7r2ka"
+const PAD_SPAWNER_ID: String = "uid://bu7u4cigsr257"
+const MISSION_CONTROLLER_ID: String = "res://scenes/utils/mission_controller.tscn"
+const SAVER_LOADER_ID: String = "res://scenes/utils/mission_controller.tscn"
 const CHUNK_ID: String = "uid://cmy0pvr4ggnac"
 const LANDING_PAD_ID: String = "uid://ci7jf3mnw58nw"
-const TARGET_VECTOR_ID: String = "uid://dctmawwy0ohw"
-const UPGRADE_POPUP_ID: String = "uid://bvkmclassjvdt"
+const TARGET_VECTOR_ID: String = "res://scenes/ui/target_vector.tscn"
+const UPGRADE_POPUP_ID: String = "res://scenes/ui/upgrade_popup.tscn"
+
 
 const RESOLUTIONS: Dictionary = {
 	"3840 x 2160": Vector3i(3840, 2160, 24),

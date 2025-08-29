@@ -50,7 +50,6 @@ func _process(_delta):
 func updateVisibleChunk():
 	#get grid position
 	#get all the chunks within visiblity range
-	 # WorkerThreadPool.add_group_task(make_chunk_thunk, 9)
 	for i in range(0,9):
 		make_chunk_thunk(i)
 
@@ -65,6 +64,9 @@ func make_chunk(xOffset, yOffset):
 	#check if chunk was already created
 	if terrain_chunks.has(view_chunk_coord):
 		terrain_chunks[view_chunk_coord].update_chunk(viewer_position,view_distance)
+		# if terrain_chunks[view_chunk_coord].update_lod(viewer_position):
+		# 	pass
+			# terrain_chunks[view_chunk_coord].generate_terrain(CHUNK_SIZE, TERRAIN_HEIGHT,noise0, noise1, view_chunk_coord,true)
 	else:
 		var chunk: TerrainChunk = chunk_mesh_scene.instantiate()
 		chunk.name = "chunk_%d_%d" % [xOffset, yOffset]

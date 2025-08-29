@@ -6,7 +6,7 @@ const FUEL_RATE: float = 0.01
 const THRUST_STR: float = 2.5
 const CONTROL_THRUST_STR: float = 0.3
 const CONTROL_THRUST_OFFSET := 0.8
-const POINTER_SCENE: PackedScene = preload(Util.TARGET_VECTOR_ID)
+const POINTER_SCENE: PackedScene = preload("res://scenes/ui/target_vector.tscn")
 
 # MOVEMENT #
 var control_mode := handle_input
@@ -18,6 +18,12 @@ var initial_position := Vector3(0., 40., 0.)
 
 # GAMEPLAY #
 @onready var mission_controller: MissionController = get_node("../MissionController")
+@onready var main_thruster_particles: GPUParticles3D = %MainThrusterParticles
+@onready var main_thruster_light: OmniLight3D = %MainThrusterLight
+@onready var front_control_particles: GPUParticles3D = %FrontControlParticles
+@onready var rear_control_particles: GPUParticles3D = %RearControlParticles
+@onready var left_control_particles: GPUParticles3D = %LeftControlParticles
+@onready var right_control_particles: GPUParticles3D = %RightControlParticles
 @export var total_score := 0
 @export var current_pts := 0
 @export var damage_offset := 0.5
@@ -60,7 +66,8 @@ func _process(_delta: float):
 	_apply_damage()
 	_handle_out_of_fuel()
 
-func _physics_process(_delta: float):
+func _physics_process(delta: float):
+	_update_main_light(delta)
 	_main_thrust()
 	_pitch_yaw_roll()
 
@@ -77,8 +84,10 @@ func _main_thrust() -> void:
 		var thrust_force = thrust_direction * (THRUST_STR * thrust_mult)
 		self.apply_central_force(thrust_force)
 		self.current_fuel -= self.FUEL_RATE * self.fuel_efficiency
+		main_thruster_particles.emitting = true
 		thruster_sound(true)
 	if not is_thrusting:
+		main_thruster_particles.emitting = false
 		thruster_sound(false)
 
 func _pitch_yaw_roll() -> void:
@@ -114,15 +123,6 @@ func thruster_sound(on: bool):
 	else:
 		$MainThrusterSound.stop()
 
-func control_sound(on: bool):
-	if on:
-		if not $ControlThrusterSound.playing:
-			$ControlThrusterSound.play()
-		else:
-			pass
-	else:
-		$ControlThrusterSound.stop()
-
 func _handle_out_of_fuel() -> void:
 	if self.current_fuel < 0.0:
 		self.current_fuel = 0.0
@@ -157,12 +157,24 @@ func handle_input():
 
 	if Input.is_action_pressed("yaw-l"):
 		rotation_input.x += 1
+		right_control_particles.emitting = true
+	else:
+		right_control_particles.emitting = false
 	if Input.is_action_pressed("yaw-r"):
 		rotation_input.x -= 1
+		left_control_particles.emitting = true
+	else:
+		left_control_particles.emitting = false
 	if Input.is_action_pressed("pitch-up"):
 		rotation_input.y += 1
+		front_control_particles.emitting = true
+	else:
+		front_control_particles.emitting = false
 	if Input.is_action_pressed("pitch-down"):
 		rotation_input.y -= 1
+		rear_control_particles.emitting = true
+	else:
+		rear_control_particles.emitting = false
 	if Input.is_action_pressed("roll-l"):
 		roll_input += 1
 	if Input.is_action_pressed("roll-r"):
@@ -265,6 +277,23 @@ func _spawn_target_vector() -> void:
 	var pointer = POINTER_SCENE.instantiate()
 	pointer.set_mission(mission_controller)
 	self.add_child(pointer)
+
+#########################################
+#				VISUALS					#
+#########################################
+func _update_main_light(delta) -> void:
+	if self.is_thrusting:
+		main_thruster_light.light_energy = move_toward(
+			main_thruster_light.light_energy,
+			10.0,
+			delta * 20
+		)
+	else:
+		main_thruster_light.light_energy = move_toward(
+			main_thruster_light.light_energy,
+			0.0,
+			delta * 15
+		)
 
 #########################################
 #				SIGNALS					#
