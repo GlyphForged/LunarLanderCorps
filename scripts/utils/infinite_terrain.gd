@@ -12,11 +12,19 @@ var viewer_position = Vector2()
 var terrain_chunks = {}
 var chunksvisible=0
 
+var threads := 1
+
 var last_visible_chunks = []
 var noise0 := FastNoiseLite.new()
 var noise1 := FastNoiseLite.new()
 
 func _ready():
+	if OS.get_processor_count() > 3:
+		threads = (OS.get_processor_count() - 2)
+	
+
+
+
 	#set the total chunks to be visible
 	@warning_ignore("integer_division")
 	chunksvisible = roundi(view_distance/CHUNK_SIZE)
@@ -41,36 +49,35 @@ func _process(_delta):
 
 func updateVisibleChunk():
 	#get grid position
-	var currentX = roundi(viewer_position.x/CHUNK_SIZE)
-	var currentY = roundi(viewer_position.y/CHUNK_SIZE)
 	#get all the chunks within visiblity range
-	if not (currentX < -1 or \
-			currentX > 1 or \
-			currentY < -1 or \
-			currentY > 1):
-		for yOffset in range(-1,2):
-			for xOffset in range(-1,2):
-				#create a new chunk coordinate
-				var view_chunk_coord = Vector2(currentX-xOffset,currentY-yOffset)
-				#check if chunk was already created
-				if terrain_chunks.has(view_chunk_coord):
-					terrain_chunks[view_chunk_coord].update_chunk(viewer_position,view_distance)
-					if terrain_chunks[view_chunk_coord].update_lod(viewer_position):
-						pass
-						# terrain_chunks[view_chunk_coord].generate_terrain(CHUNK_SIZE, TERRAIN_HEIGHT,noise0, noise1, view_chunk_coord,true)
-				else:
-					var chunk: TerrainChunk = chunk_mesh_scene.instantiate()
-					chunk.name = "chunk_%d_%d" % [xOffset, yOffset]
-					add_child(chunk)
-					print("Added ", chunk.name)
-					#set chunk parameters
-					chunk.max_terrain_height = TERRAIN_HEIGHT
-					#set chunk world position
-					var pos = view_chunk_coord*CHUNK_SIZE
-					var world_position = Vector3(pos.x,0,pos.y)
-					chunk.global_position = world_position
-					chunk.generate_terrain(CHUNK_SIZE,TERRAIN_HEIGHT, noise0, noise1, view_chunk_coord,true)
-					terrain_chunks[view_chunk_coord] = chunk
+	 # WorkerThreadPool.add_group_task(make_chunk_thunk, 9)
+	for i in range(0,9):
+		make_chunk_thunk(i)
+
+func make_chunk_thunk(i):
+	var x = i / 3 - 1
+	var y = i % 3 - 1
+	make_chunk(x,y)
+
+func make_chunk(xOffset, yOffset):
+	#create a new chunk coordinate
+	var view_chunk_coord = Vector2(0-xOffset,0-yOffset)
+	#check if chunk was already created
+	if terrain_chunks.has(view_chunk_coord):
+		terrain_chunks[view_chunk_coord].update_chunk(viewer_position,view_distance)
+	else:
+		var chunk: TerrainChunk = chunk_mesh_scene.instantiate()
+		chunk.name = "chunk_%d_%d" % [xOffset, yOffset]
+		add_child(chunk)
+		print("Added ", chunk.name)
+		#set chunk parameters
+		chunk.max_terrain_height = TERRAIN_HEIGHT
+		#set chunk world position
+		var pos = view_chunk_coord*CHUNK_SIZE
+		var world_position = Vector3(pos.x,0,pos.y)
+		chunk.global_position = world_position
+		chunk.generate_terrain(CHUNK_SIZE,TERRAIN_HEIGHT, noise0, noise1, view_chunk_coord,true)
+		terrain_chunks[view_chunk_coord] = chunk
 
 func on_save_game() -> void:
 	DirAccess.make_dir_recursive_absolute("user://chunks")

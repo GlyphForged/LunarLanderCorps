@@ -8,7 +8,6 @@ const CENTER_OFFSET = 0.5
 @export var chunk_lods: Array[int] = [20, 40, 80, 150, 200, 500]
 @export var LOD_distances: Array[int] = [20000, 15000, 10500, 9000, 7900, 5500]
 var resolution := 800
-var set_collision := false
 
 var position_coord: Vector2
 var grid_coord: Vector2
@@ -65,8 +64,7 @@ func generate_terrain(
 	a_mesh = surftool.commit()
 	mesh = a_mesh
 
-	if set_collision:
-		create_collision()
+	create_collision()
 	setChunkVisible(init_visible)
 
 func create_collision():
@@ -102,11 +100,6 @@ func update_lod(view_pos:Vector2):
 		var dis = LOD_distances[i]
 		if viewer_distance < dis:
 			new_lod = lod
-
-	if new_lod >= chunk_lods[chunk_lods.size()-1]:
-		set_collision = true
-	else:
-		set_collision = false
 
 	if resolution != new_lod:
 		resolution = new_lod
