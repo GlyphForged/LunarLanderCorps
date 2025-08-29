@@ -1,14 +1,13 @@
-extends Control
+class_name PauseMenu
+extends CanvasLayer
 
 const MAIN_SETTINGS: PackedScene = preload("uid://dhls1kjj4b557")
-@onready var margins = self.get_node("MarginContainer")
 var lander: RigidBody3D
 
 func _ready() -> void:
 	Signals.settings_closed.connect(_on_settings_closed)
 	lander = get_tree().get_first_node_in_group("lander")
 	%Save.disabled = lander.linear_velocity.length() > .1
-	Util.set_margins(margins, 0.4, 0.3)
 
 func _process(_delta):
 	if Input.is_action_just_pressed("pause"):
@@ -43,3 +42,6 @@ func _on_save_pressed() -> void:
 func _on_load_pressed() -> void:
 	Signals.load_game_clicked.emit()
 	_on_resume_pressed()
+
+func _on_upgrades_pressed() -> void:
+	Signals.landed_on_target_pad.emit()

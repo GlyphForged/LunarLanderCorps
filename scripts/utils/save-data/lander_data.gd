@@ -1,6 +1,5 @@
-extends SaveData
-
 class_name LanderData
+extends SaveData
 
 @export var rotation: Vector3
 @export var current_damage: float
