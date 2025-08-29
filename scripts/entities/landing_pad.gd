@@ -3,7 +3,7 @@ extends StaticBody3D
 @onready var collider: CollisionShape3D = $pad_collider
 @onready var mesh: MeshInstance3D = $pad_mesh
 @onready var area_collider: CollisionShape3D = $Area3D/area_collider
-const SAFE_LANDING_VEL: float = 3.0
+const SAFE_LANDING_VEL: float = 5.0
 var last_coll_time = Time.get_ticks_msec()
 
 @export var width: float = 20.0:

@@ -40,11 +40,11 @@ var next_target := Node
 #			NATIVE FUNCTIONS			#
 #########################################
 func _ready():
+	self.initial_position = _get_initial_pos()
 	set_deferred("global_position", initial_position)
 	self.control_mode = handle_input
 	Signals.points_awarded.connect(_update_score)
 	Signals.landed_safely.connect(_refuel)
-	_set_initial_pos()
 	_spawn_target_vector()
 
 func _process(_delta: float):
@@ -60,10 +60,9 @@ func _physics_process(_delta: float):
 #########################################
 #				MOVEMENT				#
 #########################################
-func _set_initial_pos() -> void:
+func _get_initial_pos() -> Vector3:
 	var initial_pad = get_tree().get_nodes_in_group("landing_pads")[0]
-	print("Initial pad pos: ", initial_pad.global_position)
-	self.global_position = initial_pad.global_position + Vector3(0, 1, 0)
+	return initial_pad.global_position + Vector3(0., 5., 0.)
 
 func _main_thrust() -> void:
 	if self.is_thrusting and self.current_fuel > 0.0:
