@@ -77,6 +77,8 @@ func create_collision():
 func update_chunk(view_pos:Vector2,max_view_dis):
 	var viewer_distance = position_coord.distance_to(view_pos)
 	var _is_visible = viewer_distance <= max_view_dis
+	print(_is_visible)
+	return _is_visible
 
 func should_remove(terrain_size,view_pos:Vector2, max_view_dis):
 	var remove = false
