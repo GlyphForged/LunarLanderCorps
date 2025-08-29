@@ -76,11 +76,6 @@ func _main_thrust() -> void:
 		var thrust_direction = self.global_transform.basis.y.normalized()
 		var thrust_force = thrust_direction * (THRUST_STR * thrust_mult)
 		self.apply_central_force(thrust_force)
-		if DebugDraw3D:
-			DebugDraw3D.draw_line(
-				self.global_position,
-				self.global_position - thrust_force,
-				Color.RED, 0)
 		self.current_fuel -= self.FUEL_RATE * self.fuel_efficiency
 		thruster_sound(true)
 	if not is_thrusting:
@@ -92,46 +87,42 @@ func _pitch_yaw_roll() -> void:
 	var lander_forward = self.global_transform.basis.z
 	var control_offset = lander_up * CONTROL_THRUST_OFFSET
 	# Pitch up/down (W/S)
-	apply_tilt(rotation_input.y, lander_forward, control_offset, Color.BLUE)
-	apply_tilt(-rotation_input.y, lander_forward, -control_offset, Color.DARK_BLUE)
+	apply_tilt(rotation_input.y, lander_forward, control_offset)
+	apply_tilt(-rotation_input.y, lander_forward, -control_offset)
 
 	# Yaw left/right (A/D)
-	apply_tilt(-rotation_input.x,lander_right,control_offset, Color.GREEN)
-	apply_tilt(rotation_input.x,lander_right,-control_offset, Color.DARK_GREEN)
+	apply_tilt(-rotation_input.x,lander_right,control_offset)
+	apply_tilt(rotation_input.x,lander_right,-control_offset)
 
 	# Roll (Q/E)
 	if roll_input != 0:
 		var roll_torque = -lander_up * CONTROL_THRUST_STR * roll_input
 		self.apply_torque(roll_torque)
-		if DebugDraw3D:
-			DebugDraw3D.draw_line(
-				self.global_position,
-				self.global_position + roll_torque * 0.5,
-				Color.ORANGE,
-				0.0
-			)
 
-func apply_tilt(input, reference_direction, offset, color):
+func apply_tilt(input, reference_direction, offset):
 	if input != 0:
 		var pitch_force = reference_direction * \
 		(CONTROL_THRUST_STR * control_mult) * input
 		self.apply_force(pitch_force, offset)
-		if DebugDraw3D:
-			DebugDraw3D.draw_line(
-				self.global_position + offset,
-				self.global_position + offset - pitch_force * 5,
-				color,
-				0.
-			)
 
 func thruster_sound(on: bool):
 	if on:
-		if not $AudioStreamPlayer3D.playing:
-			$AudioStreamPlayer3D.play()
+		if not $MainThrusterSound.playing:
+			$MainThrusterSound.play()
 		else:
 			pass
 	else:
-		$AudioStreamPlayer3D.stop()
+		$MainThrusterSound.stop()
+
+func control_sound(on: bool):
+	if on:
+		if not $ControlThrusterSound.playing:
+			$ControlThrusterSound.play()
+		else:
+			pass
+	else:
+		$ControlThrusterSound.stop()
+
 func _handle_out_of_fuel() -> void:
 	if self.current_fuel < 0.0:
 		self.current_fuel = 0.0

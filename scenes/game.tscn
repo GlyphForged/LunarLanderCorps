@@ -51,4 +51,8 @@ unique_name_in_owner = true
 [node name="MissionController" parent="." groups=["mission_gen"] instance=ExtResource("7_u5sy4")]
 unique_name_in_owner = true
 
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+bus = &"Music"
+
 [editable path="PadSpawner"]
