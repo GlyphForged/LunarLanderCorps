@@ -1,0 +1,130 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvkmclassjvdt"]
+
+[ext_resource type="Script" uid="uid://ugk6ffxalvht" path="res://scripts/ui/upgrade_popup.gd" id="1_3tknc"]
+[ext_resource type="Theme" uid="uid://b0f1g2k7xxm12" path="res://assets/main.theme" id="2_auomr"]
+
+[node name="UpgradePopup" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_3tknc")
+
+[node name="MarginContainer" type="PanelContainer" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -197.5
+offset_top = -140.0
+offset_right = 237.5
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_auomr")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="UpgradeList" type="VBoxContainer" parent="MarginContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/MarginContainer/UpgradeList"]
+layout_mode = 2
+text = "PURCHASE UPGRADES"
+horizontal_alignment = 1
+
+[node name="HSeparator0" type="HSeparator" parent="MarginContainer/MarginContainer/UpgradeList"]
+layout_mode = 2
+
+[node name="MaxFuelUpgrade" type="HBoxContainer" parent="MarginContainer/MarginContainer/UpgradeList"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="UpgradeNameCost" type="Label" parent="MarginContainer/MarginContainer/UpgradeList/MaxFuelUpgrade"]
+layout_mode = 2
+text = "UpgradeName(Cost)"
+
+[node name="Purchase" type="Button" parent="MarginContainer/MarginContainer/UpgradeList/MaxFuelUpgrade"]
+layout_mode = 2
+text = "Purchase"
+
+[node name="CurrentStat" type="Label" parent="MarginContainer/MarginContainer/UpgradeList/MaxFuelUpgrade"]
+layout_mode = 2
+text = "CURRENT_STAT"
+
+[node name="HSeparator1" type="HSeparator" parent="MarginContainer/MarginContainer/UpgradeList"]
+layout_mode = 2
+
+[node name="FuelEfficiencyUpgrade" type="HBoxContainer" parent="MarginContainer/MarginContainer/UpgradeList"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="UpgradeNameCost" type="Label" parent="MarginContainer/MarginContainer/UpgradeList/FuelEfficiencyUpgrade"]
+layout_mode = 2
+text = "UpgradeName(Cost)"
+
+[node name="Purchase" type="Button" parent="MarginContainer/MarginContainer/UpgradeList/FuelEfficiencyUpgrade"]
+layout_mode = 2
+text = "Purchase"
+
+[node name="CurrentStat" type="Label" parent="MarginContainer/MarginContainer/UpgradeList/FuelEfficiencyUpgrade"]
+layout_mode = 2
+text = "CURRENT_STAT"
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/MarginContainer/UpgradeList"]
+layout_mode = 2
+
+[node name="MainThrustUpgrade" type="HBoxContainer" parent="MarginContainer/MarginContainer/UpgradeList"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="UpgradeNameCost" type="Label" parent="MarginContainer/MarginContainer/UpgradeList/MainThrustUpgrade"]
+layout_mode = 2
+text = "UpgradeName(Cost)"
+
+[node name="Purchase" type="Button" parent="MarginContainer/MarginContainer/UpgradeList/MainThrustUpgrade"]
+layout_mode = 2
+text = "Purchase"
+
+[node name="CurrentStat" type="Label" parent="MarginContainer/MarginContainer/UpgradeList/MainThrustUpgrade"]
+layout_mode = 2
+text = "CURRENT_STAT"
+
+[node name="HSeparator3" type="HSeparator" parent="MarginContainer/MarginContainer/UpgradeList"]
+layout_mode = 2
+
+[node name="ControlThrustUpgrade" type="HBoxContainer" parent="MarginContainer/MarginContainer/UpgradeList"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="UpgradeNameCost" type="Label" parent="MarginContainer/MarginContainer/UpgradeList/ControlThrustUpgrade"]
+layout_mode = 2
+text = "UpgradeName(Cost)"
+
+[node name="Purchase" type="Button" parent="MarginContainer/MarginContainer/UpgradeList/ControlThrustUpgrade"]
+layout_mode = 2
+text = "Purchase"
+
+[node name="CurrentStat" type="Label" parent="MarginContainer/MarginContainer/UpgradeList/ControlThrustUpgrade"]
+layout_mode = 2
+text = "CURRENT_STAT"
+
+[node name="HSeparator4" type="HSeparator" parent="MarginContainer/MarginContainer/UpgradeList"]
+layout_mode = 2
+
+[node name="Exit" type="Button" parent="MarginContainer/MarginContainer/UpgradeList"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+text = "Exit"

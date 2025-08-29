@@ -39,6 +39,9 @@ environment = SubResource("Environment_choun")
 [node name="DebugHud" parent="." instance=ExtResource("4_vtaks")]
 unique_name_in_owner = true
 
+[node name="InfiniteTerrain" parent="." groups=["game_events", "terrain_gen"] instance=ExtResource("5_kvpfn")]
+unique_name_in_owner = true
+
 [node name="PadSpawner" parent="." instance=ExtResource("7_kvuet")]
 unique_name_in_owner = true
 
@@ -46,9 +49,6 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 
 [node name="MissionController" parent="." instance=ExtResource("7_u5sy4")]
-unique_name_in_owner = true
-
-[node name="InfiniteTerrain" parent="." groups=["game_events", "terrain_gen"] instance=ExtResource("5_kvpfn")]
 unique_name_in_owner = true
 
 [editable path="PadSpawner"]
