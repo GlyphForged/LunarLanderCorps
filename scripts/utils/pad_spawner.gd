@@ -10,11 +10,13 @@ const MIN_ALT: float = 2.0
 const RADIUS: float = 250.0
 const COUNT: int = 12
 
-@onready var ground: TerrainGenerator = %InfiniteTerrain
+var ground: TerrainGenerator = null
 
 func _ready() -> void:
+	ground = get_parent().get_child(4)
 	var sampler = PoissonSampler.new()
 	var positions = sampler.generate_poisson_pts(RADIUS, COUNT)
+	# send loadables signal here
 
 	for pos in positions:
 		var pad = LANDING_PAD.instantiate()
@@ -28,6 +30,8 @@ func _ready() -> void:
 		print(pad.name, " | Height: ", height)
 		var altitude = _get_ideal_altitude(w, pos, ground) + randf_range(MIN_ALT, MAX_ALT)
 		pad.transform.origin = Vector3(pos.x, altitude, pos.y)
+		# send loaded one signal here
+
 
 func _get_ideal_altitude(
 	w: float,

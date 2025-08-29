@@ -25,6 +25,7 @@ func generate_terrain(
 
 	var a_mesh: ArrayMesh
 	var surftool = SurfaceTool.new()
+	print("surftool begin")
 	surftool.begin(Mesh.PRIMITIVE_TRIANGLES)
 
 	for z in resolution+1:
@@ -50,6 +51,7 @@ func generate_terrain(
 			surftool.add_vertex(vertex)
 	var vert = 0
 
+	print("vertices created")
 	for z in resolution:
 		for x in resolution:
 			surftool.add_index(vert)
@@ -60,10 +62,14 @@ func generate_terrain(
 			surftool.add_index(vert+resolution+2)
 			vert+=1
 		vert+=1
+	print("indices created")
+	print("making normals")
 	surftool.generate_normals()
+	print("comitting")
 	a_mesh = surftool.commit()
 	mesh = a_mesh
 
+	print("making colliding")
 	create_collision()
 	setChunkVisible(init_visible)
 
