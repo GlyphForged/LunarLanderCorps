@@ -1,19 +1,20 @@
 [gd_scene load_steps=8 format=3 uid="uid://da6rrxer76heh"]
 
 [ext_resource type="Script" uid="uid://cfvyywhkshju4" path="res://scripts/game.gd" id="1_u5sy4"]
-[ext_resource type="PackedScene" path="res://scenes/ui/loader.tscn" id="2_lbhrr"]
+[ext_resource type="PackedScene" uid="uid://bcx0rwnw0m7ms" path="res://scenes/ui/loader.tscn" id="2_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://cfxryxn0qwbls" path="res://assets/images/HDR_rich_multi_nebulae_1.hdr" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://bsd5rmvwuv2t1" path="res://scenes/ui/debug_hud.tscn" id="4_vtaks"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_choun"]
 panorama = ExtResource("2_lnu2h")
-energy_multiplier = 5.0
+energy_multiplier = 0.9
 
 [sub_resource type="Sky" id="Sky_85g3d"]
 sky_material = SubResource("PanoramaSkyMaterial_choun")
 
 [sub_resource type="Environment" id="Environment_choun"]
 background_mode = 2
+background_energy_multiplier = 8.0
 sky = SubResource("Sky_85g3d")
 tonemap_mode = 2
 fog_enabled = true
@@ -25,12 +26,13 @@ fog_sky_affect = 0.0
 [node name="Game" type="Node3D"]
 script = ExtResource("1_u5sy4")
 
-[node name="Loading" parent="." instance=ExtResource("2_lbhrr")]
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.0871558, -0.571394, 0.816035, 0, 0.819152, 0.573576, -0.996194, -0.0499905, 0.0713938, 0, 0, 0)
-light_color = Color(0.888, 0.882, 0.9, 1)
+transform = Transform3D(-0.471201, -0.10947, 0.875206, 0.756532, 0.459979, 0.464842, -0.453463, 0.881156, -0.133925, 0, 0, 0)
+light_color = Color(0.779, 0.802233, 0.82, 1)
+light_energy = 0.33
 shadow_enabled = true
+
+[node name="Loading" parent="." instance=ExtResource("2_lbhrr")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_choun")

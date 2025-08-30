@@ -227,7 +227,7 @@ func _build_ui_list() -> void:
 
 func _assign_input_event(input_event : InputEvent, action_name : String) -> void:
 	assigned_input_events[InputEventHelper.get_text(input_event)] = action_name
-		
+
 func _assign_input_event_to_action_group(input_event : InputEvent, action_name : String, action_group : int) -> void:
 	_assign_input_event(input_event, action_name)
 	var action_events := InputMap.action_get_events(action_name)
@@ -254,7 +254,7 @@ func _build_assigned_input_events() -> void:
 
 func _get_action_for_input_event(input_event : InputEvent) -> String:
 	if InputEventHelper.get_text(input_event) in assigned_input_events:
-		return assigned_input_events[InputEventHelper.get_text(input_event)] 
+		return assigned_input_events[InputEventHelper.get_text(input_event)]
 	return ""
 
 func add_action_event(last_input_text : String, last_input_event : InputEvent) -> void:

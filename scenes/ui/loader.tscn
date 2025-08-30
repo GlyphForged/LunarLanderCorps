@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://bop0lhr7csbug"]
+[gd_scene load_steps=2 format=3 uid="uid://bcx0rwnw0m7ms"]
 
 [ext_resource type="Script" uid="uid://uqcdb6ytpvrx" path="res://scripts/ui/loading_screen.gd" id="1_1j68w"]
 
@@ -36,6 +36,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="Label" type="Label" parent="PanelContainer2/MarginContainer/VBoxContainer"]
+process_mode = 3
 layout_mode = 2
 text = "LOADING"
 horizontal_alignment = 1

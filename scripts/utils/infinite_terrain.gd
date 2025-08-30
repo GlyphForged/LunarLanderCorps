@@ -1,6 +1,4 @@
-class_name TerrainGenerator
-
-extends Node3D
+class_name TerrainGenerator extends Node3D
 
 var chunk_mesh_scene = preload(Util.CHUNK_ID)
 
@@ -11,6 +9,7 @@ const CHUNK_SIZE = 1000
 var viewer_position = Vector2()
 var terrain_chunks = {}
 var chunksvisible=0
+var max_terrain_height := 15
 
 var threads := 1
 
@@ -18,12 +17,13 @@ var last_visible_chunks = []
 var noise0 := FastNoiseLite.new()
 var noise1 := FastNoiseLite.new()
 
+#New loading shit
+signal terrain_ready
+var pending_chunks := 0
+
 func _ready():
 	if OS.get_processor_count() > 3:
 		threads = (OS.get_processor_count() - 2)
-	
-
-
 
 	#set the total chunks to be visible
 	@warning_ignore("integer_division")
@@ -46,6 +46,18 @@ func _process(_delta):
 	# viewer_position.y = 0
 	# updateVisibleChunk()
 	pass
+
+func _spawn_chunk(at: Vector2):
+	var chunk: TerrainChunk = preload(Util.CHUNK_ID).new()
+	add_child(chunk)
+	pending_chunks += 1
+	chunk.chunk_ready.connect(_on_chunk_ready)
+	chunk.generate_terrain(CHUNK_SIZE, max_terrain_height, noise0, noise1, at, true)
+
+func _on_chunk_ready(_gc: Vector2) -> void:
+	pending_chunks -= 1
+	if pending_chunks == 0:
+		emit_signal("terrain_ready")
 
 func updateVisibleChunk():
 	#get grid position
@@ -78,7 +90,7 @@ func make_chunk(xOffset, yOffset):
 		var pos = view_chunk_coord*CHUNK_SIZE
 		var world_position = Vector3(pos.x,0,pos.y)
 		chunk.global_position = world_position
-		chunk.generate_terrain(CHUNK_SIZE,TERRAIN_HEIGHT, noise0, noise1, view_chunk_coord,true)
+		chunk.generate_terrain(CHUNK_SIZE, TERRAIN_HEIGHT, noise0, noise1, view_chunk_coord,true)
 		terrain_chunks[view_chunk_coord] = chunk
 
 func on_save_game() -> void:

@@ -20,13 +20,15 @@ const CAM_RIG_ID: String = "uid://c050hpkcnfdea"
 const INF_TERRAIN_ID: String = "uid://crn5r6ro7r2ka"
 const PAD_SPAWNER_ID: String = "uid://bu7u4cigsr257"
 const MISSION_CONTROLLER_ID: String = "res://scenes/utils/mission_controller.tscn"
-const SAVER_LOADER_ID: String = "res://scenes/utils/mission_controller.tscn"
+const SAVER_LOADER_ID: String = "uid://cgpj7l1s3jgsj"
 const CHUNK_ID: String = "uid://cmy0pvr4ggnac"
 const TARGET_VECTOR_ID: String = "res://scenes/ui/target_vector.tscn"
 const UPGRADE_POPUP_ID: String = "res://scenes/ui/upgrade_popup.tscn"
 const LANDING_PAD_SMALL_ID: String = "uid://c1xambinq3m62"
 const LANDING_PAD_MEDIUM_ID: String = "uid://dbm8c61dgc3tx"
 const LANDING_PAD_LARGE_ID: String = "uid://b66ymy13i5weg"
+const JUKEBOX_ID: String = "uid://bn4uiacj1xjrm"
+const CRT_ID: String = "uid://iva6stjv07ds"
 
 const RESOLUTIONS: Dictionary = {
 	"3840 x 2160": Vector3i(3840, 2160, 24),
@@ -61,7 +63,7 @@ enum PAD_DIFFICULTY {EASY, NORMAL, HARD}
 func _ready() -> void:
 	var fs: DisplayServer.WindowMode
 	var res: Vector3i = Util.RESOLUTIONS.get(
-		Util.RESOLUTIONS_INDEX[Util.settings.resolution_index]
+		Util.RESOLUTIONS_INDEX[Util.settings.windowed_resolution_index]
 	)
 	if Util.settings.fullscreen:
 		fs = DisplayServer.WindowMode.WINDOW_MODE_FULLSCREEN
@@ -104,3 +106,12 @@ func  save_settings() -> void:
 
 func refresh_settings() -> void:
 	settings = ResourceLoader.load("user://user_settings.tres")
+
+func get_resolution_index(res: Vector2i) -> int:
+	var res_string = str(res.x) + " x " + str(res.y)
+	var res_index = Util.RESOLUTIONS_INDEX.find_key(res_string)
+	if res_index != null:
+		return res_index
+	else:
+		push_error("Res Index did not return a valid value: ", res_index, res_string)
+		return -1

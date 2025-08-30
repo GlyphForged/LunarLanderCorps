@@ -31,8 +31,12 @@ func _ready() -> void:
 	%Exit.pressed.connect(_on_exit_pressed)
 	self.mouse_mode_cache = Input.mouse_mode
 	self.lander = get_tree().get_first_node_in_group("lander")
+	lander.paused = true
 	_populate_list()
-	get_tree().paused = true
+
+func _process(_delta) -> void:
+	if Input.is_action_just_pressed("pause"):
+		_on_exit_pressed()
 
 func _populate_list() -> void:
 	# A little bit psychotic, but allows for more dynamic upgrade list
@@ -67,7 +71,7 @@ func _update_display() -> void:
 	_populate_list()
 
 func _on_exit_pressed() -> void:
+	lander.paused = false
 	Input.mouse_mode = self.mouse_mode_cache
-	get_tree().paused = false
 	get_parent().remove_child(self)
 	self.queue_free()

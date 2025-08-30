@@ -3,6 +3,7 @@ extends CanvasLayer
 
 const MAIN_SETTINGS: PackedScene = preload("uid://dhls1kjj4b557")
 var lander: RigidBody3D
+var settings_open: bool = false
 
 func _ready() -> void:
 	Signals.settings_closed.connect(_on_settings_closed)
@@ -10,7 +11,7 @@ func _ready() -> void:
 	%Save.disabled = lander.linear_velocity.length() > .1
 
 func _process(_delta):
-	if Input.is_action_just_pressed("pause"):
+	if Input.is_action_just_pressed("pause") and !settings_open:
 		_on_resume_pressed()
 
 func _on_resume_pressed() -> void:
@@ -25,10 +26,12 @@ func _on_restart_pressed() -> void:
 
 func _on_settings_pressed() -> void:
 	self.hide()
+	self.settings_open = true
 	var settings := MAIN_SETTINGS.instantiate()
 	get_tree().root.add_child(settings)
 
 func _on_settings_closed() -> void:
+	self.settings_open = false
 	self.show()
 
 func _on_main_menu_pressed() -> void:

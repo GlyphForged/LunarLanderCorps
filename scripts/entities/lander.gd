@@ -14,7 +14,7 @@ var is_thrusting := false
 var rotation_input := Vector2.ZERO
 var roll_input := 0.0
 var thruster_firing:= false
-var initial_position := Vector3(0., 40., 0.)
+var initial_position := Vector3.ZERO
 
 # GAMEPLAY #
 @onready var mission_controller: MissionController = get_node("../MissionController")
@@ -24,14 +24,20 @@ var initial_position := Vector3(0., 40., 0.)
 @onready var rear_control_particles: GPUParticles3D = %RearControlParticles
 @onready var left_control_particles: GPUParticles3D = %LeftControlParticles
 @onready var right_control_particles: GPUParticles3D = %RightControlParticles
+@export_group("Gameplay Variables")
+@export var paused := false
+@export_subgroup("Score")
 @export var total_score := 0
 @export var current_pts := 0
+@export_subgroup("Damage")
 @export var damage_offset := 0.5
 @export var current_damage := 0.0
 @export var leg_strength := 2.0
+@export_subgroup("Fuel")
 @export var max_fuel := 100.0
 @export var current_fuel := 100.0
 @export var fuel_efficiency := 1.00
+@export_subgroup("Thrusters")
 @export var control_mult := 1.0
 @export var thrust_mult := 1.0
 var next_damage := 0.0
@@ -61,12 +67,16 @@ func _ready():
 	_spawn_target_vector()
 
 func _process(_delta: float):
+	if self.paused:
+		return
 	velocity_cache = linear_velocity
 	self.control_mode.call()
 	_apply_damage()
 	_handle_out_of_fuel()
 
 func _physics_process(delta: float):
+	if self.paused:
+		return
 	_update_main_light(delta)
 	_main_thrust()
 	_pitch_yaw_roll()
@@ -76,7 +86,7 @@ func _physics_process(delta: float):
 #########################################
 func _get_initial_pos() -> Vector3:
 	var initial_pad = get_tree().get_nodes_in_group("landing_pads")[0]
-	return initial_pad.global_position + Vector3(0., 5., 0.)
+	return initial_pad.global_position + Vector3(0., 10., 0.)
 
 func _main_thrust() -> void:
 	if self.is_thrusting and self.current_fuel > 0.0:
@@ -105,7 +115,7 @@ func _pitch_yaw_roll() -> void:
 
 	# Roll (Q/E)
 	if roll_input != 0:
-		var roll_torque = -lander_up * CONTROL_THRUST_STR * roll_input
+		var roll_torque = -lander_up * CONTROL_THRUST_STR * -roll_input
 		self.apply_torque(roll_torque)
 
 func apply_tilt(input, reference_direction, offset):
