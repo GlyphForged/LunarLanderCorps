@@ -14,7 +14,7 @@ func _save_game() -> void:
 	# Start with blank data
 	var lander_data := LanderData.new()
 	var cam_data := SaveData.new()
-	var pad_data: Array[PadData]
+	var pad_data: Array[SaveData]
 	var mission_data := MissionData.new()
 
 	# Fire the signal to ask folks to save their data

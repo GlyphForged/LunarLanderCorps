@@ -22,10 +22,11 @@ const PAD_SPAWNER_ID: String = "uid://bu7u4cigsr257"
 const MISSION_CONTROLLER_ID: String = "res://scenes/utils/mission_controller.tscn"
 const SAVER_LOADER_ID: String = "res://scenes/utils/mission_controller.tscn"
 const CHUNK_ID: String = "uid://cmy0pvr4ggnac"
-const LANDING_PAD_ID: String = "uid://ci7jf3mnw58nw"
 const TARGET_VECTOR_ID: String = "res://scenes/ui/target_vector.tscn"
 const UPGRADE_POPUP_ID: String = "res://scenes/ui/upgrade_popup.tscn"
-
+const LANDING_PAD_SMALL_ID: String = "uid://c1xambinq3m62"
+const LANDING_PAD_MEDIUM_ID: String = "uid://dbm8c61dgc3tx"
+const LANDING_PAD_LARGE_ID: String = "uid://b66ymy13i5weg"
 
 const RESOLUTIONS: Dictionary = {
 	"3840 x 2160": Vector3i(3840, 2160, 24),
