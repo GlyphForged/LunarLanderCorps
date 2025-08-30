@@ -9,13 +9,14 @@ func _ready() -> void:
 	Signals.settings_closed.connect(_on_settings_closed)
 	lander = get_tree().get_first_node_in_group("lander")
 	%Save.disabled = lander.linear_velocity.length() > .1
+	%Load.disabled = lander.linear_velocity.length() > .1
 
 func _process(_delta):
 	if Input.is_action_just_pressed("pause") and !settings_open:
 		_on_resume_pressed()
 
 func _on_resume_pressed() -> void:
-	Input.mouse_mode = Util.mouse_mode_cache
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	get_tree().paused = false
 	queue_free()
 

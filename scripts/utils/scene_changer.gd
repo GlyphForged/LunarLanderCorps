@@ -4,7 +4,6 @@ var new_scene_path: String
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 func change_to(new_scene: Util.GAME_SCENES):
-	print("Changing to ", new_scene)
 	match new_scene:
 		Util.GAME_SCENES.GAME:
 			new_scene_path = Util.GAME_ID

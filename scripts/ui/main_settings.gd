@@ -62,9 +62,6 @@ func _on_fs_toggled(toggled_on: bool) -> void:
 		var fullscrn_index = Util.get_resolution_index(resolution)
 		if fullscrn_index != -1:
 			Util.settings.fullscreen_resolution_index = fullscrn_index
-			print("Set Fullscreen Index to: ", fullscrn_index)
-		else:
-			push_error("Fullsreen Index lookup returned -1")
 		var vec3res = Util.RESOLUTIONS.get(Util.RESOLUTIONS_INDEX[fullscrn_index])
 		_set_font_size(vec3res)
 		DisplayServer.window_set_size(resolution)
@@ -75,8 +72,6 @@ func _on_fs_toggled(toggled_on: bool) -> void:
 	else:
 		var wndw_res_idx = Util.settings.windowed_resolution_index
 		var res: Vector3i = Util.RESOLUTIONS.get(Util.RESOLUTIONS_INDEX[wndw_res_idx])
-		print("Window Resolution Index: ", wndw_res_idx)
-		print("Window Resolution: ", res)
 		DisplayServer.window_set_mode(DisplayServer.WindowMode.WINDOW_MODE_WINDOWED)
 		DisplayServer.window_set_size(Vector2i(res.x, res.y))
 		_set_font_size(res)

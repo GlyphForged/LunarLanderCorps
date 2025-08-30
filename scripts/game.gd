@@ -88,7 +88,6 @@ func _handle_pause_input() -> void:
 		get_node(".").add_child(pause_menu)
 
 func _spawn_upgrade_popup() -> void:
-	Util.mouse_mode_cache = Input.mouse_mode
 	if Time.get_ticks_msec() - upgrade_timer > 1500:
 		var upgrade_popup = preload(Util.UPGRADE_POPUP_ID).instantiate()
 		self.add_child(upgrade_popup)

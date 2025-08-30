@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqtv00goxlx8h"]
+
+[ext_resource type="Theme" uid="uid://b0f1g2k7xxm12" path="res://assets/main.theme" id="1_njuei"]
+[ext_resource type="StyleBox" uid="uid://cms7527xh34m0" path="res://scenes/ui/new_style_box_texture.tres" id="2_w6at5"]
+
+[node name="AcceptDialog" type="AcceptDialog"]
+process_mode = 3
+title = "ERROR"
+initial_position = 1
+size = Vector2i(374, 259)
+visible = true
+unresizable = true
+borderless = true
+always_on_top = true
+theme = ExtResource("1_njuei")
+theme_override_styles/panel = ExtResource("2_w6at5")
+ok_button_text = "CONFIRM"
+dialog_text = "Catastrophic Damage Taken...
+Personality subroutines backed up...
+SUCCESS
+Restoring memories...
+SUCCESS
+Correcting skill issues...
+ERROR
+Ready to try again?"
+dialog_close_on_escape = false

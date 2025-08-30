@@ -38,23 +38,13 @@ func on_load_game(pad_data:SaveData):
 func _on_landing_pad_entered(_body_rid: RID, body: Node3D, body_shape_index: int, _local_shape_index: int) -> void:
 	var curr_time = Time.get_ticks_msec()
 	if curr_time - last_coll_time > 1000:
-		#print(body.name, " landed with ", body_shape_index, " touching")
-		print(body.linear_velocity.length())
 		if body.linear_velocity.length() < 0.1:
 			if body_shape_index < 4 \
 			and abs(body.velocity_cache.y) < SAFE_LANDING_VEL:
-				print("Safe landing!")
-				#print(abs(body.velocity_cache.y))
 				Signals.landed_safely.emit(self.get_index())
 				last_coll_time = Time.get_ticks_msec()
 			else:
-				print("Crash landing!")
-				#print(abs(body.velocity_cache.y))
 				last_coll_time = Time.get_ticks_msec()
-
-func _on_landing_pad_exited(_body_rid: RID, _body: Node3D, _body_shape_index: int, _local_shape_index: int) -> void:
-	pass #not sure we need this signal yet, tbh
-	#print(body, " exited ", self.get_index(), " @ ", str(self.global_position))
 
 #########################################
 #			STATIC FUNCTIONS			#

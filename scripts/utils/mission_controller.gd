@@ -35,23 +35,24 @@ func _calculate_mission_reward(
 	# for now the distance / 10 (always rounded up) is the score, may fuck with this later
 	var curr_pad_pos = _get_target_pos(curr_pad)
 	var target_pad_pos = _get_target_pos(target_pad)
-	var mult = _get_multiplier(pads[target_pad])
+	var mult = _get_multiplier(pads[target_pad].DIFFICULTY)
 	return ceil((curr_pad_pos.distance_to(target_pad_pos) / 10) * mult)
 
 func _award_mission_points() -> void:
-	print("Awarded ", self.mission_reward, " pts.")
 	Signals.points_awarded.emit(self.mission_reward)
 	self.mission_reward = 0
 
-func _get_multiplier(_difficulty: Node) -> float:
-	#match difficulty:
-		#LandingPadLarge:
-			#print("Large Landing Pad Targeted")
-		#LandingPadMedium:
-			#print("Medium Landing Pad Targeted")
-		#LandingPadSmall:
-			#print("Small Landing Pad Targeted")
-	return 1.0
+func _get_multiplier(difficulty: Util.PAD_DIFFICULTY) -> float:
+	match difficulty:
+		Util.PAD_DIFFICULTY.EASY:
+			return 0.5
+		Util.PAD_DIFFICULTY.NORMAL:
+			return 1.0
+		Util.PAD_DIFFICULTY.HARD:
+			return 1.5
+		_:
+			push_warning("Invalid difficulty passed to _get_multiplier", difficulty)
+			return 1.0
 
 func _get_new_mission(signal_data: int) -> void:
 	pads = get_tree().get_nodes_in_group("landing_pads")
@@ -59,8 +60,6 @@ func _get_new_mission(signal_data: int) -> void:
 	and signal_data == self.current_target_index:
 		self.current_target_index = _select_mission_target(signal_data)
 		var target_pos = _get_target_pos(self.current_target_index)
-		print("New Mission Target: Landing Pad ", self.current_target_index)
-		print("Target coordinates: ", target_pos)
 		Signals.target_assigned.emit(target_pos)
 		self.mission_reward = _calculate_mission_reward(
 			signal_data,

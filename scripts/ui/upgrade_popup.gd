@@ -64,6 +64,7 @@ func _on_purchase_pressed(upgrade_key: String) -> void:
 	var cost: int = upgrades[upgrade].cost
 	var amt: float = upgrades[upgrade].upgrade_amt
 	lander.apply_upgrade(upgrade, cost, amt)
+	lander.update_upgrade_dict()
 	_update_display()
 
 func _update_display() -> void:

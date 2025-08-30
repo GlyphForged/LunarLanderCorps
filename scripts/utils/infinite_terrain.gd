@@ -10,10 +10,13 @@ var viewer_position = Vector2()
 var terrain_chunks = {}
 var chunksvisible=0
 var max_terrain_height := 15
+var last_visible_chunks = []
 
 var threads := 1
 
-var last_visible_chunks = []
+var rng := RandomNumberGenerator.new()
+var seed0 := 696969
+var seed1 := 420420
 var noise0 := FastNoiseLite.new()
 var noise1 := FastNoiseLite.new()
 
@@ -31,8 +34,13 @@ func _ready():
 	if render_debug:
 		set_wireframe()
 	# == NOISE FUCKERY ===
+	rng.randomize()
 	noise0.noise_type = FastNoiseLite.TYPE_CELLULAR
 	noise1.noise_type = FastNoiseLite.TYPE_VALUE_CUBIC
+	#seed0 = rng.randi()
+	#seed1 = rng.randi()
+	noise0.seed = seed0
+	noise1.seed = seed1
 	viewer_position.x = 0
 	viewer_position.y = 0
 	updateVisibleChunk()
@@ -83,7 +91,6 @@ func make_chunk(xOffset, yOffset):
 		var chunk: TerrainChunk = chunk_mesh_scene.instantiate()
 		chunk.name = "chunk_%d_%d" % [xOffset, yOffset]
 		add_child(chunk)
-		print("Added ", chunk.name)
 		#set chunk parameters
 		chunk.max_terrain_height = TERRAIN_HEIGHT
 		#set chunk world position

@@ -29,6 +29,7 @@ const LANDING_PAD_MEDIUM_ID: String = "uid://dbm8c61dgc3tx"
 const LANDING_PAD_LARGE_ID: String = "uid://b66ymy13i5weg"
 const JUKEBOX_ID: String = "uid://bn4uiacj1xjrm"
 const CRT_ID: String = "uid://iva6stjv07ds"
+const DEATH_ID: String = "uid://dqtv00goxlx8h"
 
 const RESOLUTIONS: Dictionary = {
 	"3840 x 2160": Vector3i(3840, 2160, 24),
@@ -101,8 +102,6 @@ func  save_settings() -> void:
 	var error = ResourceSaver.save(Util.settings, "user://user_settings.tres")
 	if error != OK:
 		push_error("Error saving settings: ", error)
-	else:
-		print("Settings updated successfully.")
 
 func refresh_settings() -> void:
 	settings = ResourceLoader.load("user://user_settings.tres")
@@ -113,5 +112,5 @@ func get_resolution_index(res: Vector2i) -> int:
 	if res_index != null:
 		return res_index
 	else:
-		push_error("Res Index did not return a valid value: ", res_index, res_string)
-		return -1
+		push_warning("Res Index did not return a valid value: ", res_index, res_string)
+		return 3 # Default so we don't crash
