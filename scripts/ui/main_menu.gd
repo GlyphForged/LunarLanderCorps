@@ -9,7 +9,7 @@ func _ready() -> void:
 	%Start.grab_focus()
 
 func _on_start_pressed() -> void:
-	SceneChanger.change_to(Util.GAME_SCENES.GAME)
+	get_tree().change_scene_to_file(Util.GAME_ID)
 
 func _on_settings_pressed() -> void:
 	%MMContainer.hide()

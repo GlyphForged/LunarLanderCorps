@@ -1,10 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://cmy0pvr4ggnac"]
+[gd_scene load_steps=6 format=3 uid="uid://cmy0pvr4ggnac"]
 
 [ext_resource type="Script" uid="uid://dw2d66258iv8" path="res://scripts/utils/chunk.gd" id="1_5mxcj"]
+[ext_resource type="Shader" uid="uid://dj2bad0xu4wlr" path="res://shaders/moon.gdshader" id="1_oor0i"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5mxcj"]
-albedo_color = Color(0.517184, 0.517184, 0.517184, 1)
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_oor0i"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vrse6"]
+width = 1024
+height = 1024
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_oor0i")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vrse6"]
+render_priority = 0
+shader = ExtResource("1_oor0i")
+shader_parameter/line_thickness = 1.0
+shader_parameter/line_interval = 0.25
+shader_parameter/line_color = Color(0.69, 0.345, 0.5405, 1)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_vrse6")
+shader_parameter/intensity = 0.5
+shader_parameter/noise_scale = 1.0
 
 [node name="chunk" type="MeshInstance3D"]
-material_override = SubResource("StandardMaterial3D_5mxcj")
+material_override = SubResource("ShaderMaterial_vrse6")
 script = ExtResource("1_5mxcj")

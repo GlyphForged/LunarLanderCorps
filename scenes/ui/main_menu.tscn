@@ -4,7 +4,7 @@
 [ext_resource type="FontFile" uid="uid://b5rp26eyjbxji" path="res://assets/fonts/Sixtyfour/Sixtyfour-Regular-VariableFont_BLED,SCAN.ttf" id="3_m1kxf"]
 [ext_resource type="Texture2D" uid="uid://bqfdb2jh6myfl" path="res://assets/images/title.png" id="3_uhagc"]
 [ext_resource type="Theme" uid="uid://b0f1g2k7xxm12" path="res://assets/main.theme" id="3_x2yvf"]
-[ext_resource type="AudioStream" uid="uid://d3r4vno2hclil" path="res://assets/music/llc-ditty-one.wav" id="5_x2yvf"]
+[ext_resource type="AudioStream" uid="uid://d3r4vno2hclil" path="res://assets/music/lunate-cult.wav" id="5_x2yvf"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -147,6 +147,7 @@ text = "Mute"
 stream = ExtResource("5_x2yvf")
 volume_db = -5.0
 autoplay = true
+bus = &"Music"
 
 [connection signal="visibility_changed" from="MainContainer/MMContainer" to="." method="_on_mm_container_visibility_changed"]
 [connection signal="pressed" from="MainContainer/MMContainer/Start" to="." method="_on_start_pressed"]

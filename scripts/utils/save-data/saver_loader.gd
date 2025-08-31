@@ -14,7 +14,7 @@ func _save_game() -> void:
 	# Start with blank data
 	var lander_data := LanderData.new()
 	var cam_data := SaveData.new()
-	var pad_data: Array[PadData]
+	var pad_data: Array[SaveData]
 	var mission_data := MissionData.new()
 
 	# Fire the signal to ask folks to save their data
@@ -31,8 +31,6 @@ func _save_game() -> void:
 	var err = ResourceSaver.save(saved_game, "user://savegame.tres")
 	if err != OK:
 		push_error("Something went wrong: ", err)
-	else:
-		print("Saved game successfully.")
 
 func _load_game() -> void:
 	var saved_game = ResourceLoader.load("user://savegame.tres") as SavedGame
@@ -47,7 +45,6 @@ func _load_game() -> void:
 
 	# Restore Landing Pad Data
 	for pad_data in saved_game.pad_data:
-		print(pad_data.position)
 		var scene := load(pad_data.scene_path)
 		var restored_node = scene.instantiate()
 		# Add it to the pad spawner node

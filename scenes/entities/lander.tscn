@@ -947,6 +947,7 @@ skeleton = NodePath("")
 
 [node name="Hair" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(0.839722, 0, 0, 0, 0.839722, 0, 0, 0, 0.839722, -0.00669343, 0.452703, 0)
+visible = false
 material_override = ExtResource("5_w7tdi")
 mesh = SubResource("ArrayMesh_gl5fb")
 skeleton = NodePath("")
@@ -1078,6 +1079,7 @@ shape = SubResource("CylinderShape3D_nro1m")
 [node name="HairCollider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.125, 0)
 shape = SubResource("CylinderShape3D_jfkhd")
+disabled = true
 
 [node name="FLegCollider" type="CollisionShape3D" parent="."]
 transform = Transform3D(-0.0698766, -0.03172, -0.997051, 0.413349, -0.910573, -5.26913e-08, -0.907888, -0.41213, 0.0767392, -0.00214518, -2.01919, -1.47945)
@@ -1095,11 +1097,12 @@ shape = SubResource("CylinderShape3D_a2sio")
 transform = Transform3D(0.910061, 0.413116, 0.0335348, 0.413349, -0.910573, 9.08056e-10, 0.0305359, 0.0138616, -0.999438, 1.49095, -2.03057, -0.00624824)
 shape = SubResource("CylinderShape3D_o55dv")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="MainThrusterSound" type="AudioStreamPlayer3D" parent="."]
 stream = SubResource("AudioStreamWAV_w7tdi")
 volume_db = -10.196
 max_db = -7.882
 pitch_scale = 0.9
+bus = &"Game Audio"
 
 [node name="MainThrusterParticles" type="GPUParticles3D" parent="."]
 unique_name_in_owner = true

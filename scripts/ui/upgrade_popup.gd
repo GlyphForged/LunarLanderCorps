@@ -24,15 +24,24 @@ var upgrades: Dictionary = {
 		friendly_name = "Control Thrust",
 		cost = 15,
 		upgrade_amt = 0.1,
-	}
+	},
+	"Repair" = {
+		friendly_name = "Repair",
+		cost = 50,
+		upgrade_amt = 0.0,
+	},
 }
 
 func _ready() -> void:
 	%Exit.pressed.connect(_on_exit_pressed)
 	self.mouse_mode_cache = Input.mouse_mode
 	self.lander = get_tree().get_first_node_in_group("lander")
+	lander.paused = true
 	_populate_list()
-	get_tree().paused = true
+
+func _process(_delta) -> void:
+	if Input.is_action_just_pressed("pause"):
+		_on_exit_pressed()
 
 func _populate_list() -> void:
 	# A little bit psychotic, but allows for more dynamic upgrade list
@@ -53,13 +62,17 @@ func _populate_list() -> void:
 				btn.pressed.disconnect(_on_purchase_pressed)
 			# Send the key with the button press.
 			btn.pressed.connect(_on_purchase_pressed.bind(child.name))
-			child.get_child(2).text = lander.get_stat(child.name)
+			if child.name != "Repair":
+				child.get_child(2).text = lander.get_stat(child.name)
+			else:
+				child.get_child(2).text = "Damage: %2.2f" % lander.current_damage
 
 func _on_purchase_pressed(upgrade_key: String) -> void:
 	var upgrade = upgrade_key
 	var cost: int = upgrades[upgrade].cost
 	var amt: float = upgrades[upgrade].upgrade_amt
 	lander.apply_upgrade(upgrade, cost, amt)
+	lander.update_upgrade_dict()
 	_update_display()
 
 func _update_display() -> void:
@@ -67,7 +80,7 @@ func _update_display() -> void:
 	_populate_list()
 
 func _on_exit_pressed() -> void:
+	lander.paused = false
 	Input.mouse_mode = self.mouse_mode_cache
-	get_tree().paused = false
 	get_parent().remove_child(self)
 	self.queue_free()

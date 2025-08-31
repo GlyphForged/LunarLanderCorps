@@ -8,3 +8,5 @@ extends SaveData
 @export var current_fuel: float
 @export var control_mult: float
 @export var thrust_mult: float
+@export var current_pts: int
+@export var total_score: int

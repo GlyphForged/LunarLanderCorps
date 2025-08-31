@@ -5,8 +5,6 @@ extends Node
 const LANDING_PAD: PackedScene = preload("res://scenes/entities/landing_pad.tscn")
 const MAX_WIDTH: float = 30.0
 const MIN_WIDTH: float = 15.0
-const MAX_ALT: float = 4.0
-const MIN_ALT: float = 2.0
 const RADIUS: float = 250.0
 const COUNT: int = 12
 
@@ -18,36 +16,30 @@ func _ready() -> void:
 	var positions = sampler.generate_poisson_pts(RADIUS, COUNT)
 	# send loadables signal here
 
+	var diff_index := 0
 	for pos in positions:
-		var pad = LANDING_PAD.instantiate()
-		pad.name = "landing-pad-%s" % str(pos)
-		self.add_child(pad)
-		pad.add_to_group("landing_pads")
-		pad.add_to_group("game_events")
-		var w = randf_range(MIN_WIDTH, MAX_WIDTH)
-		pad.width = w
-		var height: Array[float]
-		print(pad.name, " | Height: ", height)
-		var altitude = _get_ideal_altitude(w, pos, ground) + randf_range(MIN_ALT, MAX_ALT)
-		pad.transform.origin = Vector3(pos.x, altitude, pos.y)
+		var difficulty_array = _build_difficulty_array(COUNT)
+		self.add_child(LandingPad.create_landing_pad(
+			difficulty_array[diff_index],
+			ground,
+			pos))
+		diff_index += 1
 		# send loaded one signal here
 
-
-func _get_ideal_altitude(
-	w: float,
-	pos: Vector2,
-	grnd: TerrainGenerator
-) -> float:
-	var h_w = w / 2.0
-	var pts: Array[float] = [
-		grnd.get_height_at_position(Vector2(pos.x - h_w, pos.y - h_w)),
-		grnd.get_height_at_position(Vector2(pos.x,       pos.y - h_w)),
-		grnd.get_height_at_position(Vector2(pos.x + h_w, pos.y - h_w)),
-		grnd.get_height_at_position(Vector2(pos.x - h_w, pos.y)),
-		grnd.get_height_at_position(pos),
-		grnd.get_height_at_position(Vector2(pos.x + h_w, pos.y)),
-		grnd.get_height_at_position(Vector2(pos.x - h_w, pos.y + h_w)),
-		grnd.get_height_at_position(Vector2(pos.x,       pos.y + h_w)),
-		grnd.get_height_at_position(Vector2(pos.x + h_w, pos.y + h_w)),
-	]
-	return pts.max()
+func _build_difficulty_array(num: int) -> Array[Util.PAD_DIFFICULTY]:
+	var difficulty_array: Array[Util.PAD_DIFFICULTY] = []
+	var easy_ratio = 0.5
+	var normal_ratio = 0.35
+	var hard_ratio = 0.15
+	var num_easy = floor(num * easy_ratio)
+	var num_normal = floor(num * normal_ratio)
+	var num_hard = floor(num * hard_ratio)
+	if num_easy + num_normal + num_hard < num:
+		num_normal += num - (num_easy + num_normal + num_hard)
+	for n in num_easy:
+		difficulty_array.append(Util.PAD_DIFFICULTY.EASY)
+	for n in num_normal:
+		difficulty_array.append(Util.PAD_DIFFICULTY.NORMAL)
+	for n in num_hard:
+		difficulty_array.append(Util.PAD_DIFFICULTY.HARD)
+	return difficulty_array

@@ -29,6 +29,7 @@ script = ExtResource("2_wft4x")
 search_depth = 5
 
 [node name="InputMappingContainer" type="VBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(625, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3

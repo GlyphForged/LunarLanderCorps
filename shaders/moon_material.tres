@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bpenaptnq0eja"]
+
+[ext_resource type="Shader" uid="uid://dj2bad0xu4wlr" path="res://shaders/moon.gdshader" id="1_jkyde"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_jkyde")
+shader_parameter/base_color = Color(0.530288, 0.530179, 0.559505, 1)
+shader_parameter/roughness_base = 0.9
+shader_parameter/roughness_slope_boost = 0.12
+shader_parameter/slope_darkening = 0.35
+shader_parameter/height_contrast = 0.35
+shader_parameter/height_mid = 0.0
+shader_parameter/height_range = 200.0
+shader_parameter/detail_scale = 0.01
+shader_parameter/detail_strength = 0.18
+shader_parameter/bump_strength = 0.15
+shader_parameter/bump_step = 2.031

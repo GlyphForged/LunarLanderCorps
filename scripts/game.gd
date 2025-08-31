@@ -6,7 +6,9 @@ const LANDER = preload(Util.LANDER_ID)
 const INF_TERRAIN = preload(Util.INF_TERRAIN_ID)
 const PAD_SPAWNER = preload(Util.PAD_SPAWNER_ID)
 const MISSION_CONTROLLER = preload(Util.MISSION_CONTROLLER_ID)
-var SAVER_LOADER = preload(Util.SAVER_LOADER_ID)
+const SAVER_LOADER = preload(Util.SAVER_LOADER_ID)
+const JUKEBOX = preload(Util.JUKEBOX_ID)
+const CRT = preload(Util.CRT_ID)
 
 var paused: bool
 var upgrade_timer := Time.get_ticks_msec()
@@ -33,7 +35,7 @@ func _ready() -> void:
 	Signals.landed_on_target_pad.connect(_spawn_upgrade_popup)
 	%DebugHud.visible = false
 	$Loading.visible = true
-	paused = false
+	self.paused = false
 
 func _process(_delta) -> void:
 	if not everything_added:
@@ -51,20 +53,26 @@ func _process(_delta) -> void:
 			update_text("opening pod bay doors")
 		elif not added_scenes.get("lander"):
 			lander_instance = add_scene(LANDER, "lander")
-			update_text("calibrating retroencabulator")
+			update_text("calibrating retro encabulator")
 		elif not added_scenes.get("cam"):
 			rig_camera(lander_instance)
 			update_text("bargaining with death")
 		elif not added_scenes.get("saver_loader"):
 			update_text("get ready")
 			add_scene(SAVER_LOADER, "saver_loader")
+		elif not added_scenes.get("jukebox"):
+			update_text("turning on the radio")
+			add_scene(JUKEBOX, "jukebox")
+		elif not added_scenes.get("crt"):
+			update_text("booting hyperencabulator")
+			add_scene(CRT, "crt")
 		else:
 			everything_added = true
 			$Loading.visible = false
 			$Loading.queue_free()
 			self.paused = false
 			%DebugHud.visible = true
-			
+
 	_handle_pause_input()
 
 
@@ -73,16 +81,14 @@ func update_text(input):
 
 func _handle_pause_input() -> void:
 	Util.mouse_mode_cache = Input.mouse_mode
-	if Input.is_action_just_pressed("pause"):
+	if Input.is_action_just_pressed("pause") and !self.paused:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		get_tree().paused = true
 		var pause_menu = PAUSE_MENU.instantiate()
 		get_node(".").add_child(pause_menu)
 
 func _spawn_upgrade_popup() -> void:
-	Util.mouse_mode_cache = Input.mouse_mode
 	if Time.get_ticks_msec() - upgrade_timer > 1500:
 		var upgrade_popup = preload(Util.UPGRADE_POPUP_ID).instantiate()
 		self.add_child(upgrade_popup)
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		get_tree().paused = true
