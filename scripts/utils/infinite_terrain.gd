@@ -37,8 +37,8 @@ func _ready():
 	rng.randomize()
 	noise0.noise_type = FastNoiseLite.TYPE_CELLULAR
 	noise1.noise_type = FastNoiseLite.TYPE_VALUE_CUBIC
-	#seed0 = rng.randi()
-	#seed1 = rng.randi()
+	seed0 = rng.randi()
+	seed1 = rng.randi()
 	noise0.seed = seed0
 	noise1.seed = seed1
 	viewer_position.x = 0

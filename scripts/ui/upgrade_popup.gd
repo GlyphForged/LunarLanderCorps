@@ -24,7 +24,12 @@ var upgrades: Dictionary = {
 		friendly_name = "Control Thrust",
 		cost = 15,
 		upgrade_amt = 0.1,
-	}
+	},
+	"Repair" = {
+		friendly_name = "Repair",
+		cost = 50,
+		upgrade_amt = 0.0,
+	},
 }
 
 func _ready() -> void:
@@ -57,7 +62,10 @@ func _populate_list() -> void:
 				btn.pressed.disconnect(_on_purchase_pressed)
 			# Send the key with the button press.
 			btn.pressed.connect(_on_purchase_pressed.bind(child.name))
-			child.get_child(2).text = lander.get_stat(child.name)
+			if child.name != "Repair":
+				child.get_child(2).text = lander.get_stat(child.name)
+			else:
+				child.get_child(2).text = "Damage: %2.2f" % lander.current_damage
 
 func _on_purchase_pressed(upgrade_key: String) -> void:
 	var upgrade = upgrade_key

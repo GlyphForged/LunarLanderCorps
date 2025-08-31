@@ -12,7 +12,7 @@ func _process(_delta):
 
 		text = "Horizontal Speed: %4.2f | \
 				Vertical Speed: %4.2f\n\
-				Current Damage: %4.2f / 10.0| \
+				Current Damage: %2.1f / 10.0| \
 				Score: %d | \
 				Current Fuel: %4.2f / %4.2f" % \
 		[

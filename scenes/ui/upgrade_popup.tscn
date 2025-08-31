@@ -123,6 +123,25 @@ text = "CURRENT_STAT"
 [node name="HSeparator4" type="HSeparator" parent="PanelContainer/MarginContainer/UpgradeList"]
 layout_mode = 2
 
+[node name="Repair" type="HBoxContainer" parent="PanelContainer/MarginContainer/UpgradeList"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="UpgradeNameCost" type="Label" parent="PanelContainer/MarginContainer/UpgradeList/Repair"]
+layout_mode = 2
+text = "UpgradeName(Cost)"
+
+[node name="Purchase" type="Button" parent="PanelContainer/MarginContainer/UpgradeList/Repair"]
+layout_mode = 2
+text = "Purchase"
+
+[node name="CurrentStat" type="Label" parent="PanelContainer/MarginContainer/UpgradeList/Repair"]
+layout_mode = 2
+text = "CURRENT_STAT"
+
+[node name="HSeparator5" type="HSeparator" parent="PanelContainer/MarginContainer/UpgradeList"]
+layout_mode = 2
+
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/UpgradeList"]
 layout_mode = 2
 alignment = 1

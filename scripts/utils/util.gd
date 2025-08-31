@@ -30,6 +30,7 @@ const LANDING_PAD_LARGE_ID: String = "uid://b66ymy13i5weg"
 const JUKEBOX_ID: String = "uid://bn4uiacj1xjrm"
 const CRT_ID: String = "uid://iva6stjv07ds"
 const DEATH_ID: String = "uid://dqtv00goxlx8h"
+const TUTORIAL_ID: String = "uid://djir0u5rulmf5"
 
 const RESOLUTIONS: Dictionary = {
 	"3840 x 2160": Vector3i(3840, 2160, 24),

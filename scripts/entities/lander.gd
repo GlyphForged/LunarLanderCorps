@@ -8,6 +8,7 @@ const CONTROL_THRUST_STR: float = 0.3
 const CONTROL_THRUST_OFFSET := 0.8
 const POINTER_SCENE: PackedScene = preload(Util.TARGET_VECTOR_ID)
 const DEATH_SCREEN: PackedScene = preload(Util.DEATH_ID)
+const TUTORIAL_SCREEN: PackedScene = preload(Util.TUTORIAL_ID)
 
 # MOVEMENT #
 var control_mode := handle_input
@@ -55,6 +56,7 @@ var upgrades: Dictionary = {
 	"FuelEfficiencyUpgrade": self.fuel_efficiency,
 	"MainThrustUpgrade": self.thrust_mult,
 	"ControlThrustUpgrade": self.control_mult,
+	"Repair": self.current_damage,
 }
 
 #########################################
@@ -67,6 +69,7 @@ func _ready():
 	Signals.points_awarded.connect(_update_score)
 	Signals.landed_safely.connect(_refuel)
 	Signals.landed_safely.connect(_autosave)
+	Signals.landed_safely.connect(_spawn_tutorial_window)
 	_spawn_target_vector()
 
 func _process(_delta: float):
@@ -265,7 +268,6 @@ func _handle_death():
 		get_tree().paused = true
 		var ds = DEATH_SCREEN.instantiate()
 		get_tree().root.add_child(ds)
-		ds.popup_centered()
 		await ds.confirmed
 		get_tree().paused = false
 		Input.mouse_mode = Util.mouse_mode_cache
@@ -296,12 +298,15 @@ func apply_upgrade(upgrade_key: String, cost: int, amt: float) -> void:
 			self.thrust_mult += amt
 		"ControlThrustUpgrade":
 			self.control_mult += amt
+		"Repair":
+			self.current_damage = 0.0
 
 func update_upgrade_dict() -> void:
 	upgrades["MaxFuelUpgrade"] = self.max_fuel
 	upgrades["FuelEfficiencyUpgrade"] = self.fuel_efficiency
 	upgrades["MainThrustUpgrade"] = self.thrust_mult
 	upgrades["ControlThrustUpgrade"] = self.control_mult
+	upgrades["Repair"] = self.current_damage
 
 #########################################
 #					HUD					#
@@ -310,6 +315,17 @@ func _spawn_target_vector() -> void:
 	var pointer = POINTER_SCENE.instantiate()
 	pointer.set_mission(mission_controller)
 	self.add_child(pointer)
+
+func _spawn_tutorial_window(_x) -> void:
+	if !Util.settings.tutorial_seen:
+		Util.settings.tutorial_seen = true
+		Util.mouse_mode_cache = Input.mouse_mode
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		get_tree().paused = true
+		self.add_child(TUTORIAL_SCREEN.instantiate())
+		await Signals.tutorial_confirmed
+		get_tree().paused = false
+		Input.mouse_mode = Util.mouse_mode_cache
 
 #########################################
 #				VISUALS					#

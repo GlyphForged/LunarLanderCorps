@@ -7,3 +7,4 @@ signal landed_safely(index: int)
 signal points_awarded(pts: int)
 signal target_assigned(pos: Vector3)
 signal landed_on_target_pad
+signal tutorial_confirmed

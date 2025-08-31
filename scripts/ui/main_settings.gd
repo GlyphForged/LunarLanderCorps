@@ -13,6 +13,7 @@ class_name MainSettings extends Control
 @export var mute_toggle: CheckButton
 @export var resolution_dropdown: OptionButton
 @export var back_btn: Button
+@export var reset_tutorial_btn: Button
 
 enum VOLUME_SLIDER_BUS { MASTER, MUSIC, GAME }
 
@@ -20,6 +21,7 @@ func _ready() -> void:
 	master_vol_slider.value_changed.connect(_on_master_vol_slider_value_changed)
 	music_vol_slider.value_changed.connect(_on_music_vol_slider_value_changed)
 	game_vol_slider.value_changed.connect(_on_game_vol_slider_value_changed)
+	reset_tutorial_btn.pressed.connect(_on_reset_tutorial_pressed)
 	if Util.settings:
 		Util.refresh_settings()
 		d_font_toggle.button_pressed = Util.settings.dyslexic_font
@@ -28,7 +30,10 @@ func _ready() -> void:
 		master_vol_slider.value = Util.settings.master_vol
 		music_vol_slider.value = Util.settings.music_vol
 		game_vol_slider.value = Util.settings.game_vol
-		resolution_dropdown.selected = Util.settings.windowed_resolution_index
+		if Util.settings.fullscreen:
+			resolution_dropdown.selected = Util.settings.fullscreen_resolution_index
+		else:
+			resolution_dropdown.selected = Util.settings.windowed_resolution_index
 		_update_volume_value(VOLUME_SLIDER_BUS.MASTER, Util.settings.master_vol)
 		_update_volume_label(VOLUME_SLIDER_BUS.MASTER, Util.settings.master_vol)
 		_update_volume_value(VOLUME_SLIDER_BUS.MUSIC, Util.settings.music_vol)
@@ -117,6 +122,9 @@ func _on_mute_toggled(toggled_on: bool) -> void:
 		AudioServer.set_bus_mute(VOLUME_SLIDER_BUS.MASTER, toggled_on)
 		Util.settings.mute = toggled_on
 		Util.save_settings()
+
+func _on_reset_tutorial_pressed() -> void:
+	Util.settings.tutorial_seen = false
 
 func _on_d_font_toggled(toggled_on: bool) -> void:
 	var res_idx = Util.get_resolution_index(DisplayServer.window_get_size())
