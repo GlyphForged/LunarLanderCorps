@@ -118,18 +118,18 @@ func set_margins(node: MarginContainer, hPerc: float, vPerc: float) -> void:
 	margin_container.add_theme_constant_override("margin_bottom", vmargin)
 
 func load_settings() -> UserSettings:
-	if FileAccess.file_exists("user://user_settings.tres"):
-		return ResourceLoader.load("user://user_settings.tres")
+	if FileAccess.file_exists("user://user_settings.res"):
+		return ResourceLoader.load("user://user_settings.res")
 	else:
 		return UserSettings.new()
 
 func  save_settings() -> void:
-	var error = ResourceSaver.save(Util.settings, "user://user_settings.tres")
+	var error = ResourceSaver.save(Util.settings, "user://user_settings.res")
 	if error != OK:
 		push_error("Error saving settings: ", error)
 
 func refresh_settings() -> void:
-	settings = ResourceLoader.load("user://user_settings.tres")
+	settings = ResourceLoader.load("user://user_settings.res")
 
 func get_resolution_index(res: Vector2i) -> int:
 	var res_string = str(res.x) + " x " + str(res.y)

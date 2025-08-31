@@ -28,12 +28,12 @@ func _save_game() -> void:
 	saved_game.mission_data = mission_data
 	get_tree().call_group("terrain_gen", "on_save_game")
 
-	var err = ResourceSaver.save(saved_game, "user://savegame.tres")
+	var err = ResourceSaver.save(saved_game, "user://savegame.res")
 	if err != OK:
 		push_error("Something went wrong: ", err)
 
 func _load_game() -> void:
-	var saved_game = ResourceLoader.load("user://savegame.tres") as SavedGame
+	var saved_game = ResourceLoader.load("user://savegame.res") as SavedGame
 	if saved_game == null:
 		return
 
