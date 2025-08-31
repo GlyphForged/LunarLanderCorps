@@ -9,6 +9,7 @@ const MISSION_CONTROLLER = preload(Util.MISSION_CONTROLLER_ID)
 const SAVER_LOADER = preload(Util.SAVER_LOADER_ID)
 const JUKEBOX = preload(Util.JUKEBOX_ID)
 const CRT = preload(Util.CRT_ID)
+const TITLE_POPUP = preload(Util.TITLE_POPUP_ID)
 
 var paused: bool
 var upgrade_timer := Time.get_ticks_msec()
@@ -66,6 +67,9 @@ func _process(_delta) -> void:
 		elif not added_scenes.get("crt"):
 			update_text("booting hyperencabulator")
 			add_scene(CRT, "crt")
+		elif not added_scenes.get("title_popup"):
+			update_text("stanning the dj")
+			add_scene(TITLE_POPUP, "title_popup")
 		else:
 			everything_added = true
 			$Loading.visible = false

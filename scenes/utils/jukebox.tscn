@@ -1,22 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://bn4uiacj1xjrm"]
+[gd_scene load_steps=2 format=3 uid="uid://bn4uiacj1xjrm"]
 
-[ext_resource type="AudioStream" uid="uid://b8h6ensv87u5a" path="res://assets/music/it's ok to be lost.wav" id="1_8ltm5"]
 [ext_resource type="Script" uid="uid://bd70y4x5x311r" path="res://scripts/utils/jukebox.gd" id="1_bhex7"]
-[ext_resource type="AudioStream" uid="uid://duk70yp6i8gry" path="res://assets/music/it's so empty.wav" id="2_ulgpl"]
-[ext_resource type="AudioStream" uid="uid://b57m2rrqqhoc0" path="res://assets/music/robo-reggae.wav" id="3_2hfqx"]
-[ext_resource type="AudioStream" uid="uid://k2d8ywxey843" path="res://assets/music/survive or hypnotize.wav" id="4_cttqi"]
-
-[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_xbpdk"]
-shuffle = true
-stream_count = 4
-stream_0 = ExtResource("1_8ltm5")
-stream_1 = ExtResource("2_ulgpl")
-stream_2 = ExtResource("3_2hfqx")
-stream_3 = ExtResource("4_cttqi")
 
 [node name="Jukebox" type="AudioStreamPlayer"]
 process_mode = 3
-stream = SubResource("AudioStreamPlaylist_xbpdk")
 volume_db = -8.0
 bus = &"Music"
 script = ExtResource("1_bhex7")

@@ -31,6 +31,7 @@ const JUKEBOX_ID: String = "uid://bn4uiacj1xjrm"
 const CRT_ID: String = "uid://iva6stjv07ds"
 const DEATH_ID: String = "uid://dqtv00goxlx8h"
 const TUTORIAL_ID: String = "uid://djir0u5rulmf5"
+const TITLE_POPUP_ID: String = "uid://6okie8i0qhug"
 
 const RESOLUTIONS: Dictionary = {
 	"3840 x 2160": Vector3i(3840, 2160, 24),
@@ -55,6 +56,29 @@ const RESOLUTIONS_INDEX: Dictionary = {
 	10: "3440 x 1440",
 	11: "2560 x 1080",
 }
+
+const PLAYLIST = [
+	{
+		"path": "res://assets/music/it's ok to be lost.wav",
+		"title": "It's OK to Be Lost - teebeearr"
+	},
+	{
+		"path": "res://assets/music/it's so empty.wav",
+		"title": "It's So Empty - teebeearr"
+	},
+	{
+		"path": "res://assets/music/lunate-cult.wav",
+		"title": "Lunate Cult - teebeearr"
+	},
+	{
+		"path": "res://assets/music/robo-reggae.wav",
+		"title": "Robo Reggae - teebeearr"
+	},
+	{
+		"path": "res://assets/music/survive or hypnotize.wav",
+		"title": "Survive or Hyptnotize - teebeearr"
+	},
+]
 
 # === ENUMS ===
 enum GAME_SCENES {GAME, MENU}

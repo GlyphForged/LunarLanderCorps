@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3 uid="uid://6okie8i0qhug"]
+
+[ext_resource type="Script" uid="uid://cmxejl3tbuj05" path="res://scripts/ui/playlist_title.gd" id="1_jletf"]
+
+[sub_resource type="Animation" id="Animation_jletf"]
+resource_name = "Slide-In"
+length = 5.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1, 4, 5)
+}
+
+[sub_resource type="Animation" id="Animation_lse4u"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lse4u"]
+_data = {
+&"RESET": SubResource("Animation_lse4u"),
+&"slide-in": SubResource("Animation_jletf")
+}
+
+[node name="PlaylistTitle" type="CanvasLayer" node_paths=PackedStringArray("title", "player")]
+follow_viewport_enabled = true
+script = ExtResource("1_jletf")
+title = NodePath("PanelContainer/Label")
+player = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
+libraries = {
+&"": SubResource("AnimationLibrary_lse4u")
+}
+playback_auto_capture_ease_type = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -48.0
+offset_right = 240.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="Label" type="Label" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "SONG TITLE - teebeearr"
