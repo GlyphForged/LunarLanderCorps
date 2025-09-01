@@ -12,13 +12,11 @@ func _play_next_track() -> void:
 	var new_stream = load(new_track_info.path)
 	self.stream = new_stream
 	self.play()
-	print("Playing %s" % new_track_info.title)
 	Signals.song_changed.emit(new_track_info.title)
 
 func _on_track_finished() -> void:
 	_play_next_track()
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action("next-song"):
-		print("Skip song pressed.")
-		_play_next_track()
+#
+#func _unhandled_input(event: InputEvent) -> void:
+	#if event.is_action("next-song"):
+		#_play_next_track()

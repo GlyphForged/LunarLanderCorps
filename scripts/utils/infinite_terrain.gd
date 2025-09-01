@@ -3,7 +3,7 @@ class_name TerrainGenerator extends Node3D
 var chunk_mesh_scene = preload(Util.CHUNK_ID)
 
 const TERRAIN_HEIGHT = 15
-const CHUNK_SIZE = 1000
+const CHUNK_SIZE = 1250
 @export var view_distance = 1000
 @export var render_debug := false
 var viewer_position = Vector2()
@@ -50,9 +50,6 @@ func set_wireframe():
 	get_viewport().debug_draw = Viewport.DEBUG_DRAW_WIREFRAME
 
 func _process(_delta):
-	# viewer_position.x = 0
-	# viewer_position.y = 0
-	# updateVisibleChunk()
 	pass
 
 func _spawn_chunk(at: Vector2):

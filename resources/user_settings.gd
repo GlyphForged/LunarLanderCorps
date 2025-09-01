@@ -11,6 +11,8 @@ extends Resource
 @export var music_vol: float
 @export var game_vol: float
 @export var tutorial_seen: bool
+@export var mouse_sens: float
+@export var joy_sens: float
 
 func _init(
 	i_dyslexic_font = false,
@@ -22,7 +24,9 @@ func _init(
 	i_master_vol = 1,
 	i_music_vol = 1,
 	i_game_vol = 1,
-	i_tutorial_seen = false
+	i_tutorial_seen = false,
+	i_mouse_sens = 0.1,
+	i_joy_sens = 0.015,
 ):
 	dyslexic_font = i_dyslexic_font
 	font_size = i_font_size
@@ -34,3 +38,5 @@ func _init(
 	music_vol = i_music_vol
 	game_vol = i_game_vol
 	tutorial_seen = i_tutorial_seen
+	mouse_sens = i_mouse_sens
+	joy_sens = i_joy_sens

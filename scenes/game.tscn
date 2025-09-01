@@ -39,3 +39,4 @@ environment = SubResource("Environment_choun")
 
 [node name="DebugHud" parent="." instance=ExtResource("4_vtaks")]
 unique_name_in_owner = true
+visible = false

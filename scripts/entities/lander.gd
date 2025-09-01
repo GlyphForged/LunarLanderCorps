@@ -70,7 +70,7 @@ func _ready():
 	Signals.landed_safely.connect(_refuel)
 	Signals.landed_safely.connect(_autosave)
 	Signals.landed_safely.connect(_spawn_tutorial_window)
-	_spawn_target_vector()
+	#_spawn_target_vector()
 
 func _process(_delta: float):
 	if self.paused:
@@ -258,7 +258,7 @@ func _apply_damage():
 
 func _handle_death():
 	if self.current_damage > self.damage_threshold:
-		var autosave = ResourceLoader.load("user://autosave.tres") as LanderData
+		var autosave = ResourceLoader.load("user://autosave.res") as LanderData
 		if autosave == null:
 			push_error("No autosave.")
 			return
@@ -365,7 +365,7 @@ func _on_body_shape_entered(_body_rid: RID, _body: Node, _body_shape_index: int,
 func _autosave(_x) -> void:
 	var autosave := LanderData.new()
 	self.on_save_game(autosave)
-	var err = ResourceSaver.save(autosave, "user://autosave.tres")
+	var err = ResourceSaver.save(autosave, "user://autosave.res")
 	if err != OK:
 		push_error("Something went wrong: ", err)
 

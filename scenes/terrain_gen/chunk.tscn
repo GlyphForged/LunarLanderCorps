@@ -10,6 +10,7 @@ width = 1024
 height = 1024
 seamless = true
 as_normal_map = true
+bump_strength = 15.0
 noise = SubResource("FastNoiseLite_oor0i")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vrse6"]

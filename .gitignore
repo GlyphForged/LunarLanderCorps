@@ -17,6 +17,9 @@ addons/debug_draw_3d/libs/
 !/addons/
 !/addons/**
 
+# Ignore Build Directory
+builds/**
+
 # Ignore tmp files
 **.tmp
 
