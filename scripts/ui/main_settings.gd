@@ -14,6 +14,10 @@ class_name MainSettings extends Control
 @export var resolution_dropdown: OptionButton
 @export var back_btn: Button
 @export var reset_tutorial_btn: Button
+@export var mouse_sens_label: Label
+@export var mouse_sens_slider: HSlider
+@export var joy_sens_label: Label
+@export var joy_sens_slider: HSlider
 
 enum VOLUME_SLIDER_BUS { MASTER, MUSIC, GAME }
 
@@ -22,6 +26,8 @@ func _ready() -> void:
 	music_vol_slider.value_changed.connect(_on_music_vol_slider_value_changed)
 	game_vol_slider.value_changed.connect(_on_game_vol_slider_value_changed)
 	reset_tutorial_btn.pressed.connect(_on_reset_tutorial_pressed)
+	mouse_sens_slider.value_changed.connect(_on_mouse_sens_value_changed)
+	joy_sens_slider.value_changed.connect(_on_joy_sens_value_changed)
 	if Util.settings:
 		Util.refresh_settings()
 		d_font_toggle.button_pressed = Util.settings.dyslexic_font
@@ -30,6 +36,10 @@ func _ready() -> void:
 		master_vol_slider.value = Util.settings.master_vol
 		music_vol_slider.value = Util.settings.music_vol
 		game_vol_slider.value = Util.settings.game_vol
+		mouse_sens_slider.value = Util.settings.mouse_sens
+		joy_sens_slider.value = Util.settings.joy_sens
+		_update_mouse_sens_label(Util.settings.mouse_sens)
+		_update_joy_sens_label(Util.settings.joy_sens)
 		if Util.settings.fullscreen:
 			resolution_dropdown.selected = Util.settings.fullscreen_resolution_index
 		else:
@@ -144,3 +154,19 @@ func _set_font_size(res: Vector3i) -> void:
 		Util.project_theme.default_font_size = res.z + 2
 	else:
 		Util.project_theme.default_font_size = res.z
+
+func _on_mouse_sens_value_changed(value: float) -> void:
+	_update_mouse_sens_label(Util.settings.mouse_sens)
+	Signals.mouse_sens_changed.emit(value)
+	Util.settings.mouse_sens = value
+
+func _on_joy_sens_value_changed(value: float) -> void:
+	_update_joy_sens_label(Util.settings.joy_sens)
+	Signals.joy_sens_changed.emit(value)
+	Util.settings.joy_sens = value
+
+func _update_mouse_sens_label(value: float) -> void:
+	mouse_sens_label.text = "Mouse Sensitivity: %3.0f" % (value * 500)
+
+func _update_joy_sens_label(value: float) -> void:
+	joy_sens_label.text = "Joystick Sensitivity: %3.0f" % (value * 1000)

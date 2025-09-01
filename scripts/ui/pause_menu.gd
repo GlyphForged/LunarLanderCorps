@@ -10,9 +10,14 @@ func _ready() -> void:
 	lander = get_tree().get_first_node_in_group("lander")
 	%Save.disabled = lander.linear_velocity.length() > .1
 	%Load.disabled = lander.linear_velocity.length() > .1
+	%Resume.grab_focus()
 
 func _process(_delta):
 	if Input.is_action_just_pressed("pause") and !settings_open:
+		_on_resume_pressed()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
 		_on_resume_pressed()
 
 func _on_resume_pressed() -> void:
@@ -34,6 +39,7 @@ func _on_settings_pressed() -> void:
 func _on_settings_closed() -> void:
 	self.settings_open = false
 	self.show()
+	%Resume.grab_focus()
 
 func _on_main_menu_pressed() -> void:
 	SceneChanger.change_to(Util.GAME_SCENES.MENU)

@@ -9,3 +9,5 @@ signal target_assigned(pos: Vector3)
 signal landed_on_target_pad
 signal tutorial_confirmed
 signal song_changed(title: String)
+signal mouse_sens_changed(value: float)
+signal joy_sens_changed(valud: float)

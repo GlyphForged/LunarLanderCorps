@@ -5,8 +5,8 @@ class_name CameraRig
 @export var lander: RigidBody3D
 
 # === Camera Properties ===
-@export var h_cam_sens := 0.1
-@export var v_cam_sens := 0.1
+@export var mouse_sens := 0.1
+@export var joy_sens := 0.015
 @export var cam_fov_min: float = 45.0
 @export var cam_fov_max: float = 115.0
 @export var cam_zoom_step: float = 5.0
@@ -20,21 +20,41 @@ const CAM_STICK_SENS: float = 10.0
 
 var _target_fov: float = 75.0
 var look_input := Vector2.ZERO
+var deadzone: float = 0.1
 
 func _ready() -> void:
 	_target_fov = clamp(cam.fov, cam_fov_min, cam_fov_max)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	Signals.mouse_sens_changed.connect(update_mouse_sens)
+	Signals.joy_sens_changed.connect(update_joy_sens)
 
 func _process(delta: float) -> void:
 	# Camera follows the lander's position
 	if is_instance_valid(lander):
 		self.global_position = lander.position
-
 	_update_fov(delta)
+	_process_joystick(delta)
+
+func _process_joystick(delta: float) -> void:
+	var joy = Vector2(
+		Input.get_joy_axis(0, JOY_AXIS_RIGHT_X),
+		Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
+	)
+	if absf(joy.x) < deadzone: joy.x = 0.0
+	if absf(joy.y) < deadzone: joy.y = 0.0
+	joy.x = clamp(joy.x * joy_sens, -1.0, 1.0)
+	joy.y = clamp(-joy.y * joy_sens, -1.0, 1.0)
+
+	h_pivot.rotate_y(-joy.x)
+	v_pivot.rotate_x(-joy.y)
+	v_pivot.rotation_degrees = clamp(
+		v_pivot.rotation_degrees, Vector3(-60, 0, 0), Vector3(60, 0, 0)
+	)
+	#print(joy.x, ",", joy.y)
 
 func _input(e: InputEvent) -> void:
 	if e is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		h_pivot.rotate_y(deg_to_rad(-e.relative.x) * h_cam_sens)
+		h_pivot.rotate_y(deg_to_rad(-e.relative.x) * mouse_sens)
 		if camera_mode == Util.CAMERA_MODE.HORIZON_LOCK:
 			v_pivot.rotation_degrees = clamp(
 				v_pivot.rotation_degrees,
@@ -42,11 +62,11 @@ func _input(e: InputEvent) -> void:
 				Vector3(0, 0, 0)
 			)
 		elif camera_mode == Util.CAMERA_MODE.FREE:
-			v_pivot.rotate_x(deg_to_rad(e.relative.y) * v_cam_sens)
+			v_pivot.rotate_x(deg_to_rad(e.relative.y) * mouse_sens)
 			v_pivot.rotation_degrees = clamp(
 				v_pivot.rotation_degrees,
 				Vector3(-60, 0, 0),
-				Vector3(35, 0, 0)
+				Vector3(60, 0, 0)
 			)
 
 	if e is InputEventMouseButton and e.pressed:
@@ -90,3 +110,9 @@ func on_save_game(cam_data: SaveData) -> void:
 
 func on_load_game(cam_data: SaveData) -> void:
 	self.global_position = cam_data.position
+
+func update_joy_sens(value: float) -> void:
+	self.joy_sens = value
+
+func update_mouse_sens(value: float) -> void:
+	self.mouse_sens = value

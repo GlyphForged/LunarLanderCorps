@@ -75,7 +75,7 @@ func _process(_delta) -> void:
 			$Loading.visible = false
 			$Loading.queue_free()
 			self.paused = false
-			%DebugHud.visible = true
+			%DebugHud.visible = false
 
 	_handle_pause_input()
 

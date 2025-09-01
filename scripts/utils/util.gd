@@ -59,23 +59,23 @@ const RESOLUTIONS_INDEX: Dictionary = {
 
 const PLAYLIST = [
 	{
-		"path": "res://assets/music/it's ok to be lost.wav",
+		"path": "res://assets/music/it's ok to be lost.mp3",
 		"title": "It's OK to Be Lost - teebeearr"
 	},
 	{
-		"path": "res://assets/music/it's so empty.wav",
+		"path": "res://assets/music/it's so empty.mp3",
 		"title": "It's So Empty - teebeearr"
 	},
 	{
-		"path": "res://assets/music/lunate-cult.wav",
+		"path": "res://assets/music/lunate-cult.mp3",
 		"title": "Lunate Cult - teebeearr"
 	},
 	{
-		"path": "res://assets/music/robo-reggae.wav",
+		"path": "res://assets/music/robo-reggae.mp3",
 		"title": "Robo Reggae - teebeearr"
 	},
 	{
-		"path": "res://assets/music/survive or hypnotize.wav",
+		"path": "res://assets/music/survive or hypnotize.mp3",
 		"title": "Survive or Hyptnotize - teebeearr"
 	},
 ]
@@ -87,6 +87,7 @@ enum PAD_DIFFICULTY {EASY, NORMAL, HARD}
 
 # === UTIL FUNCTIONS ===
 func _ready() -> void:
+	_make_initial_settings()
 	var fs: DisplayServer.WindowMode
 	var res: Vector3i = Util.RESOLUTIONS.get(
 		Util.RESOLUTIONS_INDEX[Util.settings.windowed_resolution_index]
@@ -107,6 +108,11 @@ func _ready() -> void:
 		project_theme.default_font_size = res.z
 		settings.font_size = res.z
 
+func _make_initial_settings() -> void:
+	if !FileAccess.file_exists("user://user_settings.res"):
+		settings = UserSettings.new()
+		Util.settings = settings
+		ResourceSaver.save(Util.settings, "user://user_settings.res")
 
 func set_margins(node: MarginContainer, hPerc: float, vPerc: float) -> void:
 	var margin_container: MarginContainer = node

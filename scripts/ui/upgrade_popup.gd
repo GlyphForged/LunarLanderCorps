@@ -38,6 +38,7 @@ func _ready() -> void:
 	self.lander = get_tree().get_first_node_in_group("lander")
 	lander.paused = true
 	_populate_list()
+	%Exit.grab_focus()
 
 func _process(_delta) -> void:
 	if Input.is_action_just_pressed("pause"):

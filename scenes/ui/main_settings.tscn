@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ryxf7ebl0rqt" path="res://scripts/ui/main_settings.gd" id="1_xmcas"]
 [ext_resource type="PackedScene" uid="uid://dp3rgqaehb3xu" path="res://addons/maaacks_input_remapping/base/scenes/input_remapping/input_options_menu.tscn" id="3_sd0eh"]
 
-[node name="MainSettings" type="Control" node_paths=PackedStringArray("master_vol_label", "master_vol_slider", "music_vol_label", "music_vol_slider", "game_vol_label", "game_vol_slider", "d_font_toggle", "fs_toggle", "mute_toggle", "resolution_dropdown", "back_btn", "reset_tutorial_btn")]
+[node name="MainSettings" type="Control" node_paths=PackedStringArray("master_vol_label", "master_vol_slider", "music_vol_label", "music_vol_slider", "game_vol_label", "game_vol_slider", "d_font_toggle", "fs_toggle", "mute_toggle", "resolution_dropdown", "back_btn", "reset_tutorial_btn", "mouse_sens_label", "mouse_sens_slider", "joy_sens_label", "joy_sens_slider")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 8
@@ -26,6 +26,10 @@ mute_toggle = NodePath("PanelContainer/MarginContainer/TabContainer/Audio/MuteTo
 resolution_dropdown = NodePath("PanelContainer/MarginContainer/TabContainer/Video/Resolution/ResolutionDD")
 back_btn = NodePath("PanelContainer/BackBtn")
 reset_tutorial_btn = NodePath("PanelContainer/MarginContainer/TabContainer/Accessibility/ResetTutorial")
+mouse_sens_label = NodePath("PanelContainer/MarginContainer/TabContainer/Accessibility/MouseSens")
+mouse_sens_slider = NodePath("PanelContainer/MarginContainer/TabContainer/Accessibility/MSensSlider")
+joy_sens_label = NodePath("PanelContainer/MarginContainer/TabContainer/Accessibility/JoySens")
+joy_sens_slider = NodePath("PanelContainer/MarginContainer/TabContainer/Accessibility/JSensSlider")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -226,6 +230,41 @@ text = "Reset Tutorial"
 
 [node name="HSeparator3" type="HSeparator" parent="PanelContainer/MarginContainer/TabContainer/Accessibility"]
 layout_mode = 2
+
+[node name="MouseSens" type="Label" parent="PanelContainer/MarginContainer/TabContainer/Accessibility"]
+layout_mode = 2
+text = "MOUSE_SENSITIVITY"
+horizontal_alignment = 1
+
+[node name="MSensSlider" type="HSlider" parent="PanelContainer/MarginContainer/TabContainer/Accessibility"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+max_value = 0.2
+step = 0.01
+
+[node name="HSeparator4" type="HSeparator" parent="PanelContainer/MarginContainer/TabContainer/Accessibility"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="JoySens" type="Label" parent="PanelContainer/MarginContainer/TabContainer/Accessibility"]
+layout_mode = 2
+text = "JOY_SENSITIVITY"
+horizontal_alignment = 1
+
+[node name="JSensSlider" type="HSlider" parent="PanelContainer/MarginContainer/TabContainer/Accessibility"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+max_value = 0.1
+step = 0.005
+value = 0.02
+
+[node name="HSeparator5" type="HSeparator" parent="PanelContainer/MarginContainer/TabContainer/Accessibility"]
+layout_mode = 2
+theme_override_constants/separation = 10
 
 [node name="BackBtn" type="Button" parent="PanelContainer"]
 layout_mode = 2
