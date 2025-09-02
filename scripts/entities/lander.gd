@@ -70,7 +70,7 @@ func _ready():
 	Signals.landed_safely.connect(_refuel)
 	Signals.landed_safely.connect(_autosave)
 	Signals.landed_safely.connect(_spawn_tutorial_window)
-	#_spawn_target_vector()
+	_spawn_target_vector()
 
 func _process(_delta: float):
 	if self.paused:
