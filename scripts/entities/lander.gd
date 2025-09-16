@@ -319,13 +319,14 @@ func _spawn_target_vector() -> void:
 func _spawn_tutorial_window(_x) -> void:
 	if !Util.settings.tutorial_seen:
 		Util.settings.tutorial_seen = true
-		Util.mouse_mode_cache = Input.mouse_mode
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		get_tree().paused = true
-		self.add_child(TUTORIAL_SCREEN.instantiate())
-		await Signals.tutorial_confirmed
-		get_tree().paused = false
-		Input.mouse_mode = Util.mouse_mode_cache
+		self.paused = true
+		get_tree().root.add_child(TUTORIAL_SCREEN.instantiate())
+		Signals.tutorial_confirmed.connect(_on_tutorial_confirmed)
+
+func _on_tutorial_confirmed() -> void:
+	self.paused = false
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 #########################################
 #				VISUALS					#
