@@ -75,10 +75,13 @@ func _process(_delta) -> void:
 			$Loading.visible = false
 			$Loading.queue_free()
 			self.paused = false
-			%DebugHud.visible = false
+			%DebugHud.visible = true
 
 	_handle_pause_input()
 
+#func _input(event: InputEvent) -> void:
+	#if event is InputEventMouseButton:
+		#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func update_text(input):
 	$Loading.set_text(input)
@@ -92,6 +95,8 @@ func _handle_pause_input() -> void:
 		get_node(".").add_child(pause_menu)
 
 func _spawn_upgrade_popup() -> void:
+	if !Util.settings.tutorial_seen:
+		return
 	if Time.get_ticks_msec() - upgrade_timer > 1500:
 		var upgrade_popup = preload(Util.UPGRADE_POPUP_ID).instantiate()
 		self.add_child(upgrade_popup)

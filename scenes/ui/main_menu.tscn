@@ -95,7 +95,7 @@ theme_override_colors/font_color = Color(0.93845, 0.93845, 0.93845, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 0
-text = "written by NoFoxTuGiv and to-json"
+text = "written by GlyphForged and to-json"
 horizontal_alignment = 1
 
 [node name="author1" type="Label" parent="MainContainer/MMContainer"]
