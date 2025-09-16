@@ -9,6 +9,5 @@ func _ready() -> void:
 
 func _tutorial_confirmed():
 	Signals.tutorial_confirmed.emit()
-	Signals.landed_on_target_pad.emit()
 	get_parent().remove_child(self)
 	self.queue_free()
